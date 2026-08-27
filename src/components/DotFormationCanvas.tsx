@@ -113,10 +113,15 @@ const DotFormationCanvas = forwardRef<DotFormationHandle, { className?: string }
       const w = window.innerWidth;
       const h = window.innerHeight;
       const mobile = w < MOBILE_BREAKPOINT;
+      // "Yez." at full width reads as a cramped, hard-to-parse mark on a
+      // narrow phone screen even after the auto-shrink-to-fit below — just
+      // the monogram "Y" instead, large and legible, matches the brand's
+      // own monogram lockup (see /public/logo/logo-monogram*.png).
       const { points: targets, recommendedRadius } = await sampleWordmarkPoints(
         w,
         h,
-        mobile ? MOBILE_MAX_POINTS : DESKTOP_MAX_POINTS
+        mobile ? MOBILE_MAX_POINTS : DESKTOP_MAX_POINTS,
+        mobile ? "Y" : "Yez."
       );
 
       dotsRef.current = targets.map(() => ({

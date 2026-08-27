@@ -85,6 +85,16 @@ function buildConnectors(positions: Float32Array, count: number) {
  * the camera slightly forward, so scrolling through Hero's existing
  * choreography also reads as moving deeper into the scene.
  *
+ * Hero.tsx mounts one of these per breakpoint variant (desktop/mobile), and
+ * both are always in the React tree regardless of which the CSS `hidden`
+ * class currently shows — so this component must NOT allocate a WebGL
+ * context for the one that's currently hidden. Mobile browsers cap
+ * simultaneous WebGL contexts much lower than desktop (sometimes just a
+ * handful); wasting one on an invisible canvas risked starving the visible
+ * one, which is the most likely reason mobile "did nothing" before this
+ * used a ResizeObserver to gate actual context creation on real, nonzero
+ * size instead of creating it unconditionally and merely skipping draws.
+ *
  * Deliberately NOT React Three Fiber: the rest of the site's canvas work
  * (DotFormationCanvas, InteractiveDotGrid) is hand-rolled — a raw
  * WebGLRenderer + rAF loop matches that pattern instead of adding a second,
@@ -114,115 +124,140 @@ const HeroCanvas = forwardRef<HeroCanvasHandle, { className?: string; mobile?: b
     const isFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     const particleCount = mobile ? MOBILE_PARTICLES : DESKTOP_PARTICLES;
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
-    camera.position.set(0, 0, 14);
+    let teardown: (() => void) | null = null;
 
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    const setup = () => {
+      if (teardown) return; // already live
 
-    const group = new THREE.Group();
-    scene.add(group);
-
-    const { positions, colors } = buildField(particleCount);
-
-    const pointGeometry = new THREE.BufferGeometry();
-    pointGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    pointGeometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-    const pointMaterial = new THREE.PointsMaterial({
-      size: mobile ? 0.09 : 0.075,
-      vertexColors: true,
-      transparent: true,
-      opacity: 0.85,
-      sizeAttenuation: true,
-      depthWrite: false,
-    });
-    const points = new THREE.Points(pointGeometry, pointMaterial);
-    group.add(points);
-
-    const linePositions = buildConnectors(positions, particleCount);
-    const lineGeometry = new THREE.BufferGeometry();
-    lineGeometry.setAttribute("position", new THREE.BufferAttribute(linePositions, 3));
-    const lineMaterial = new THREE.LineBasicMaterial({
-      color: new THREE.Color("#A89B8A"),
-      transparent: true,
-      opacity: 0.14,
-      depthWrite: false,
-    });
-    const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
-    group.add(lines);
-
-    // One warm point light plus a low ambient floor — the light itself has
-    // nothing to shade (Points/Lines are unlit primitives), but it's the
-    // seam ready for the phase-node geometry an in-progress design pass may
-    // add later; kept here now so that addition doesn't need a lighting
-    // pass of its own.
-    const ambient = new THREE.AmbientLight("#F4F0E8", 0.6);
-    const point = new THREE.PointLight("#F4F0E8", 40, 40);
-    point.position.set(4, 5, 8);
-    scene.add(ambient, point);
-
-    const mouse = { x: 0, y: 0 };
-    const onMouseMove = (e: MouseEvent) => {
-      const r = container.getBoundingClientRect();
-      mouse.x = ((e.clientX - r.left) / r.width) * 2 - 1;
-      mouse.y = ((e.clientY - r.top) / r.height) * 2 - 1;
-    };
-    if (isFinePointer) window.addEventListener("mousemove", onMouseMove);
-
-    const resize = () => {
-      const r = container.getBoundingClientRect();
-      camera.aspect = r.width / Math.max(1, r.height);
-      camera.updateProjectionMatrix();
-      renderer.setSize(r.width, r.height);
-    };
-    resize();
-    window.addEventListener("resize", resize);
-
-    let raf = 0;
-    let cameraX = 0;
-    let cameraY = 0;
-    const clock = new THREE.Clock();
-
-    const animate = () => {
-      // This instance may be the desktop or mobile variant while the other
-      // breakpoint's is the one actually showing (both mount regardless of
-      // which the CSS breakpoint currently hides) — a hidden ancestor makes
-      // this 0x0, so skip the real work (and the WebGL draw call) rather
-      // than rendering an invisible scene every frame. Cheap enough to just
-      // check live each frame, which also means resizing the window across
-      // the breakpoint corrects itself with no extra listener.
-      if (container.clientWidth === 0 || container.clientHeight === 0) {
-        raf = requestAnimationFrame(animate);
+      let renderer: THREE.WebGLRenderer;
+      try {
+        renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      } catch {
+        // WebGL unavailable/blocked on this device — fail quietly, the
+        // section still works with no backdrop rather than crashing.
         return;
       }
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 
-      const dt = clock.getDelta();
-      group.rotation.y += dt * 0.045;
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+      camera.position.set(0, 0, 14);
 
-      cameraX += (mouse.x * 1.1 - cameraX) * 0.04;
-      cameraY += (-mouse.y * 0.7 - cameraY) * 0.04;
-      camera.position.x = cameraX;
-      camera.position.y = cameraY;
-      // Scroll dolly: progress 0 -> 1 pulls the camera forward, "into" the
-      // field, in step with the existing DOM choreography scrubbing above it.
-      camera.position.z = 14 - progressRef.current * 5;
-      camera.lookAt(0, 0, 0);
+      const group = new THREE.Group();
+      scene.add(group);
 
-      renderer.render(scene, camera);
+      const { positions, colors } = buildField(particleCount);
+
+      const pointGeometry = new THREE.BufferGeometry();
+      pointGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+      pointGeometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+      const pointMaterial = new THREE.PointsMaterial({
+        size: mobile ? 0.09 : 0.075,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.85,
+        sizeAttenuation: true,
+        depthWrite: false,
+      });
+      const points = new THREE.Points(pointGeometry, pointMaterial);
+      group.add(points);
+
+      const linePositions = buildConnectors(positions, particleCount);
+      const lineGeometry = new THREE.BufferGeometry();
+      lineGeometry.setAttribute("position", new THREE.BufferAttribute(linePositions, 3));
+      const lineMaterial = new THREE.LineBasicMaterial({
+        color: new THREE.Color("#A89B8A"),
+        transparent: true,
+        opacity: 0.14,
+        depthWrite: false,
+      });
+      const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+      group.add(lines);
+
+      // One warm point light plus a low ambient floor — the light itself has
+      // nothing to shade (Points/Lines are unlit primitives), but it's the
+      // seam ready for the phase-node geometry an in-progress design pass may
+      // add later; kept here now so that addition doesn't need a lighting
+      // pass of its own.
+      const ambient = new THREE.AmbientLight("#F4F0E8", 0.6);
+      const point = new THREE.PointLight("#F4F0E8", 40, 40);
+      point.position.set(4, 5, 8);
+      scene.add(ambient, point);
+
+      const mouse = { x: 0, y: 0 };
+      const onMouseMove = (e: MouseEvent) => {
+        const r = container.getBoundingClientRect();
+        mouse.x = ((e.clientX - r.left) / r.width) * 2 - 1;
+        mouse.y = ((e.clientY - r.top) / r.height) * 2 - 1;
+      };
+      if (isFinePointer) window.addEventListener("mousemove", onMouseMove);
+
+      const resize = () => {
+        const r = container.getBoundingClientRect();
+        if (r.width === 0 || r.height === 0) return;
+        camera.aspect = r.width / r.height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(r.width, r.height);
+      };
+      resize();
+      window.addEventListener("resize", resize);
+
+      let raf = 0;
+      let cameraX = 0;
+      let cameraY = 0;
+      const clock = new THREE.Clock();
+
+      const animate = () => {
+        const dt = clock.getDelta();
+        group.rotation.y += dt * 0.045;
+
+        cameraX += (mouse.x * 1.1 - cameraX) * 0.04;
+        cameraY += (-mouse.y * 0.7 - cameraY) * 0.04;
+        camera.position.x = cameraX;
+        camera.position.y = cameraY;
+        // Scroll dolly: progress 0 -> 1 pulls the camera forward, "into" the
+        // field, in step with the existing DOM choreography scrubbing above it.
+        camera.position.z = 14 - progressRef.current * 5;
+        camera.lookAt(0, 0, 0);
+
+        renderer.render(scene, camera);
+        raf = requestAnimationFrame(animate);
+      };
       raf = requestAnimationFrame(animate);
+
+      teardown = () => {
+        cancelAnimationFrame(raf);
+        window.removeEventListener("resize", resize);
+        window.removeEventListener("mousemove", onMouseMove);
+        pointGeometry.dispose();
+        pointMaterial.dispose();
+        lineGeometry.dispose();
+        lineMaterial.dispose();
+        renderer.dispose();
+      };
     };
-    raf = requestAnimationFrame(animate);
+
+    const dispose = () => {
+      teardown?.();
+      teardown = null;
+    };
+
+    // Only allocate the WebGL context once this instance actually has real
+    // size — the sibling instance for the other breakpoint stays entirely
+    // uninitialized (no context, no geometry) while its CSS ancestor is
+    // `hidden`. Also tears down if it later goes back to zero (e.g. a
+    // desktop window resized across the breakpoint), so at most one
+    // instance ever holds a live context.
+    const ro = new ResizeObserver(([entry]) => {
+      const { width, height } = entry.contentRect;
+      if (width > 0 && height > 0) setup();
+      else dispose();
+    });
+    ro.observe(container);
 
     return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("resize", resize);
-      window.removeEventListener("mousemove", onMouseMove);
-      pointGeometry.dispose();
-      pointMaterial.dispose();
-      lineGeometry.dispose();
-      lineMaterial.dispose();
-      renderer.dispose();
+      ro.disconnect();
+      dispose();
     };
   }, [mobile]);
 

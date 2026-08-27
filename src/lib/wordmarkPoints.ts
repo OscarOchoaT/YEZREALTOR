@@ -39,7 +39,8 @@ const RADIUS_TO_SPACING_RATIO = 0.58;
 export async function sampleWordmarkPoints(
   viewportW: number,
   viewportH: number,
-  perfCap: number
+  perfCap: number,
+  text: string = "Yez."
 ): Promise<WordmarkSample> {
   const empty: WordmarkSample = { points: [], recommendedRadius: 2 };
   if (typeof document === "undefined") return empty;
@@ -90,14 +91,14 @@ export async function sampleWordmarkPoints(
   // Guard against the text overflowing the canvas horizontally (unusual
   // aspect ratios, very long fallback fonts, etc.) — shrink to fit with
   // margin rather than letting fillText silently clip letters/the period.
-  const measured = ctx.measureText("Yez.");
+  const measured = ctx.measureText(text);
   const maxTextWidth = viewportW * 0.9;
   if (measured.width > maxTextWidth) {
     fontSize *= maxTextWidth / measured.width;
     ctx.font = `900 ${fontSize}px ${family}`;
   }
 
-  ctx.fillText("Yez.", viewportW / 2, viewportH / 2);
+  ctx.fillText(text, viewportW / 2, viewportH / 2);
 
   const { data, width, height } = ctx.getImageData(0, 0, canvas.width, canvas.height);
 

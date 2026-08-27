@@ -66,11 +66,17 @@ export default function Method() {
       gsap.set(cards, { autoAlpha: 0, y: 24, scale: 0.96 });
       gsap.set(hintRef.current, { autoAlpha: 0 });
 
+      // Tight window on purpose: the reveal finishes shortly after the
+      // section arrives (was "bottom 55%", which for a section this tall
+      // meant scrolling nearly its whole height before the cards ever
+      // settled) — so the cards read as done and clickable early, and the
+      // rest of the scroll through this section is just a calm, already-
+      // settled beat rather than more incoming motion.
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 75%",
-          end: "bottom 55%",
+          start: "top 80%",
+          end: "top 25%",
           scrub: 1,
         },
       });
@@ -153,8 +159,12 @@ export default function Method() {
 
         <p
           ref={hintRef}
-          className="mx-auto mb-8 max-w-md text-center font-mono text-[11px] uppercase tracking-caption text-stone"
+          className="mx-auto mb-8 flex max-w-md items-center justify-center gap-2 text-center font-mono text-[11px] uppercase tracking-caption text-cognac"
         >
+          <span
+            aria-hidden="true"
+            className="h-1.5 w-1.5 shrink-0 rounded-full bg-cognac motion-safe:[animation:dot-pulse_2s_ease-in-out_infinite]"
+          />
           Hover to preview · Click to explore each phase
         </p>
         <MethodNodes cardRefs={cardRefs} />

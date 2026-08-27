@@ -203,7 +203,12 @@ export default function Hero() {
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top top",
-            end: "+=280%",
+            // Was +=280% — same choreography, same relative beat timing
+            // (Phase A/B/C/D are positions within the timeline, not tied to
+            // pixel distance), just compressed into less scroll so the rest
+            // of the page — Method in particular — doesn't sit several
+            // screens below the fold before a visitor ever reaches it.
+            end: "+=200%",
             scrub: 1,
             pin: stickyEl,
             anticipatePin: 1,
