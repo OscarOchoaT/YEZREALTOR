@@ -7,7 +7,8 @@ import { useGSAP } from "@gsap/react";
 import { METHOD_INTRO, TECH_VS_YEZ } from "@/content/method";
 import MethodPath, { type MethodPathHandle } from "@/components/sections/MethodPath";
 import MethodNodes from "@/components/sections/MethodNodes";
-import DotGridBackground from "@/components/DotGridBackground";
+import InteractiveDotGrid from "@/components/InteractiveDotGrid";
+import Eyebrow from "@/components/Eyebrow";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -29,6 +30,9 @@ export default function Method() {
     () => {
       const pathEl = pathHandleRef.current?.pathEl ?? null;
       const dotEls = (pathHandleRef.current?.dotEls ?? []).filter((el): el is HTMLDivElement => Boolean(el));
+      const wrapEl = pathHandleRef.current?.wrapEl ?? null;
+      const markerEl = pathHandleRef.current?.markerEl ?? null;
+      const markerRotateEl = pathHandleRef.current?.markerRotateEl ?? null;
       const cards = cardRefs.current.filter((el): el is HTMLButtonElement => Boolean(el));
       const compareItems = [compareEyebrowRef.current, ...compareColRefs.current, compareClosingRef.current].filter(
         (el): el is HTMLElement => Boolean(el)
@@ -38,6 +42,7 @@ export default function Method() {
       if (prefersReducedMotion) {
         if (pathEl) gsap.set(pathEl, { strokeDasharray: "none" });
         gsap.set(dotEls, { autoAlpha: 1, scale: 1 });
+        gsap.set(markerEl, { autoAlpha: 0 });
         gsap.set(cards, { clearProps: "all" });
         gsap.set(hintRef.current, { autoAlpha: 1 });
         gsap.set(compareItems, { clearProps: "all" });
@@ -51,11 +56,13 @@ export default function Method() {
       // bleeding into each other). A scrub tied to the block's own scroll
       // position is far more robust and still reads as one choreographed
       // beat: path draws, node dots light up, cards settle in, hint appears.
+      let pathLength = 0;
       if (pathEl) {
-        const pathLength = pathEl.getTotalLength();
+        pathLength = pathEl.getTotalLength();
         gsap.set(pathEl, { strokeDasharray: pathLength, strokeDashoffset: pathLength });
       }
       gsap.set(dotEls, { autoAlpha: 0, scale: 0.5 });
+      gsap.set(markerEl, { autoAlpha: 0 });
       gsap.set(cards, { autoAlpha: 0, y: 24, scale: 0.96 });
       gsap.set(hintRef.current, { autoAlpha: 0 });
 
@@ -70,6 +77,43 @@ export default function Method() {
 
       if (pathEl) {
         tl.to(pathEl, { strokeDashoffset: 0, ease: "none", duration: 1 }, 0);
+        tl.to(markerEl, { autoAlpha: 1, duration: 0.08, ease: "none" }, 0);
+
+        // Marker travel is driven by a plain proxy (not read back from
+        // strokeDashoffset) so its position comes straight from
+        // getPointAtLength — exact, and independent of the stroke tween's
+        // own easing. Heading is corrected for the wrap's non-square aspect
+        // ratio (ConnectorOverlay's viewBox is 0-100 square but the actual
+        // container is short and wide), otherwise the chevron would visibly
+        // point off the line it's supposedly following.
+        const travel = { t: 0 };
+        tl.to(
+          travel,
+          {
+            t: 1,
+            ease: "none",
+            duration: 1,
+            onUpdate: () => {
+              if (!pathEl || !markerEl) return;
+              const len = travel.t * pathLength;
+              const p = pathEl.getPointAtLength(len);
+              markerEl.style.left = `${p.x}%`;
+              markerEl.style.top = `${p.y}%`;
+
+              if (markerRotateEl) {
+                const ahead = pathEl.getPointAtLength(Math.min(pathLength, len + 1));
+                const rect = wrapEl?.getBoundingClientRect();
+                const dxRaw = ahead.x - p.x;
+                const dyRaw = ahead.y - p.y;
+                const dx = rect ? dxRaw * rect.width : dxRaw;
+                const dy = rect ? dyRaw * rect.height : dyRaw;
+                const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+                markerRotateEl.style.transform = `rotate(${angle}deg)`;
+              }
+            },
+          },
+          0
+        );
       }
       dotEls.forEach((dot, i) => {
         tl.to(dot, { autoAlpha: 1, scale: 1, duration: 0.15, ease: "power1.out" }, i * 0.18);
@@ -96,10 +140,10 @@ export default function Method() {
 
   return (
     <section id="method" ref={sectionRef} className="relative bg-bone px-6 py-24 sm:py-32">
-      <DotGridBackground />
+      <InteractiveDotGrid />
       <div className="relative mx-auto max-w-6xl">
         <div ref={introRef} className="mx-auto mb-4 max-w-2xl text-center">
-          <span className="font-mono text-xs uppercase tracking-caption text-cognac">{METHOD_INTRO.eyebrow}</span>
+          <Eyebrow index="03" label={METHOD_INTRO.eyebrow} />
           <h2 className="mt-3 font-display text-3xl tracking-headline text-cocoaBark sm:text-4xl">
             {METHOD_INTRO.headline}
           </h2>

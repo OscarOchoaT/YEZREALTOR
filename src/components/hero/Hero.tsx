@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { HERO_WORDS, HERO_NODES, HERO_COPY } from "@/content/hero";
+import Magnetic from "@/components/Magnetic";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -28,12 +29,14 @@ const CONNECTOR_PAIRS: [string, string][] = [
 function CTAs() {
   return (
     <div className="flex flex-col items-center gap-4 sm:flex-row">
-      <a
-        href="#contact"
-        className="inline-flex items-center justify-center rounded-full bg-cocoaBark px-8 py-4 font-body text-sm font-medium tracking-normal text-bone transition-colors hover:bg-espresso"
-      >
-        {HERO_COPY.ctaPrimary}
-      </a>
+      <Magnetic strength={0.35}>
+        <a
+          href="#contact"
+          className="inline-flex items-center justify-center rounded-full bg-cocoaBark px-8 py-4 font-body text-sm font-medium tracking-normal text-bone transition-colors hover:bg-espresso"
+        >
+          {HERO_COPY.ctaPrimary}
+        </a>
+      </Magnetic>
       <a
         href="#method"
         className="font-mono text-xs uppercase tracking-caption text-cocoaBark/70 underline decoration-cognac decoration-1 underline-offset-4 transition-colors hover:text-cocoaBark"
@@ -274,10 +277,21 @@ export default function Hero() {
         const wordEls = mobileWordRefs.current.filter((el): el is HTMLDivElement => Boolean(el));
         const nodeEls = mobileNodeRefs.current.filter((el): el is HTMLDivElement => Boolean(el));
 
+        // start/end are "top top" -> "bottom top", NOT the more common "top
+        // bottom" -> "bottom top": this stage is the very first thing on the
+        // page, already fully in view at scrollY 0 with nothing above it to
+        // scroll past first. "top bottom" measures progress as if the stage
+        // were being scrolled UP INTO view from below (the usual case for
+        // sections further down the page) — for a section that starts the
+        // page, that put the scrub roughly half-played before the visitor
+        // ever scrolled at all, so the words were already fading out (or the
+        // nodes already mid-arrival) on first paint instead of showing the
+        // scattered "brainstorm" state. "top top" makes progress 0 exactly
+        // at scrollY 0, so the choreography actually starts from the start.
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: stageEl,
-            start: "top bottom",
+            start: "top top",
             end: "bottom top",
             scrub: 1,
           },
@@ -379,6 +393,18 @@ export default function Hero() {
               </p>
               <CTAs />
             </div>
+          </div>
+
+          {/* A quiet technical flourish, not a data point anyone needs —
+              the same "precision instrument" register as the mono/caption
+              labels elsewhere, here reading like a survey marker. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-6 left-6 font-mono text-[10px] uppercase tracking-caption text-cocoaBark/35"
+          >
+            Austin, TX
+            <br />
+            30.2672°N · 97.7431°W
           </div>
         </div>
       </div>

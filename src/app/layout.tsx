@@ -7,6 +7,8 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import CustomCursor from "@/components/CustomCursor";
 import PageTransitionOverlay from "@/components/PageTransitionOverlay";
 import InitialLoader from "@/components/InitialLoader";
+import ScrollCompass from "@/components/ScrollCompass";
+import GrainOverlay from "@/components/GrainOverlay";
 import { SourceProvider } from "@/components/SourceContext";
 import { SITE } from "@/content/site";
 import "./globals.css";
@@ -71,12 +73,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               <SmoothScroll>
                 <Header />
                 {children}
+                <ScrollCompass />
                 <WhatsAppButton />
                 <CustomCursor />
               </SmoothScroll>
             </SourceProvider>
           </PageTransitionOverlay>
         </InitialLoader>
+        <GrainOverlay />
         <Analytics />
       </body>
     </html>

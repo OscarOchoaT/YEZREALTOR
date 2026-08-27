@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import TransitionLink from "@/components/TransitionLink";
+import Magnetic from "@/components/Magnetic";
 import { NAV_LINKS } from "@/content/site";
 import { HERO_COPY } from "@/content/hero";
 
@@ -56,12 +57,14 @@ export default function Header() {
           ))}
         </nav>
 
-        <TransitionLink
-          href={isHome ? "#contact" : "/#contact"}
-          className="inline-flex items-center justify-center rounded-full bg-cocoaBark px-5 py-2.5 font-body text-sm font-medium text-bone transition-colors hover:bg-espresso"
-        >
-          {HERO_COPY.ctaPrimary}
-        </TransitionLink>
+        <Magnetic strength={0.3}>
+          <TransitionLink
+            href={isHome ? "#contact" : "/#contact"}
+            className="inline-flex items-center justify-center rounded-full bg-cocoaBark px-5 py-2.5 font-body text-sm font-medium text-bone transition-colors hover:bg-espresso"
+          >
+            {HERO_COPY.ctaPrimary}
+          </TransitionLink>
+        </Magnetic>
       </div>
     </header>
   );

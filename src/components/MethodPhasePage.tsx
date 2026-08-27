@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Footer from "@/components/sections/Footer";
 import TransitionLink from "@/components/TransitionLink";
+import Magnetic from "@/components/Magnetic";
 import { METHOD_DETAILS, type MethodDetail } from "@/content/method";
 
 // Each phase gets one of the Brand Guide's approved solid-color combos —
@@ -73,12 +74,14 @@ export default function MethodPhasePage({ phaseId }: { phaseId: MethodDetail["id
               </span>
             </TransitionLink>
 
-            <TransitionLink
-              href="/#services"
-              className="inline-flex items-center justify-center rounded-full bg-cocoaBark px-7 py-3.5 font-body text-sm font-medium text-bone transition-colors hover:bg-espresso"
-            >
-              Design My Next Move
-            </TransitionLink>
+            <Magnetic strength={0.3}>
+              <TransitionLink
+                href="/#services"
+                className="inline-flex items-center justify-center rounded-full bg-cocoaBark px-7 py-3.5 font-body text-sm font-medium text-bone transition-colors hover:bg-espresso"
+              >
+                Design My Next Move
+              </TransitionLink>
+            </Magnetic>
           </div>
         </div>
       </section>

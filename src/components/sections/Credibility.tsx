@@ -7,6 +7,7 @@ import { useGSAP } from "@gsap/react";
 import { CREDIBILITY } from "@/content/credibility";
 import { SITE } from "@/content/site";
 import DotGridBackground from "@/components/DotGridBackground";
+import Eyebrow from "@/components/Eyebrow";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -48,12 +49,12 @@ export default function Credibility() {
   );
 
   return (
-    <section ref={sectionRef} className="relative bg-bone px-6 py-24 sm:py-32">
+    <section id="credibility" ref={sectionRef} className="relative bg-bone px-6 py-24 sm:py-32">
       <DotGridBackground />
       <div className="relative mx-auto max-w-4xl">
-        <span className="mx-auto block text-center font-mono text-xs uppercase tracking-caption text-cognac">
-          {CREDIBILITY.eyebrow}
-        </span>
+        <div className="text-center">
+          <Eyebrow index="06" label={CREDIBILITY.eyebrow} />
+        </div>
 
         <div className="mt-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
           {CREDIBILITY.facts.map((fact, i) => (

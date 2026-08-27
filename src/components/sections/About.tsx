@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import PhotoPlaceholder from "@/components/PhotoPlaceholder";
 import DotGridBackground from "@/components/DotGridBackground";
+import Eyebrow from "@/components/Eyebrow";
 import { ABOUT } from "@/content/about";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -55,7 +56,7 @@ export default function About() {
         </div>
 
         <div ref={copyRef} className="flex flex-col gap-6">
-          <span className="font-mono text-xs uppercase tracking-caption text-cognac">{ABOUT.eyebrow}</span>
+          <Eyebrow index="02" label={ABOUT.eyebrow} align="left" />
 
           <div className="flex flex-col gap-4">
             {ABOUT.paragraphs.map((p) => (

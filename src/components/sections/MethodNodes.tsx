@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { METHOD_DETAILS, type MethodDetail } from "@/content/method";
 import TransitionLink from "@/components/TransitionLink";
+import Magnetic from "@/components/Magnetic";
 import { ConnectorOverlay } from "@/components/NodeConnector";
 
 function titleCase(title: string) {
@@ -164,13 +165,15 @@ export default function MethodNodes({ cardRefs }: MethodNodesProps) {
             </ul>
 
             <div className="mt-10">
-              <TransitionLink
-                href={`/metodo/${active.id}`}
-                className="inline-flex items-center gap-2 rounded-full bg-cocoaBark px-7 py-3.5 font-body text-sm font-medium text-bone transition-colors hover:bg-espresso"
-              >
-                Explore {titleCase(active.title)} in full
-                <span aria-hidden="true">→</span>
-              </TransitionLink>
+              <Magnetic strength={0.3}>
+                <TransitionLink
+                  href={`/metodo/${active.id}`}
+                  className="inline-flex items-center gap-2 rounded-full bg-cocoaBark px-7 py-3.5 font-body text-sm font-medium text-bone transition-colors hover:bg-espresso"
+                >
+                  Explore {titleCase(active.title)} in full
+                  <span aria-hidden="true">→</span>
+                </TransitionLink>
+              </Magnetic>
             </div>
           </motion.div>
         )}

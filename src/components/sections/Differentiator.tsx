@@ -4,6 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import Eyebrow from "@/components/Eyebrow";
 import { DIFFERENTIATOR } from "@/content/differentiator";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -48,7 +49,7 @@ export default function Differentiator() {
     <section ref={sectionRef} className="bg-stone/25 px-6 py-24 sm:py-32">
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-20">
         <div ref={copyRef} className="flex flex-col gap-6">
-          <span className="font-mono text-xs uppercase tracking-caption text-cognac">{DIFFERENTIATOR.eyebrow}</span>
+          <Eyebrow index="05" label={DIFFERENTIATOR.eyebrow} align="left" />
           <p className="font-display text-2xl tracking-subhead text-cocoaBark/40 line-through decoration-cocoaBark/30 sm:text-3xl">
             {DIFFERENTIATOR.lineOld}
           </p>

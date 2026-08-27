@@ -9,6 +9,7 @@ import { useSource } from "@/components/SourceContext";
 import { trackEvent } from "@/lib/analytics";
 import { ConnectorOverlay, ConnectorLine } from "@/components/NodeConnector";
 import DotGridBackground from "@/components/DotGridBackground";
+import Eyebrow from "@/components/Eyebrow";
 import type { ServiceId } from "@/content/services";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -68,6 +69,9 @@ export default function Services() {
     <section id="services" ref={sectionRef} className="relative bg-bone px-6 py-24 sm:py-32">
       <DotGridBackground />
       <div className="relative mx-auto max-w-6xl">
+        <div className="mb-4 text-center">
+          <Eyebrow index="04" label="Strategy" />
+        </div>
         <h2 className="mx-auto max-w-xl text-center font-display text-3xl tracking-headline text-cocoaBark sm:text-4xl">
           {SERVICES.headline}
         </h2>
