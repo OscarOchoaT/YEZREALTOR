@@ -1,0 +1,31 @@
+@import "tailwindcss";
+@config "../../tailwind.config.ts";
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  background-color: #f4f0e8;
+  color: #3d2a20;
+}
+
+/* Coolvetica is not yet installed — see src/app/fonts.ts TODO. Until then the
+   display font falls back to Rubik Black, loaded via next/font/google. */
+.font-display {
+  font-weight: 900;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Custom cursor (desktop, fine pointer only) — see CustomCursor.tsx. */
+.custom-cursor-active,
+.custom-cursor-active a,
+.custom-cursor-active button,
+.custom-cursor-active [role="button"] {
+  cursor: none;
+}
