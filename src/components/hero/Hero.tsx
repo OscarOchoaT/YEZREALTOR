@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { HERO_WORDS, HERO_NODES, HERO_COPY } from "@/content/hero";
 import Magnetic from "@/components/Magnetic";
+import HeroCanvas, { type HeroCanvasHandle } from "@/components/hero/HeroCanvas";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -49,6 +50,7 @@ function CTAs() {
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
+  const heroCanvasRef = useRef<HeroCanvasHandle>(null);
 
   // Desktop refs.
   const stickyRef = useRef<HTMLDivElement>(null);
@@ -61,6 +63,7 @@ export default function Hero() {
   // Mobile refs — a single un-pinned stage, scrubbed by the section's own
   // natural scroll position (see setupMobile below).
   const mobileStageRef = useRef<HTMLDivElement>(null);
+  const mobileHeroCanvasRef = useRef<HeroCanvasHandle>(null);
   const mobileWordRefs = useRef<(HTMLDivElement | null)[]>([]);
   const mobileNodeRefs = useRef<(HTMLDivElement | null)[]>([]);
   const mobileHeadlineRef = useRef<HTMLDivElement>(null);
@@ -165,6 +168,11 @@ export default function Hero() {
             scrub: 1,
             pin: stickyEl,
             anticipatePin: 1,
+            // Feeds the WebGL backdrop's camera dolly — reads this same
+            // trigger's own progress rather than creating a second
+            // ScrollTrigger on this section (see the module comment above
+            // setupMobile for why that previously corrupted both timelines).
+            onUpdate: (self) => heroCanvasRef.current?.setProgress(self.progress),
           },
         });
 
@@ -294,6 +302,7 @@ export default function Hero() {
             start: "top top",
             end: "bottom top",
             scrub: 1,
+            onUpdate: (self) => mobileHeroCanvasRef.current?.setProgress(self.progress),
           },
         });
 
@@ -324,6 +333,13 @@ export default function Hero() {
       {/* Desktop: pinned scroll-driven "brainstorm" choreography (lg and up, motion-safe). */}
       <div className="hidden lg:motion-safe:block">
         <div ref={stickyRef} className="relative h-screen w-full overflow-hidden bg-bone">
+          {/* WebGL backdrop — a child of the pinned element itself (not a
+              section-level sibling) so it pins/scrolls with it automatically;
+              a sibling of the pin would be positioned relative to this
+              non-pinned, ever-growing section (the pin-spacer inflates it to
+              the whole scroll duration) and would scroll away mid-pin while
+              the foreground stayed fixed. */}
+          <HeroCanvas ref={heroCanvasRef} className="pointer-events-none absolute inset-0 h-full w-full" />
           <svg className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true">
             {CONNECTOR_PAIRS.map((pair, i) => (
               <line
@@ -412,6 +428,11 @@ export default function Hero() {
       {/* Mobile / tablet: un-pinned scrub over the stage's natural scroll position. */}
       <div className="hidden bg-bone motion-safe:block motion-safe:lg:hidden">
         <div ref={mobileStageRef} className="relative h-screen w-full overflow-hidden">
+          <HeroCanvas
+            ref={mobileHeroCanvasRef}
+            mobile
+            className="pointer-events-none absolute inset-0 h-full w-full"
+          />
           {HERO_WORDS.map((w, i) => (
             <div
               key={w.id}
