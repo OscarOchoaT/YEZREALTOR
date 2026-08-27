@@ -22,6 +22,35 @@ body {
   }
 }
 
+/* Ambient, always-on "tech" motion — never scroll-driven, so it plays with
+   zero user interaction. Used by DotGridBackground (slow dot-grid drift)
+   and the small connector-line/dot decorations (e.g. MethodNodes' card
+   strip): a traveling dash and a gentle pulse. All three are opted into
+   per-element via motion-safe: so prefers-reduced-motion turns them off. */
+@keyframes grid-drift {
+  to {
+    background-position: 28px 28px;
+  }
+}
+
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -16;
+  }
+}
+
+@keyframes dot-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+}
+
 /* Custom cursor (desktop, fine pointer only) — see CustomCursor.tsx. */
 .custom-cursor-active,
 .custom-cursor-active a,

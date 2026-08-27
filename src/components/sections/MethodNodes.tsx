@@ -4,10 +4,16 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { METHOD_DETAILS, type MethodDetail } from "@/content/method";
 import TransitionLink from "@/components/TransitionLink";
+import { ConnectorOverlay } from "@/components/NodeConnector";
 
 function titleCase(title: string) {
   return title.charAt(0) + title.slice(1).toLowerCase();
 }
+
+// Horizontal position (percent) of each card's center in the 4-column
+// desktop grid below — one dot per card, feeding down from the same
+// dash-and-dot language as MethodPath above.
+const CARD_X = [12.5, 37.5, 62.5, 87.5];
 
 type MethodNodesProps = {
   /** Populated with each grid card's DOM node so Method.tsx can drive their
@@ -38,6 +44,33 @@ export default function MethodNodes({ cardRefs }: MethodNodesProps) {
 
   return (
     <>
+      {/* Ambient dash-and-dot strip feeding the four cards — continuously
+          animated (not scroll-tied), same visual language as MethodPath's
+          journey line above. Desktop only, where the grid is actually 4
+          columns wide. */}
+      <div className="relative mx-auto mb-6 hidden h-3 max-w-4xl lg:block" aria-hidden="true">
+        <ConnectorOverlay>
+          <line
+            x1={0}
+            y1={50}
+            x2={100}
+            y2={50}
+            strokeWidth={1}
+            strokeDasharray="1 3"
+            vectorEffect="non-scaling-stroke"
+            strokeLinecap="round"
+            className="stroke-stone opacity-40 motion-safe:[animation:dash-flow_4s_linear_infinite]"
+          />
+        </ConnectorOverlay>
+        {CARD_X.map((x, i) => (
+          <div
+            key={x}
+            className="absolute h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cognac motion-safe:[animation:dot-pulse_2.6s_ease-in-out_infinite]"
+            style={{ left: `${x}%`, top: "50%", animationDelay: `${i * 0.3}s` }}
+          />
+        ))}
+      </div>
+
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {METHOD_DETAILS.map((detail, i) => (
           <motion.button
