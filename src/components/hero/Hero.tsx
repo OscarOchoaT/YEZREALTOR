@@ -340,24 +340,33 @@ export default function Hero() {
         // nodes already mid-arrival) on first paint instead of showing the
         // scattered "brainstorm" state. "top top" makes progress 0 exactly
         // at scrollY 0, so the choreography actually starts from the start.
+        // scrub 1.4 (vs. desktop's 1) — mobile scroll is native fling/momentum,
+        // not Lenis-smoothed, so a bit more lag between scroll position and
+        // tween position reads as smoother rather than snapping to match
+        // every raw scroll-frame jump.
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: stageEl,
             start: "top top",
             end: "bottom top",
-            scrub: 1,
+            scrub: 1.4,
             onUpdate: (self) => mobileHeroCanvasRef.current?.setProgress(self.progress),
           },
         });
 
-        // Beat 1 (0.05 -> 0.34): words settle in with a subtle stagger.
-        tl.to(wordEls, { autoAlpha: 1, scale: 1, stagger: 0.04, duration: 0.3, ease: "power2.out" }, 0.05);
-        // Beat 2 (0.34 -> ~0.68): words recede while the four nodes arrive.
-        tl.to(wordEls, { autoAlpha: 0, scale: 0.85, stagger: 0.02, duration: 0.18, ease: "power1.in" }, 0.34);
-        tl.to(nodeEls, { autoAlpha: 1, scale: 1, y: 0, stagger: 0.08, duration: 0.3, ease: "power2.out" }, 0.38);
+        // Three beats, each followed by a genuine hold where nothing moves
+        // (previously beats ran back-to-back with no gap, so a normal-speed
+        // scroll flick blew through the whole sequence as one blur — a
+        // visitor never actually saw anything settle before it started
+        // changing again).
+        // Beat 1 (0.05 -> 0.26): words settle in. Hold 0.26 -> 0.38.
+        tl.to(wordEls, { autoAlpha: 1, scale: 1, stagger: 0.03, duration: 0.2, ease: "power2.out" }, 0.05);
+        // Beat 2 (0.38 -> ~0.62): words recede while the four nodes arrive. Hold 0.62 -> 0.74.
+        tl.to(wordEls, { autoAlpha: 0, scale: 0.85, stagger: 0.015, duration: 0.14, ease: "power1.in" }, 0.38);
+        tl.to(nodeEls, { autoAlpha: 1, scale: 1, y: 0, stagger: 0.06, duration: 0.24, ease: "power2.out" }, 0.42);
         // Beat 3 (0.74 -> 1): nodes step back, headline + CTA close the section.
-        tl.to(nodeEls, { autoAlpha: 0, scale: 0.94, duration: 0.2, ease: "power1.in" }, 0.74);
-        tl.to(mobileHeadlineRef.current, { autoAlpha: 1, y: 0, duration: 0.26, ease: "power2.out" }, 0.8);
+        tl.to(nodeEls, { autoAlpha: 0, scale: 0.94, duration: 0.16, ease: "power1.in" }, 0.74);
+        tl.to(mobileHeadlineRef.current, { autoAlpha: 1, y: 0, duration: 0.22, ease: "power2.out" }, 0.82);
 
         const onResize = () => {
           setWordPositions();
@@ -472,7 +481,14 @@ export default function Hero() {
 
       {/* Mobile / tablet: un-pinned scrub over the stage's natural scroll position. */}
       <div className="hidden bg-bone motion-safe:block motion-safe:lg:hidden">
-        <div ref={mobileStageRef} className="relative h-screen w-full overflow-hidden">
+        {/* h-dvh, not h-screen (100vh) — 100vh on mobile Safari/Chrome is the
+            viewport height with the address bar collapsed, so it doesn't
+            match the ACTUAL visible height most of the time the page is at
+            rest (bar expanded); the stage read as taller than the real
+            viewport, so word/node positions (computed from this box's own
+            height) landed partly below the fold, looking like overlapping/
+            misplaced elements. 100dvh tracks the real visible height live. */}
+        <div ref={mobileStageRef} className="relative h-dvh w-full overflow-hidden">
           <HeroCanvas
             ref={mobileHeroCanvasRef}
             mobile

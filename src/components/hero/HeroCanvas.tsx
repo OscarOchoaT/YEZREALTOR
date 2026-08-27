@@ -10,7 +10,10 @@ import * as THREE from "three";
 const COLORS = ["#7A5239", "#602F10", "#A89B8A", "#3D2A20"]; // cognac, siena, stone, cocoaBark
 
 const DESKTOP_PARTICLES = 650;
-const MOBILE_PARTICLES = 320;
+// Lower than desktop's not just for particle count but because phones pay
+// for every pixel twice: capped devicePixelRatio + no antialiasing below,
+// see setup().
+const MOBILE_PARTICLES = 200;
 const FIELD_RADIUS = 8;
 const CONNECTOR_MAX_DIST = 2.4;
 const CONNECTOR_MAX_PER_POINT = 2;
@@ -131,13 +134,20 @@ const HeroCanvas = forwardRef<HeroCanvasHandle, { className?: string; mobile?: b
 
       let renderer: THREE.WebGLRenderer;
       try {
-        renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        // Antialiasing is the single most expensive flag for a mobile GPU
+        // here (it's a fragment-fill-rate multiplier), and at this particle
+        // size the aliasing it's fixing is barely visible anyway — skip it
+        // on mobile rather than pay for it every frame.
+        renderer = new THREE.WebGLRenderer({ canvas, antialias: !mobile, alpha: true });
       } catch {
         // WebGL unavailable/blocked on this device — fail quietly, the
         // section still works with no backdrop rather than crashing.
         return;
       }
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      // Capped lower on mobile: devicePixelRatio 3 on a modern phone means
+      // 9x the fragment work of ratio 1, for backdrop detail nobody's
+      // examining that closely.
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.5 : 2));
 
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
@@ -211,8 +221,8 @@ const HeroCanvas = forwardRef<HeroCanvasHandle, { className?: string; mobile?: b
         const dt = clock.getDelta();
         group.rotation.y += dt * 0.045;
 
-        cameraX += (mouse.x * 1.1 - cameraX) * 0.04;
-        cameraY += (-mouse.y * 0.7 - cameraY) * 0.04;
+        cameraX += (mouse.x * 1.4 - cameraX) * 0.06;
+        cameraY += (-mouse.y * 0.9 - cameraY) * 0.06;
         camera.position.x = cameraX;
         camera.position.y = cameraY;
         // Scroll dolly: progress 0 -> 1 pulls the camera forward, "into" the
