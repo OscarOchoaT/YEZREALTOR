@@ -27,6 +27,45 @@ const CONNECTOR_PAIRS: [string, string][] = [
   ["risk", "growth"],
 ];
 
+// Same four colors HeroCanvas's WebGL particles use, so this reads as one
+// consistent network rather than two unrelated systems.
+const ANCHOR_DOT_CLASSES = ["bg-cognac", "bg-siena", "bg-stone", "bg-cocoaBark"];
+const ANCHOR_DIST = 30; // px
+
+/** A short tether + square dot from a word's own center, styled to match
+ * HeroCanvas's WebGL particles — each floating word reads as a labeled node
+ * in that background network instead of a separate layer glued on top.
+ * Placed as a sibling of the word's text inside the SAME GSAP-animated
+ * wrapper div, so it inherits that div's position/scale/opacity for free —
+ * no extra scroll-timeline work needed to keep it in sync with the word. */
+function WordAnchor({ index, rotate }: { index: number; rotate: number }) {
+  // Angle loosely follows the word's own tilt (so the tether reads as
+  // "attached", not arbitrary) with enough per-word variation that they
+  // don't all point the same direction.
+  const angle = (rotate * 3 + index * 53) % 360;
+  // Math.cos/sin aren't guaranteed bit-identical between Node's V8 (SSR) and
+  // the browser's — a last-bit difference is enough for React to flag a
+  // hydration mismatch on the serialized transform string. Rounding to 2
+  // decimals (irrelevant at this visual scale) reliably collapses both to
+  // the same string.
+  const dx = Math.round(Math.cos((angle * Math.PI) / 180) * ANCHOR_DIST * 100) / 100;
+  const dy = Math.round(Math.sin((angle * Math.PI) / 180) * ANCHOR_DIST * 100) / 100;
+  return (
+    <>
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute left-0 top-0 h-px origin-left bg-stone/45"
+        style={{ width: ANCHOR_DIST, transform: `rotate(${angle}deg)` }}
+      />
+      <span
+        aria-hidden="true"
+        className={`pointer-events-none absolute left-0 top-0 h-1.5 w-1.5 ${ANCHOR_DOT_CLASSES[index % ANCHOR_DOT_CLASSES.length]}`}
+        style={{ transform: `translate(${dx}px, ${dy}px) translate(-50%, -50%)` }}
+      />
+    </>
+  );
+}
+
 function CTAs() {
   return (
     <div className="flex flex-col items-center gap-4 sm:flex-row">
@@ -370,6 +409,7 @@ export default function Hero() {
                   {w.label}
                 </span>
               </div>
+              <WordAnchor index={i} rotate={w.rotate} />
             </div>
           ))}
 
@@ -447,6 +487,7 @@ export default function Hero() {
               >
                 {w.label}
               </span>
+              <WordAnchor index={i} rotate={w.rotate} />
             </div>
           ))}
 
