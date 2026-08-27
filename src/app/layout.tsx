@@ -59,13 +59,27 @@ const jsonLd = {
   sameAs: [SITE.instagramUrl, SITE.tiktokUrl, SITE.facebookUrl],
 };
 
+// Runs before the browser's first paint (blocking, no defer/async, placed
+// first in <body>) — same technique as a dark-mode flash-prevention script.
+// Flags <html> synchronously if this session already saw InitialLoader, so
+// its CSS rule (globals.css) can hide the loader overlay before anything
+// renders. A React effect can't do this job: by the time any effect runs,
+// the server-rendered page underneath has already been painted once.
+const SKIP_LOADER_SCRIPT = `try{if(sessionStorage.getItem('yez_loaded')==='true'){document.documentElement.classList.add('skip-initial-loader')}}catch(e){}`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
       className={`${hankenGrotesk.variable} ${jetBrainsMono.variable} ${rubik.variable} h-full antialiased`}
+      // The blocking script below mutates this element's classList before
+      // React hydrates (see SKIP_LOADER_SCRIPT) — without this, React flags
+      // that as a hydration mismatch and bails out of reconciling <html>
+      // entirely, which is worse than the one attribute it's warning about.
+      suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-bone font-body font-light text-cocoaBark">
+        <script dangerouslySetInnerHTML={{ __html: SKIP_LOADER_SCRIPT }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <InitialLoader>
           <PageTransitionOverlay>

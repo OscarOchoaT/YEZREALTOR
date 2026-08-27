@@ -39,6 +39,25 @@ function markShown() {
  * once per session; navigating between routes afterward uses the separate,
  * shorter PageTransitionOverlay effect instead.
  *
+ * The overlay is rendered UNCONDITIONALLY from the very first render (the
+ * `done` state below only ever removes it, never adds it) — deliberately
+ * the opposite of a "start hidden, reveal via an effect" flag. Gating its
+ * presence on client-only state (e.g. a `visible` flag that starts false)
+ * means the server-rendered HTML — which already contains the fully built
+ * Hero underneath — paints for real before that effect has a chance to run,
+ * so the visitor sees a flash of the (not-yet-GSAP-animated, so mostly
+ * empty) Hero, then the loader mounts on top of it, then it fades away to
+ * reveal the same Hero again. Rendering the overlay by default avoids that
+ * entirely: it's already covering the page in the first paint, no JS
+ * required. Returning visitors (sessionStorage already set) still see zero
+ * loader flash — that's handled by the blocking inline script in
+ * layout.tsx, which adds `skip-initial-loader` to <html> before the browser
+ * paints anything, and the matching CSS rule in globals.css that hides
+ * `.initial-loader-overlay` under that class. This component's own effect
+ * only has to notice that class and unmount the (already CSS-hidden)
+ * overlay; it can't be the thing preventing the flash, since by the time any
+ * React effect runs, the first paint has already happened.
+ *
  * (An earlier version tried redistributing the dots into the Hero's
  * scattered-word positions before revealing it, to make the loader feel
  * like it "became" the page. In practice that read as two unrelated things
@@ -47,39 +66,31 @@ function markShown() {
  * matter how the opacity is timed.)
  */
 export default function InitialLoader({ children }: { children: React.ReactNode }) {
-  const [visible, setVisible] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const [done, setDone] = useState(false);
   const canvasHandleRef = useRef<DotFormationHandle>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const decidedRef = useRef(false);
   const sequenceStartedRef = useRef(false);
 
-  // First render (client-only): decide once whether to show it at all.
+  // sequenceStartedRef keeps React Strict Mode's dev-only double-invoke of
+  // this effect from starting the sequence twice.
   useEffect(() => {
-    if (decidedRef.current) return;
-    decidedRef.current = true;
-
-    let alreadyShown = true;
-    try {
-      alreadyShown = sessionStorage.getItem(SESSION_KEY) === "true";
-    } catch {
-      // sessionStorage unavailable — just skip the loader.
-    }
-    if (alreadyShown) return;
-
-    setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-    setVisible(true);
-  }, []);
-
-  // Runs once the overlay + canvas have actually mounted (i.e. after the
-  // `visible` state change has committed) — driving this from an effect
-  // rather than "setVisible then await requestAnimationFrame" guarantees
-  // canvasHandleRef.current is populated before .enter() is called on it,
-  // and sequenceStartedRef keeps React Strict Mode's dev-only double-invoke
-  // of this effect from starting the sequence twice.
-  useEffect(() => {
-    if (!visible || sequenceStartedRef.current) return;
+    if (sequenceStartedRef.current) return;
     sequenceStartedRef.current = true;
+
+    let alreadyShown = document.documentElement.classList.contains("skip-initial-loader");
+    if (!alreadyShown) {
+      try {
+        alreadyShown = sessionStorage.getItem(SESSION_KEY) === "true";
+      } catch {
+        // sessionStorage unavailable — just skip the loader.
+      }
+    }
+    if (alreadyShown) {
+      setDone(true);
+      return;
+    }
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     if (reducedMotion) {
       Promise.all([fontsReady(), wait(400)]).then(() => {
@@ -89,10 +100,10 @@ export default function InitialLoader({ children }: { children: React.ReactNode 
             autoAlpha: 0,
             duration: 0.45,
             ease: "power1.out",
-            onComplete: () => setVisible(false),
+            onComplete: () => setDone(true),
           });
         } else {
-          setVisible(false);
+          setDone(true);
         }
       });
       return;
@@ -122,15 +133,19 @@ export default function InitialLoader({ children }: { children: React.ReactNode 
         });
       });
 
-      setVisible(false);
+      setDone(true);
     })();
-  }, [visible, reducedMotion]);
+  }, []);
 
   return (
     <>
       {children}
-      {visible && (
-        <div ref={wrapperRef} className="fixed inset-0 z-[100] bg-bone" aria-hidden="true">
+      {!done && (
+        <div
+          ref={wrapperRef}
+          className="initial-loader-overlay fixed inset-0 z-[100] bg-bone"
+          aria-hidden="true"
+        >
           <DotFormationCanvas ref={canvasHandleRef} className="h-full w-full" />
         </div>
       )}
