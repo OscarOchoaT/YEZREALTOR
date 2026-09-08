@@ -49,7 +49,7 @@ export default function Credibility() {
   );
 
   return (
-    <section id="credibility" ref={sectionRef} className="relative bg-bone px-6 py-24 sm:py-32">
+    <section id="credibility" ref={sectionRef} className="relative bg-espresso px-6 py-24 sm:py-32">
       <DotGridBackground />
       <div className="relative mx-auto max-w-4xl">
         <div className="text-center">
@@ -63,7 +63,7 @@ export default function Credibility() {
               ref={(el) => {
                 factRefs.current[i] = el;
               }}
-              className="font-body text-sm font-medium text-cocoaBark/80"
+              className="font-body text-sm font-medium text-bone/80"
             >
               {fact}
             </span>
@@ -76,17 +76,17 @@ export default function Credibility() {
               {/* Map real testimonials into <TestimonialCard /> here once available. */}
             </div>
           ) : (
-            <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed border-cocoaBark/20 px-8 py-16 text-center">
-              <p className="font-display text-xl tracking-subhead text-cocoaBark">
+            <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed border-bone/20 px-8 py-16 text-center">
+              <p className="font-display text-xl tracking-subhead text-bone">
                 {CREDIBILITY.testimonialsPlaceholder}
               </p>
-              <p className="font-body text-sm font-light text-cocoaBark/70">{CREDIBILITY.testimonialsSubline}</p>
+              <p className="font-body text-sm font-light text-bone/70">{CREDIBILITY.testimonialsSubline}</p>
               <div className="mt-2 flex items-center gap-6">
                 <a
                   href={SITE.googleReviewsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-mono text-xs uppercase tracking-caption text-cocoaBark underline decoration-cognac decoration-1 underline-offset-4 hover:text-cognac"
+                  className="font-mono text-xs uppercase tracking-caption text-bone underline decoration-cognac decoration-1 underline-offset-4 hover:text-cognac"
                 >
                   Google Reviews
                 </a>
@@ -94,7 +94,7 @@ export default function Credibility() {
                   href={SITE.realtorDotComUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-mono text-xs uppercase tracking-caption text-cocoaBark underline decoration-cognac decoration-1 underline-offset-4 hover:text-cognac"
+                  className="font-mono text-xs uppercase tracking-caption text-bone underline decoration-cognac decoration-1 underline-offset-4 hover:text-cognac"
                 >
                   Realtor.com
                 </a>

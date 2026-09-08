@@ -86,16 +86,16 @@ export default function MethodNodes({ cardRefs }: MethodNodesProps) {
             whileHover={{ y: -4, scale: 1.03 }}
             transition={{ type: "spring", stiffness: 320, damping: 26 }}
             aria-haspopup="dialog"
-            className={`group flex min-h-[13rem] flex-col justify-between gap-4 rounded-2xl border border-cocoaBark/10 bg-linen/40 p-7 text-left transition-shadow duration-300 ${
+            className={`group flex min-h-[13rem] flex-col justify-between gap-4 rounded-2xl border border-bone/10 bg-bone/[0.04] p-7 text-left transition-shadow duration-300 ${
               hoveredId === detail.id ? "shadow-[0_14px_34px_-14px_rgba(122,82,57,0.45)]" : "shadow-none"
             } ${activeId === detail.id ? "invisible" : ""}`}
           >
             <div>
               <span className="font-mono text-[11px] uppercase tracking-caption text-cognac">0{i + 1}</span>
-              <h3 className="mt-1 font-display text-3xl tracking-headline text-cocoaBark">{detail.title}</h3>
+              <h3 className="mt-1 font-display text-3xl tracking-headline text-bone">{detail.title}</h3>
             </div>
             <p
-              className={`font-body text-sm font-light text-cocoaBark/70 transition-opacity duration-300 ${
+              className={`font-body text-sm font-light text-bone/70 transition-opacity duration-300 ${
                 hoveredId === detail.id ? "opacity-100" : "opacity-0"
               }`}
             >
@@ -113,7 +113,7 @@ export default function MethodNodes({ cardRefs }: MethodNodesProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[60] bg-espresso/50 backdrop-blur-sm"
+            className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm"
             onClick={() => setActiveId(null)}
             aria-hidden="true"
           />
@@ -128,12 +128,12 @@ export default function MethodNodes({ cardRefs }: MethodNodesProps) {
             role="dialog"
             aria-modal="true"
             aria-label={`${active.title} — The Next Move Method`}
-            className="fixed inset-3 z-[70] flex flex-col overflow-y-auto rounded-3xl bg-bone p-8 sm:inset-x-10 sm:inset-y-8 sm:p-14 lg:inset-x-24 lg:inset-y-12"
+            className="fixed inset-3 z-[70] flex flex-col overflow-y-auto rounded-3xl bg-cocoaBark p-8 sm:inset-x-10 sm:inset-y-8 sm:p-14 lg:inset-x-24 lg:inset-y-12"
           >
             <button
               onClick={() => setActiveId(null)}
               aria-label="Close"
-              className="absolute right-6 top-6 flex h-9 w-9 items-center justify-center rounded-full border border-cocoaBark/15 font-body text-cocoaBark/70 transition-colors hover:border-cocoaBark hover:text-cocoaBark"
+              className="absolute right-6 top-6 flex h-9 w-9 items-center justify-center rounded-full border border-bone/15 font-body text-bone/70 transition-colors hover:border-bone hover:text-bone"
             >
               ✕
             </button>
@@ -150,14 +150,14 @@ export default function MethodNodes({ cardRefs }: MethodNodesProps) {
             <span className="font-mono text-xs uppercase tracking-caption text-cognac">
               0{METHOD_DETAILS.findIndex((d) => d.id === active.id) + 1}
             </span>
-            <h3 className="mt-2 font-display text-4xl tracking-headline text-cocoaBark sm:text-6xl">
+            <h3 className="mt-2 font-display text-4xl tracking-headline text-bone sm:text-6xl">
               {active.title}
             </h3>
-            <p className="mt-3 max-w-xl font-body text-lg font-light text-cocoaBark/75">{active.microlabel}</p>
+            <p className="mt-3 max-w-xl font-body text-lg font-light text-bone/75">{active.microlabel}</p>
 
-            <ul className="mt-8 flex max-w-xl flex-col gap-3 border-t border-cocoaBark/10 pt-6">
+            <ul className="mt-8 flex max-w-xl flex-col gap-3 border-t border-bone/10 pt-6">
               {active.items.map((item) => (
-                <li key={item} className="flex gap-3 font-body text-base font-light text-cocoaBark/85">
+                <li key={item} className="flex gap-3 font-body text-base font-light text-bone/85">
                   <span className="text-cognac">—</span>
                   {item}
                 </li>
@@ -168,7 +168,7 @@ export default function MethodNodes({ cardRefs }: MethodNodesProps) {
               <Magnetic strength={0.3}>
                 <TransitionLink
                   href={`/metodo/${active.id}`}
-                  className="inline-flex items-center gap-2 rounded-full bg-cocoaBark px-7 py-3.5 font-body text-sm font-medium text-bone transition-colors hover:bg-espresso"
+                  className="inline-flex items-center gap-2 rounded-full bg-glow px-7 py-3.5 font-body text-sm font-medium text-espresso transition-colors hover:bg-bone"
                 >
                   Explore {titleCase(active.title)} in full
                   <span aria-hidden="true">→</span>

@@ -14,6 +14,11 @@ const config: Config = {
         linen: "#E8E2D5",
         cognac: "#7A5239",
         siena: "#602F10",
+        // Not in the Brand Guide's palette proper — reserved exclusively for
+        // the italic accent line (font-accent) on dark phase heroes, where
+        // cognac itself doesn't carry enough contrast to read as the warm
+        // "gold caption" beat from the client's mood reference.
+        glow: "#E3B27C",
       },
       fontFamily: {
         // Coolvetica is the brand display face; the client has not delivered the
@@ -23,6 +28,8 @@ const config: Config = {
         display: ["var(--font-display)", "Rubik", "system-ui", "sans-serif"],
         body: ["var(--font-body)", "Hanken Grotesk", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "JetBrains Mono", "ui-monospace", "monospace"],
+        // Reserved for one italic accent line per dramatic beat — see fonts.ts.
+        accent: ["var(--font-accent)", "Georgia", "serif"],
       },
       letterSpacing: {
         headline: "-0.04em",

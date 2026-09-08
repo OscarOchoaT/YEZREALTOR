@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
-import { hankenGrotesk, jetBrainsMono, rubik } from "./fonts";
+import { fraunces, hankenGrotesk, jetBrainsMono, rubik } from "./fonts";
 import SmoothScroll from "@/components/SmoothScroll";
 import Header from "@/components/Header";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import CustomCursor from "@/components/CustomCursor";
+import CursorGlow from "@/components/CursorGlow";
 import PageTransitionOverlay from "@/components/PageTransitionOverlay";
 import InitialLoader from "@/components/InitialLoader";
 import GrainOverlay from "@/components/GrainOverlay";
@@ -70,14 +71,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${hankenGrotesk.variable} ${jetBrainsMono.variable} ${rubik.variable} h-full antialiased`}
+      className={`${hankenGrotesk.variable} ${jetBrainsMono.variable} ${rubik.variable} ${fraunces.variable} h-full antialiased`}
       // The blocking script below mutates this element's classList before
       // React hydrates (see SKIP_LOADER_SCRIPT) — without this, React flags
       // that as a hydration mismatch and bails out of reconciling <html>
       // entirely, which is worse than the one attribute it's warning about.
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-bone font-body font-light text-cocoaBark">
+      <body className="min-h-full flex flex-col bg-espresso font-body font-light text-bone">
         <script dangerouslySetInnerHTML={{ __html: SKIP_LOADER_SCRIPT }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <InitialLoader>
@@ -92,6 +93,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </SourceProvider>
           </PageTransitionOverlay>
         </InitialLoader>
+        <CursorGlow />
         <GrainOverlay />
         <Analytics />
       </body>

@@ -21,7 +21,7 @@ export default function Eyebrow({
       }`}
     >
       <span className="text-stone">{index}</span>
-      <span className="text-cocoaBark/25" aria-hidden="true">
+      <span className="text-bone/25" aria-hidden="true">
         /
       </span>
       <span className="text-cognac">{label}</span>

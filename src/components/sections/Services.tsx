@@ -66,13 +66,13 @@ export default function Services() {
   );
 
   return (
-    <section id="services" ref={sectionRef} className="relative bg-bone px-6 py-24 sm:py-32">
+    <section id="services" ref={sectionRef} className="relative bg-espresso px-6 py-24 sm:py-32">
       <DotGridBackground />
       <div className="relative mx-auto max-w-6xl">
         <div className="mb-4 text-center">
           <Eyebrow index="04" label="Strategy" />
         </div>
-        <h2 className="mx-auto max-w-xl text-center font-display text-3xl tracking-headline text-cocoaBark sm:text-4xl">
+        <h2 className="mx-auto max-w-xl text-center font-display text-3xl tracking-headline text-bone sm:text-4xl">
           {SERVICES.headline}
         </h2>
 
@@ -95,7 +95,7 @@ export default function Services() {
               />
             ))}
           </ConnectorOverlay>
-          <div ref={dotRef} className="absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cocoaBark" />
+          <div ref={dotRef} className="absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cognac" />
         </div>
 
         <div className="mt-6 grid grid-cols-1 gap-6 sm:mt-2 sm:grid-cols-3">
@@ -113,20 +113,22 @@ export default function Services() {
               onMouseEnter={() => setHovered(card.id)}
               onMouseLeave={() => setHovered(null)}
               className={`group flex flex-col justify-between gap-10 rounded-2xl p-8 transition-transform hover:-translate-y-1 ${
-                card.featured ? "bg-cocoaBark text-bone sm:scale-105 sm:py-10" : "bg-linen/50 text-cocoaBark"
+                card.featured
+                  ? "bg-cocoaBark text-bone sm:scale-105 sm:py-10"
+                  : "border border-bone/10 bg-bone/[0.04] text-bone"
               }`}
             >
               <div className="flex flex-col gap-3">
                 <span className="font-mono text-[11px] uppercase tracking-caption text-cognac">0{i + 1}</span>
                 <h3 className="font-display text-4xl tracking-headline">{card.label}</h3>
-                <p className={`font-body text-sm font-light ${card.featured ? "text-bone/80" : "text-cocoaBark/70"}`}>
+                <p className={`font-body text-sm font-light ${card.featured ? "text-bone/80" : "text-bone/70"}`}>
                   {card.description}
                 </p>
               </div>
 
               <span
                 className={`inline-flex items-center gap-2 font-mono text-xs uppercase tracking-caption transition-colors ${
-                  card.featured ? "text-bone group-hover:text-cognac" : "text-cocoaBark group-hover:text-cognac"
+                  card.featured ? "text-bone group-hover:text-cognac" : "text-bone group-hover:text-cognac"
                 }`}
               >
                 {card.cta} <span aria-hidden="true">→</span>

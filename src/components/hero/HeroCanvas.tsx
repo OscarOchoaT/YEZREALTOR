@@ -2,6 +2,7 @@
 
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import * as THREE from "three";
+import gsap from "gsap";
 
 // Brand palette only — no blue/cyan, no bloom/glow post-processing. "Real
 // technology" here means actual WebGL depth, perspective and lighting
@@ -15,8 +16,12 @@ const DESKTOP_PARTICLES = 650;
 // see setup().
 const MOBILE_PARTICLES = 200;
 const FIELD_RADIUS = 8;
-const CONNECTOR_MAX_DIST = 2.4;
-const CONNECTOR_MAX_PER_POINT = 2;
+// Sparser and shorter than the field's first pass — the original density
+// read as a taut technical mesh (closer to a network-diagram stock asset
+// than the brand's "warm room, soft light" mood); fewer, shorter connectors
+// leave the particles reading as a loose constellation instead.
+const CONNECTOR_MAX_DIST = 1.7;
+const CONNECTOR_MAX_PER_POINT = 1;
 
 export type HeroCanvasHandle = {
   /** 0-1, matching the Hero timeline's own scrub progress exactly — driven
@@ -25,6 +30,31 @@ export type HeroCanvasHandle = {
    * corrupted both sections' progress math — see Hero.tsx history). */
   setProgress: (t: number) => void;
 };
+
+/** A soft radial-gradient sprite, painted once onto an offscreen 2D canvas
+ * and used as every point's texture. Three's default point sprite (no map)
+ * is a hard-edged square — fine for a technical grid, wrong for "warm light":
+ * this is what turns flat dots into soft glowing orbs once additive
+ * blending piles overlapping ones on top of each other. Cheap: one 64x64
+ * canvas draw at mount, no extra render passes (a real bloom post-process
+ * pipeline was considered and rejected here specifically for cost — this
+ * gets most of the same "glow" read for a fraction of the frame budget). */
+function buildGlowSprite(): THREE.Texture {
+  const size = 64;
+  const canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext("2d")!;
+  const gradient = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+  gradient.addColorStop(0, "rgba(255,255,255,1)");
+  gradient.addColorStop(0.35, "rgba(255,255,255,0.55)");
+  gradient.addColorStop(1, "rgba(255,255,255,0)");
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, size, size);
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.needsUpdate = true;
+  return texture;
+}
 
 function buildField(count: number) {
   const positions = new Float32Array(count * 3);
@@ -161,13 +191,20 @@ const HeroCanvas = forwardRef<HeroCanvasHandle, { className?: string; mobile?: b
       const pointGeometry = new THREE.BufferGeometry();
       pointGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
       pointGeometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+      const glowSprite = buildGlowSprite();
       const pointMaterial = new THREE.PointsMaterial({
-        size: mobile ? 0.09 : 0.075,
+        // Soft sprite + additive blending: overlapping particles pile up
+        // into warm glowing bokeh instead of flat, hard-edged dots — the
+        // "light" half of the brand's "warm light through a window" motif,
+        // which flat squares alone weren't carrying.
+        map: glowSprite,
+        size: mobile ? 0.16 : 0.14,
         vertexColors: true,
         transparent: true,
-        opacity: 0.85,
+        opacity: 0,
         sizeAttenuation: true,
         depthWrite: false,
+        blending: THREE.AdditiveBlending,
       });
       const points = new THREE.Points(pointGeometry, pointMaterial);
       group.add(points);
@@ -178,11 +215,23 @@ const HeroCanvas = forwardRef<HeroCanvasHandle, { className?: string; mobile?: b
       const lineMaterial = new THREE.LineBasicMaterial({
         color: new THREE.Color("#A89B8A"),
         transparent: true,
-        opacity: 0.14,
+        opacity: 0,
         depthWrite: false,
       });
       const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
       group.add(lines);
+
+      // Cinematic entrada, in place of the literal reference video: the
+      // camera starts pulled back and slightly dimmed, then settles into
+      // position over ~2s from the moment this mounts — no scroll required
+      // to see it happen, so the first paint already reads as "arriving"
+      // somewhere rather than a static field of dots.
+      const entrance = { t: 0 };
+      const entranceTweens = [
+        gsap.to(entrance, { t: 1, duration: 2.2, ease: "power2.out" }),
+        gsap.to(pointMaterial, { opacity: 0.85, duration: 1.8, ease: "power1.out" }),
+        gsap.to(lineMaterial, { opacity: 0.08, duration: 1.8, delay: 0.3, ease: "power1.out" }),
+      ];
 
       // One warm point light plus a low ambient floor — the light itself has
       // nothing to shade (Points/Lines are unlit primitives), but it's the
@@ -226,8 +275,11 @@ const HeroCanvas = forwardRef<HeroCanvasHandle, { className?: string; mobile?: b
         camera.position.x = cameraX;
         camera.position.y = cameraY;
         // Scroll dolly: progress 0 -> 1 pulls the camera forward, "into" the
-        // field, in step with the existing DOM choreography scrubbing above it.
-        camera.position.z = 14 - progressRef.current * 5;
+        // field, in step with the existing DOM choreography scrubbing above
+        // it. Entrance eases the starting point in from further back (20)
+        // to the scroll dolly's own base (14) over the first couple seconds.
+        const entranceZ = 20 - entrance.t * 6;
+        camera.position.z = entranceZ - progressRef.current * 5;
         camera.lookAt(0, 0, 0);
 
         renderer.render(scene, camera);
@@ -237,10 +289,12 @@ const HeroCanvas = forwardRef<HeroCanvasHandle, { className?: string; mobile?: b
 
       teardown = () => {
         cancelAnimationFrame(raf);
+        entranceTweens.forEach((t) => t.kill());
         window.removeEventListener("resize", resize);
         window.removeEventListener("mousemove", onMouseMove);
         pointGeometry.dispose();
         pointMaterial.dispose();
+        glowSprite.dispose();
         lineGeometry.dispose();
         lineMaterial.dispose();
         renderer.dispose();

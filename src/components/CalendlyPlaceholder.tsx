@@ -5,11 +5,11 @@
  */
 export default function CalendlyPlaceholder() {
   return (
-    <div className="flex flex-col items-center gap-2 rounded-2xl border border-dashed border-cocoaBark/20 px-6 py-8 text-center">
+    <div className="flex flex-col items-center gap-2 rounded-2xl border border-dashed border-bone/20 px-6 py-8 text-center">
       <span className="font-mono text-[10px] uppercase tracking-caption text-stone">
         [Coming soon]
       </span>
-      <p className="font-body text-sm font-light text-cocoaBark/70">
+      <p className="font-body text-sm font-light text-bone/70">
         Prefer to talk it through first? Call booking is on its way.
       </p>
     </div>

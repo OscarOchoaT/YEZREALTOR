@@ -6,8 +6,8 @@ html {
 }
 
 body {
-  background-color: #f4f0e8;
-  color: #3d2a20;
+  background-color: #1a120b;
+  color: #f4f0e8;
 }
 
 /* Coolvetica is not yet installed — see src/app/fonts.ts TODO. Until then the
@@ -48,6 +48,46 @@ body {
   50% {
     opacity: 1;
     transform: scale(1.4);
+  }
+}
+
+/* RadialAperture — the "glowing round window" motif (Method phase heroes,
+   Method intro, Manifesto). aperture-breathe pulses the light bloom itself;
+   aperture-orbit/-reverse spin two nested wrappers so their marker dots read
+   as slow satellites tracing the rings, without ever fighting the static
+   inline `scale()` each wrapper is also given (see RadialAperture.tsx —
+   scale lives on a non-animated parent, rotation on its animated child). */
+@keyframes aperture-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes aperture-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes aperture-orbit-reverse {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+/* PhaseHud's one-shot "instrument boot" sweep — see PhaseHud.tsx. */
+@keyframes hud-scan {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(200%);
   }
 }
 

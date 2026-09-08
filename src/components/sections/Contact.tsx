@@ -12,7 +12,7 @@ export default function Contact() {
   const { source } = useSource();
 
   return (
-    <section id="contact" className="relative bg-linen/40 px-6 py-24 sm:py-32">
+    <section id="contact" className="relative bg-cocoaBark/15 px-6 py-24 sm:py-32">
       <InteractiveDotGrid />
       <div className="relative mx-auto max-w-3xl">
         <motion.div
@@ -23,8 +23,8 @@ export default function Contact() {
           className="mb-14 flex flex-col items-center gap-3 text-center"
         >
           <Eyebrow index="07" label={CONTACT.eyebrow} />
-          <p className="font-display text-2xl tracking-subhead text-cocoaBark/50 sm:text-3xl">{CONTACT.line1}</p>
-          <h2 className="font-display text-3xl tracking-headline text-cocoaBark sm:text-4xl">{CONTACT.line2}</h2>
+          <p className="font-display text-2xl tracking-subhead text-bone/50 sm:text-3xl">{CONTACT.line1}</p>
+          <h2 className="font-display text-3xl tracking-headline text-bone sm:text-4xl">{CONTACT.line2}</h2>
         </motion.div>
 
         <motion.div
@@ -37,7 +37,7 @@ export default function Contact() {
         </motion.div>
 
         <div className="mt-10 flex flex-col items-center gap-6">
-          <span className="font-display text-xl tracking-subhead text-cocoaBark">{CONTACT.ctaFinal}</span>
+          <span className="font-display text-xl tracking-subhead text-bone">{CONTACT.ctaFinal}</span>
           <CalendlyPlaceholder />
         </div>
       </div>

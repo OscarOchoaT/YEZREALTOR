@@ -23,7 +23,7 @@ export default function Header() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-40 transition-all duration-300 ${
-        scrolled ? "bg-bone/90 py-3 shadow-sm shadow-espresso/5 backdrop-blur-sm" : "bg-transparent py-6"
+        scrolled ? "bg-espresso py-3 shadow-sm shadow-black/20" : "bg-transparent py-6"
       }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6">
@@ -36,7 +36,7 @@ export default function Header() {
               shrink, so nothing swaps or flips. Source PNG is trimmed to its ink
               bounding box (the Canva export had huge transparent margins baked in). */}
           <Image
-            src="/logo/logo-primary.png"
+            src="/logo/logo-inverse.png"
             alt="Yez The Realtor"
             width={194}
             height={100}
@@ -50,7 +50,7 @@ export default function Header() {
             <TransitionLink
               key={link.href}
               href={isHome ? link.href : `/${link.href}`}
-              className="font-body text-sm font-medium text-cocoaBark/80 transition-colors hover:text-cocoaBark"
+              className="font-body text-sm font-medium text-bone/80 transition-colors hover:text-bone"
             >
               {link.label}
             </TransitionLink>
@@ -60,7 +60,7 @@ export default function Header() {
         <Magnetic strength={0.3}>
           <TransitionLink
             href={isHome ? "#contact" : "/#contact"}
-            className="inline-flex items-center justify-center rounded-full bg-cocoaBark px-5 py-2.5 font-body text-sm font-medium text-bone transition-colors hover:bg-espresso"
+            className="inline-flex items-center justify-center rounded-full bg-glow px-5 py-2.5 font-body text-sm font-medium text-espresso transition-colors hover:bg-bone"
           >
             {HERO_COPY.ctaPrimary}
           </TransitionLink>

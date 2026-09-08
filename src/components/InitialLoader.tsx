@@ -143,7 +143,7 @@ export default function InitialLoader({ children }: { children: React.ReactNode 
       {!done && (
         <div
           ref={wrapperRef}
-          className="initial-loader-overlay fixed inset-0 z-[100] bg-bone"
+          className="initial-loader-overlay fixed inset-0 z-[100] bg-espresso"
           aria-hidden="true"
         >
           <DotFormationCanvas ref={canvasHandleRef} className="h-full w-full" />

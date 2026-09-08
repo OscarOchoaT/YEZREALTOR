@@ -16,7 +16,7 @@ export type ConnectorPoint = { x: number; y: number };
  * Percentage-space overlay: a 0-100 x 0-100 viewBox stretched to fill its
  * container (preserveAspectRatio="none"), so child coordinates are plain
  * percentages of the container's width/height — matching the same x/y
- * percentages already used to position content (e.g. HERO_WORDS, HERO_NODES).
+ * percentages already used to position content elsewhere on the site.
  * Use for straight connector lines; for true circles use a CSS dot, not an
  * SVG <circle> here (this viewBox is intentionally non-uniform).
  */

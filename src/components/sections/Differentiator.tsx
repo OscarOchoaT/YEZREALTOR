@@ -50,10 +50,10 @@ export default function Differentiator() {
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-20">
         <div ref={copyRef} className="flex flex-col gap-6">
           <Eyebrow index="05" label={DIFFERENTIATOR.eyebrow} align="left" />
-          <p className="font-display text-2xl tracking-subhead text-cocoaBark/40 line-through decoration-cocoaBark/30 sm:text-3xl">
+          <p className="font-display text-2xl tracking-subhead text-bone/40 line-through decoration-bone/30 sm:text-3xl">
             {DIFFERENTIATOR.lineOld}
           </p>
-          <p className="font-display text-3xl tracking-headline text-cocoaBark sm:text-4xl">
+          <p className="font-display text-3xl tracking-headline text-bone sm:text-4xl">
             {DIFFERENTIATOR.lineNew}
           </p>
         </div>
@@ -65,7 +65,7 @@ export default function Differentiator() {
               ref={(el) => {
                 itemRefs.current[i] = el;
               }}
-              className="flex items-start gap-3 border-b border-cocoaBark/10 pb-4 font-body text-base font-light text-cocoaBark/85"
+              className="flex items-start gap-3 border-b border-bone/10 pb-4 font-body text-base font-light text-bone/85"
             >
               <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-cognac" aria-hidden="true" />
               {point}

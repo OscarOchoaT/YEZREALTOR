@@ -99,7 +99,7 @@ export default function PageTransitionOverlay({ children }: { children: React.Re
       {children}
 
       {visible && (
-        <div ref={backdropRef} className="fixed inset-0 z-[90] bg-bone opacity-0">
+        <div ref={backdropRef} className="fixed inset-0 z-[90] bg-espresso opacity-0">
           <DotFormationCanvas ref={canvasHandleRef} className="h-full w-full" />
         </div>
       )}

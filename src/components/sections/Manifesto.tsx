@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { MANIFESTO } from "@/content/manifesto";
+import RadialAperture from "@/components/RadialAperture";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -51,8 +52,9 @@ export default function Manifesto() {
   );
 
   return (
-    <section ref={sectionRef} className="relative bg-espresso px-6 py-28 text-bone sm:py-36">
-      <div className="mx-auto flex max-w-2xl flex-col items-center gap-3 text-center">
+    <section ref={sectionRef} className="relative overflow-hidden bg-espresso px-6 py-28 text-bone sm:py-36">
+      <RadialAperture className="left-1/2 top-1/2 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2" />
+      <div className="relative mx-auto flex max-w-2xl flex-col items-center gap-3 text-center">
         <div ref={progressRef} className="mb-6 h-px w-16 origin-left bg-cognac" aria-hidden="true" />
 
         {MANIFESTO.body.map((line, i) => (
@@ -85,7 +87,7 @@ export default function Manifesto() {
           ref={(el) => {
             lineRefs.current[BODY_COUNT + CLOSING_COUNT] = el;
           }}
-          className="mt-6 font-mono text-xs uppercase tracking-caption text-cognac"
+          className="mt-8 font-accent text-2xl italic text-glow sm:text-3xl"
         >
           {MANIFESTO.closingStatement}
         </p>

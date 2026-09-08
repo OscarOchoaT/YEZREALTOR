@@ -1,4 +1,4 @@
-import { Hanken_Grotesk, JetBrains_Mono, Rubik } from "next/font/google";
+import { Fraunces, Hanken_Grotesk, JetBrains_Mono, Rubik } from "next/font/google";
 
 export const hankenGrotesk = Hanken_Grotesk({
   subsets: ["latin"],
@@ -24,5 +24,18 @@ export const rubik = Rubik({
   subsets: ["latin"],
   weight: ["400", "500", "900"],
   variable: "--font-display",
+  display: "swap",
+});
+
+// The site's one moment of voice: an italic serif reserved for a single
+// cinematic line per dramatic beat (Method phase pages, the homepage Method
+// intro, the Manifesto close) — the same register as the gold italic
+// captions in the client's own "Next Move Method" mood reference. Never used
+// for body copy or UI labels, so it stays a flourish, not a second display face.
+export const fraunces = Fraunces({
+  subsets: ["latin"],
+  style: ["italic"],
+  weight: ["400", "500"],
+  variable: "--font-accent",
   display: "swap",
 });

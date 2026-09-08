@@ -44,7 +44,7 @@ export default function About() {
   );
 
   return (
-    <section id="about" ref={sectionRef} className="relative bg-bone px-6 py-24 sm:py-32">
+    <section id="about" ref={sectionRef} className="relative bg-espresso px-6 py-24 sm:py-32">
       <DotGridBackground />
       <div className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
         <div ref={photoRef}>
@@ -60,7 +60,7 @@ export default function About() {
 
           <div className="flex flex-col gap-4">
             {ABOUT.paragraphs.map((p) => (
-              <p key={p} className="font-body text-lg font-light leading-relaxed text-cocoaBark/90">
+              <p key={p} className="font-body text-lg font-light leading-relaxed text-bone/90">
                 {p}
               </p>
             ))}
@@ -68,14 +68,14 @@ export default function About() {
 
           <div className="flex flex-wrap gap-x-2 gap-y-2 pt-2">
             {ABOUT.tags.map((tag, i) => (
-              <span key={tag} className="flex items-center font-mono text-[11px] uppercase tracking-caption text-cocoaBark/60">
+              <span key={tag} className="flex items-center font-mono text-[11px] uppercase tracking-caption text-bone/60">
                 {tag}
                 {i < ABOUT.tags.length - 1 && <span className="ml-2 text-cognac">·</span>}
               </span>
             ))}
           </div>
 
-          <p className="border-t border-cocoaBark/10 pt-5 font-mono text-xs uppercase tracking-caption text-stone">
+          <p className="border-t border-bone/10 pt-5 font-mono text-xs uppercase tracking-caption text-stone">
             {ABOUT.credibilityLine}
           </p>
         </div>

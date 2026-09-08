@@ -15,21 +15,22 @@ import type { ServiceId } from "@/content/services";
  * passed through as a Typeform hidden field via the URL hash, Typeform's
  * documented convention for classic/iframe embeds.
  *
- * TODO(client): to match the site palette instead of Typeform's default
- * theme, open this form in the Typeform builder → Design → and set:
- *   Background  #F4F0E8 (Bone)   Question text  #3D2A20 (Cocoa Bark)
- *   Answer text #1A120B (Espresso)   Button/accent  #7A5239 (Cognac)
+ * TODO(client): to match the site's dark palette instead of Typeform's
+ * default theme, open this form in the Typeform builder → Design → and set:
+ *   Background  #1A120B (Espresso)   Question text  #F4F0E8 (Bone)
+ *   Answer text #F4F0E8 (Bone)   Button/accent  #7A5239 (Cognac)
  */
 export default function TypeformEmbed({ source }: { source?: ServiceId | null }) {
   const src = source ? `${SITE.typeformBaseUrl}#source=${source}` : SITE.typeformBaseUrl;
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-cocoaBark/15 bg-bone">
+    <div className="overflow-hidden rounded-2xl border border-bone/15 bg-espresso">
       <iframe
         key={src}
         src={src}
         title="Yez The Realtor — Contact form"
         allow="camera; microphone; autoplay; encrypted-media;"
+        loading="lazy"
         style={{ width: "100%", height: "640px", border: "none" }}
       />
     </div>
