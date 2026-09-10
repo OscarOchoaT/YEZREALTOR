@@ -127,6 +127,18 @@ export default function MethodShowcase() {
             </div>
           ))}
 
+          {/* Bottom vignette — always present (not tied to any one phase),
+              so whichever tone is showing when the pin releases already
+              reads dark at the very bottom. Method.tsx's section underneath
+              is the same espresso, so the handoff disappears instead of
+              cutting from a saturated phase color straight to it. Tall and
+              three-stop so the fade has real distance to work with instead
+              of clipping into a visible edge at the pin's release point. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-2/3 bg-gradient-to-b from-transparent via-espresso/80 to-espresso"
+          />
+
           {/* Progress rail — same "precision instrument" numbering language
               as Eyebrow/ScrollCompass elsewhere, here reading the pinned
               sequence's own position instead of the page's. */}

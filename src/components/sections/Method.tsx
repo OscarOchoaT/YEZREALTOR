@@ -88,16 +88,23 @@ export default function Method() {
           tone="cognac"
           className="left-1/2 top-0 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2"
         />
+        {/* Solid-to-transparent bridge across the handoff from MethodShowcase
+            above — guarantees the seam reads as one continuous espresso
+            surface no matter how the pinned section's own fade lands. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-48 bg-gradient-to-b from-espresso to-transparent sm:h-64"
+        />
         <div className="relative mx-auto max-w-6xl">
           <p
             ref={hintRef}
-            className="mx-auto mb-8 flex max-w-md items-center justify-center gap-2 text-center font-mono text-[11px] uppercase tracking-caption text-cognac"
+            className="mx-auto mb-8 flex max-w-md items-center justify-center gap-2 text-center font-mono text-[11px] uppercase tracking-caption text-bone/60"
           >
             <span
               aria-hidden="true"
               className="h-1.5 w-1.5 shrink-0 rounded-full bg-cognac motion-safe:[animation:dot-pulse_2s_ease-in-out_infinite]"
             />
-            Hover to preview · Click to explore each phase in full
+            The Next Move Method™ · Full Breakdown
           </p>
           <MethodNodes cardRefs={cardRefs} />
         </div>
