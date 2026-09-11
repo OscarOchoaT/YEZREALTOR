@@ -120,7 +120,7 @@ const PhaseHud = forwardRef<PhaseHudHandle, { heading: string; metrics: HudMetri
   return (
     <div
       ref={wrapRef}
-      className={`relative overflow-hidden rounded-3xl border border-bone/15 bg-espresso/80 shadow-[0_30px_60px_-25px_rgba(0,0,0,0.55)] ${className}`}
+      className={`relative overflow-hidden rounded-3xl border border-bone/20 bg-espresso/95 shadow-[0_30px_60px_-25px_rgba(0,0,0,0.7)] backdrop-blur-sm ${className}`}
     >
       <div
         ref={scanRef}
@@ -128,19 +128,19 @@ const PhaseHud = forwardRef<PhaseHudHandle, { heading: string; metrics: HudMetri
         className="pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-transparent via-bone/10 to-transparent"
       />
 
-      <div className="relative flex items-center gap-2 border-b border-bone/10 px-6 py-4 sm:px-8">
+      <div className="relative flex items-center gap-2 border-b border-bone/15 px-5 py-3 sm:px-7 sm:py-3.5">
         <span
           aria-hidden="true"
           className="h-1.5 w-1.5 shrink-0 rounded-full bg-cognac motion-safe:[animation:dot-pulse_2s_ease-in-out_infinite]"
         />
-        <span className="font-mono text-[11px] uppercase tracking-caption text-bone/60">{heading}</span>
+        <span className="font-mono text-[11px] uppercase tracking-caption text-bone/75">{heading}</span>
       </div>
 
-      <div className="relative grid grid-cols-2 gap-x-4 gap-y-6 p-6 sm:gap-x-8 sm:p-8">
+      <div className="relative grid grid-cols-2 gap-x-4 gap-y-4 p-5 sm:gap-x-6 sm:p-6">
         {metrics.map((m, i) => (
-          <div key={m.label} className="flex items-center gap-4">
-            <svg viewBox="0 0 64 64" className="h-14 w-14 shrink-0 -rotate-90 sm:h-16 sm:w-16" aria-hidden="true">
-              <circle cx="32" cy="32" r={RADIUS} fill="none" strokeWidth="4" className="stroke-bone/10" />
+          <div key={m.label} className="flex items-center gap-3">
+            <svg viewBox="0 0 64 64" className="h-11 w-11 shrink-0 -rotate-90 sm:h-12 sm:w-12" aria-hidden="true">
+              <circle cx="32" cy="32" r={RADIUS} fill="none" strokeWidth="4" className="stroke-bone/15" />
               <circle
                 ref={(el) => {
                   ringRefs.current[i] = el;
@@ -156,7 +156,7 @@ const PhaseHud = forwardRef<PhaseHudHandle, { heading: string; metrics: HudMetri
               />
             </svg>
             <div className="flex flex-col">
-              <span className="font-mono text-2xl text-bone sm:text-3xl">
+              <span className="font-mono text-xl text-bone sm:text-2xl">
                 <span
                   ref={(el) => {
                     numberRefs.current[i] = el;
@@ -166,7 +166,7 @@ const PhaseHud = forwardRef<PhaseHudHandle, { heading: string; metrics: HudMetri
                 </span>
                 %
               </span>
-              <span className="font-mono text-[10px] uppercase leading-snug tracking-caption text-bone/50">
+              <span className="font-mono text-[10px] uppercase leading-snug tracking-caption text-bone/65">
                 {m.label}
               </span>
             </div>

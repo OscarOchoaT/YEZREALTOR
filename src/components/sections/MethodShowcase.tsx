@@ -97,23 +97,34 @@ export default function MethodShowcase() {
               ref={(el) => {
                 panelRefs.current[i] = el;
               }}
-              className={`invisible absolute inset-0 flex flex-col items-center justify-center overflow-hidden px-6 will-change-transform ${PHASE_TONE[phase.id]}`}
+              className={`invisible absolute inset-0 flex flex-col items-center justify-center overflow-hidden px-6 py-8 will-change-transform ${PHASE_TONE[phase.id]}`}
             >
               <RadialAperture className="left-1/2 top-1/2 h-[120vh] w-[120vh] -translate-x-1/2 -translate-y-1/2" />
-              <div className="relative z-10 mx-auto flex max-w-2xl flex-col items-center gap-5 text-center">
-                <span className="flex items-center gap-2 font-mono text-xs uppercase tracking-caption text-bone/60">
+              {/* Contrast scrim behind the whole text/HUD column — the
+                  aperture's warm bloom can drift under any part of this
+                  column, so this keeps type and the HUD's numbers legible
+                  no matter where the light currently sits. */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0"
+                style={{ background: "radial-gradient(closest-side, rgba(0,0,0,0.4), transparent 72%)" }}
+              />
+              <div className="relative z-10 mx-auto flex max-h-full max-w-2xl flex-col items-center gap-3 overflow-hidden text-center sm:gap-4">
+                <span className="flex items-center gap-2 font-mono text-xs uppercase tracking-caption text-bone/70">
                   <span
                     aria-hidden="true"
                     className="h-1.5 w-1.5 shrink-0 rounded-full bg-cognac motion-safe:[animation:dot-pulse_2s_ease-in-out_infinite]"
                   />
                   The Next Move Method™ · Phase 0{i + 1}
                 </span>
-                <h2 className="font-display text-7xl leading-[0.9] tracking-headline text-bone sm:text-8xl lg:text-[9rem]">
+                <h2 className="font-display text-5xl leading-[0.9] tracking-headline text-bone drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)] sm:text-6xl lg:text-7xl">
                   {phase.title}
                 </h2>
-                <p className="max-w-lg font-accent text-2xl italic text-glow sm:text-3xl">{phase.accentLine}</p>
-                <p className="max-w-md font-body text-lg font-light text-bone/80">{phase.microlabel}</p>
-                <div className="mt-4 w-full max-w-md">
+                <p className="max-w-lg font-accent text-xl italic text-glow drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] sm:text-2xl">
+                  {phase.accentLine}
+                </p>
+                <p className="max-w-md font-body text-base font-light text-bone/85 sm:text-lg">{phase.microlabel}</p>
+                <div className="mt-2 w-full max-w-md">
                   <PhaseHud
                     ref={(el) => {
                       hudRefs.current[i] = el;

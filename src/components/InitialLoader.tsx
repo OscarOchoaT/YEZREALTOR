@@ -10,6 +10,11 @@ const MIN_DELAY_MS = 1000;
 // to fade away before unmounting — turns the old "instant cut to the page"
 // into a soft dissolve.
 const REVEAL_FADE_DURATION = 0.5;
+// The signature "wow" moment: instead of that plain fade, the whole site
+// opens like a camera aperture — the exact circular-light motif RadialAperture
+// repeats everywhere else, made literal at the one moment guaranteed to have
+// every visitor's full attention.
+const IRIS_REVEAL_DURATION = 1.1;
 
 function fontsReady() {
   if (typeof document === "undefined" || !("fonts" in document)) return Promise.resolve();
@@ -69,6 +74,7 @@ export default function InitialLoader({ children }: { children: React.ReactNode 
   const [done, setDone] = useState(false);
   const canvasHandleRef = useRef<DotFormationHandle>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const ringGlowRef = useRef<HTMLDivElement>(null);
   const sequenceStartedRef = useRef(false);
 
   // sequenceStartedRef keeps React Strict Mode's dev-only double-invoke of
@@ -125,10 +131,22 @@ export default function InitialLoader({ children }: { children: React.ReactNode 
           resolve();
           return;
         }
-        gsap.to(wrapperRef.current, {
+        // The wrapper opens from a pinpoint at center like a lens iris,
+        // revealing the real page underneath through the growing circle —
+        // the ring glow riding just ahead of that edge is the same warm
+        // "glow" tone RadialAperture's own light bloom uses everywhere else.
+        gsap.set(wrapperRef.current, { clipPath: "circle(0% at 50% 50%)" });
+        gsap.set(ringGlowRef.current, { autoAlpha: 1, scale: 0 });
+        gsap.to(ringGlowRef.current, {
+          scale: 26,
           autoAlpha: 0,
-          duration: REVEAL_FADE_DURATION,
-          ease: "power1.out",
+          duration: IRIS_REVEAL_DURATION,
+          ease: "power2.in",
+        });
+        gsap.to(wrapperRef.current, {
+          clipPath: "circle(150% at 50% 50%)",
+          duration: IRIS_REVEAL_DURATION,
+          ease: "power3.inOut",
           onComplete: resolve,
         });
       });
@@ -147,6 +165,11 @@ export default function InitialLoader({ children }: { children: React.ReactNode 
           aria-hidden="true"
         >
           <DotFormationCanvas ref={canvasHandleRef} className="h-full w-full" />
+          <div
+            ref={ringGlowRef}
+            className="pointer-events-none invisible absolute left-1/2 top-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 rounded-full"
+            style={{ boxShadow: "0 0 40px 10px rgba(227,178,124,0.9)", willChange: "transform, opacity" }}
+          />
         </div>
       )}
     </>
