@@ -7,7 +7,6 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import CustomCursor from "@/components/CustomCursor";
 import CursorGlow from "@/components/CursorGlow";
 import PageTransitionOverlay from "@/components/PageTransitionOverlay";
-import InitialLoader from "@/components/InitialLoader";
 import GrainOverlay from "@/components/GrainOverlay";
 import { SourceProvider } from "@/components/SourceContext";
 import { SITE } from "@/content/site";
@@ -59,14 +58,6 @@ const jsonLd = {
   sameAs: [SITE.instagramUrl, SITE.tiktokUrl, SITE.facebookUrl],
 };
 
-// Runs before the browser's first paint (blocking, no defer/async, placed
-// first in <body>) — same technique as a dark-mode flash-prevention script.
-// Flags <html> synchronously if this session already saw InitialLoader, so
-// its CSS rule (globals.css) can hide the loader overlay before anything
-// renders. A React effect can't do this job: by the time any effect runs,
-// the server-rendered page underneath has already been painted once.
-const SKIP_LOADER_SCRIPT = `try{if(sessionStorage.getItem('yez_loaded')==='true'){document.documentElement.classList.add('skip-initial-loader')}}catch(e){}`;
-
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -79,20 +70,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-espresso font-body font-light text-bone">
-        <script dangerouslySetInnerHTML={{ __html: SKIP_LOADER_SCRIPT }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-        <InitialLoader>
-          <PageTransitionOverlay>
-            <SourceProvider>
-              <SmoothScroll>
-                <Header />
-                {children}
-                <WhatsAppButton />
-                <CustomCursor />
-              </SmoothScroll>
-            </SourceProvider>
-          </PageTransitionOverlay>
-        </InitialLoader>
+        <PageTransitionOverlay>
+          <SourceProvider>
+            <SmoothScroll>
+              <Header />
+              {children}
+              <WhatsAppButton />
+              <CustomCursor />
+            </SmoothScroll>
+          </SourceProvider>
+        </PageTransitionOverlay>
         <CursorGlow />
         <GrainOverlay />
         <Analytics />

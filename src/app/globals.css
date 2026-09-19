@@ -95,15 +95,6 @@ body {
   }
 }
 
-/* Set synchronously (before first paint) by the blocking inline script in
-   layout.tsx when sessionStorage already has "yez_loaded" — hides the
-   InitialLoader overlay via pure CSS, before any React effect could run,
-   so a returning-this-session visitor never sees it mount at all. See
-   InitialLoader.tsx for why this can't just be a client-state flag. */
-.skip-initial-loader .initial-loader-overlay {
-  display: none;
-}
-
 /* Custom cursor (desktop, fine pointer only) — see CustomCursor.tsx. */
 .custom-cursor-active,
 .custom-cursor-active a,
