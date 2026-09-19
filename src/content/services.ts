@@ -1,4 +1,4 @@
-export type ServiceId = "buy" | "sell" | "rent";
+export type ServiceId = "buy" | "sell";
 
 export const SERVICES = {
   headline: "Your next move deserves a strategy.",
@@ -15,13 +15,6 @@ export const SERVICES = {
       label: "Sell",
       description: "For a move that starts with the right exit.",
       cta: "Start My Seller Strategy",
-      featured: false,
-    },
-    {
-      id: "rent" as ServiceId,
-      label: "Rent",
-      description: "For finding solid ground before you build on it.",
-      cta: "Start My Rental Strategy",
       featured: false,
     },
   ],

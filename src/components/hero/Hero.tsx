@@ -126,6 +126,20 @@ function PhaseStage({
         className="pointer-events-none absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cognac/60 motion-safe:[animation:dot-pulse_2.4s_ease-in-out_infinite]"
       />
 
+      {/* The Next Move Method™ is the brand — the mother of Decode/Design/
+          Execute/Advance below, not one more label among them. It sits
+          permanently at the top of the stage, visible on first paint before
+          any scroll, so it reads as the primary claim; the phase carousel
+          underneath is the supporting, rotating detail. */}
+      <div className="pointer-events-none absolute inset-x-0 top-[12%] flex flex-col items-center gap-1 px-6 text-center sm:top-[15%]">
+        <span className="font-display text-2xl uppercase tracking-headline text-bone drop-shadow-[0_4px_20px_rgba(0,0,0,0.55)] sm:text-3xl lg:text-4xl">
+          The Next Move Method<span className="align-super text-xs sm:text-sm">™</span>
+        </span>
+        <span className="font-mono text-[11px] uppercase tracking-caption text-bone/50 sm:text-xs">
+          Decode · Design · Execute · Advance
+        </span>
+      </div>
+
       {METHOD_DETAILS.map((phase, i) => (
         <div
           key={phase.id}
@@ -154,7 +168,9 @@ function PhaseStage({
         className="invisible pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-4 px-6 text-center will-change-transform"
       >
         <div className="pointer-events-auto flex max-w-xl flex-col items-center gap-4">
-          <span className="font-mono text-xs uppercase tracking-caption text-cognac">The Next Move Method™</span>
+          <span className="font-mono text-sm font-medium uppercase tracking-caption text-cognac sm:text-base">
+            The Next Move Method™
+          </span>
           <h1 className="font-display text-3xl tracking-headline text-bone xl:text-4xl">{HERO_COPY.headline}</h1>
           <p className="font-body font-light text-base text-bone/80 tracking-subhead xl:text-lg">
             {HERO_COPY.subheadline}
@@ -339,6 +355,11 @@ export default function Hero() {
 
       {/* Reduced motion: static, single fade-in, no scroll choreography. */}
       <div className="hidden motion-reduce:block bg-espresso px-6 py-24">
+        <div className="mx-auto mb-14 flex max-w-xl flex-col items-center gap-1 text-center">
+          <span className="font-display text-2xl uppercase tracking-headline text-bone sm:text-3xl">
+            The Next Move Method<span className="align-super text-xs sm:text-sm">™</span>
+          </span>
+        </div>
         <div className="mx-auto grid max-w-3xl grid-cols-1 gap-12 pb-20 sm:grid-cols-2">
           {METHOD_DETAILS.map((phase, i) => (
             <div key={phase.id} className="flex flex-col items-center gap-3 text-center">
@@ -351,7 +372,9 @@ export default function Hero() {
           ))}
         </div>
         <div className="mx-auto flex max-w-2xl flex-col items-center gap-6 text-center">
-          <span className="font-mono text-xs uppercase tracking-caption text-cognac">The Next Move Method™</span>
+          <span className="font-mono text-sm font-medium uppercase tracking-caption text-cognac sm:text-base">
+            The Next Move Method™
+          </span>
           <h1 className="font-display text-4xl tracking-headline text-bone">{HERO_COPY.headline}</h1>
           <p className="font-body font-light text-lg text-bone/80 tracking-subhead">{HERO_COPY.subheadline}</p>
           <CTAs />

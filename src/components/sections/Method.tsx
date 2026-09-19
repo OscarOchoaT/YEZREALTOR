@@ -98,13 +98,13 @@ export default function Method() {
         <div className="relative mx-auto max-w-6xl">
           <p
             ref={hintRef}
-            className="mx-auto mb-8 flex max-w-md items-center justify-center gap-2 text-center font-mono text-[11px] uppercase tracking-caption text-bone/60"
+            className="mx-auto mb-8 flex max-w-md items-center justify-center gap-2 text-center font-mono text-sm font-medium uppercase tracking-caption text-bone sm:text-base"
           >
             <span
               aria-hidden="true"
-              className="h-1.5 w-1.5 shrink-0 rounded-full bg-cognac motion-safe:[animation:dot-pulse_2s_ease-in-out_infinite]"
+              className="h-2 w-2 shrink-0 rounded-full bg-cognac motion-safe:[animation:dot-pulse_2s_ease-in-out_infinite]"
             />
-            The Next Move Method™ · Full Breakdown
+            The Next Move Method™ <span className="text-bone/60">· Full Breakdown</span>
           </p>
           <MethodNodes cardRefs={cardRefs} />
         </div>

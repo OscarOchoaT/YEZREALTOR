@@ -93,13 +93,13 @@ export default function MethodPhasePage({ phaseId }: { phaseId: MethodDetail["id
           <motion.div variants={heroStagger} initial="hidden" animate="show">
             <motion.span
               variants={heroItem}
-              className="flex items-center gap-2 font-mono text-xs uppercase tracking-caption text-bone/60"
+              className="flex items-center gap-2 font-mono text-sm font-medium uppercase tracking-caption text-bone sm:text-base"
             >
               <span
                 aria-hidden="true"
-                className="h-1.5 w-1.5 shrink-0 rounded-full bg-cognac motion-safe:[animation:dot-pulse_2s_ease-in-out_infinite]"
+                className="h-2 w-2 shrink-0 rounded-full bg-cognac motion-safe:[animation:dot-pulse_2s_ease-in-out_infinite]"
               />
-              The Next Move Method™ · Phase 0{index + 1}
+              The Next Move Method™ <span className="text-bone/60">· Phase 0{index + 1}</span>
             </motion.span>
 
             <motion.h1

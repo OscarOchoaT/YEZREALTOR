@@ -4,7 +4,7 @@ import { createContext, useContext, useMemo, useState } from "react";
 import type { ServiceId } from "@/content/services";
 
 /**
- * Tracks which CTA (buy/sell/rent) the visitor entered through, so the
+ * Tracks which CTA (buy/sell) the visitor entered through, so the
  * Contact section's Typeform embed can pass it as a hidden field for
  * downstream analytics/segmentation.
  */

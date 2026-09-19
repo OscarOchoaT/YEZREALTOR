@@ -14,8 +14,8 @@ import type { ServiceId } from "@/content/services";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-// Aligned to the 3-column card grid below (thirds of the row).
-const CARD_X: Record<ServiceId, number> = { buy: 16.67, sell: 50, rent: 83.33 };
+// Aligned to the 2-column card grid below (quarters of the row).
+const CARD_X: Record<ServiceId, number> = { buy: 25, sell: 75 };
 const SOURCE_POINT = { x: 50, y: 0 };
 
 export default function Services() {
@@ -76,8 +76,8 @@ export default function Services() {
           {SERVICES.headline}
         </h2>
 
-        {/* Fan connector: all three strategies branch from the same method. */}
-        <div className="relative mx-auto mt-14 hidden h-14 max-w-3xl sm:block">
+        {/* Fan connector: both strategies branch from the same method. */}
+        <div className="relative mx-auto mt-14 hidden h-14 max-w-2xl sm:block">
           <ConnectorOverlay>
             {SERVICES.cards.map((card, i) => (
               <ConnectorLine
@@ -98,7 +98,7 @@ export default function Services() {
           <div ref={dotRef} className="absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cognac" />
         </div>
 
-        <div className="mt-6 grid grid-cols-1 gap-6 sm:mt-2 sm:grid-cols-3">
+        <div className="mx-auto mt-6 grid max-w-2xl grid-cols-1 gap-6 sm:mt-2 sm:grid-cols-2">
           {SERVICES.cards.map((card, i) => (
             <a
               key={card.id}

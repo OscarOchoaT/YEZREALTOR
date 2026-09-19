@@ -114,7 +114,7 @@ export const TECH_VS_YEZ = {
       items: ["Organizes information", "Compares scenarios", "Reduces noise", "Visualizes decisions", "Automates follow-up"],
     },
     yez: {
-      label: "Yez",
+      label: "Human",
       items: ["Listens", "Interprets", "Recommends", "Negotiates", "Protects", "Represents", "Understands context"],
     },
   },

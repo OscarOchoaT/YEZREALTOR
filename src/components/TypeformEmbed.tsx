@@ -11,7 +11,7 @@ import type { ServiceId } from "@/content/services";
  * restriction on undeployed/localhost origins. A plain iframe sidesteps
  * that: no third-party script, no widget hydration, just the hosted form.
  *
- * `source` (buy/sell/rent, set by which Services card was clicked) is
+ * `source` (buy/sell, set by which Services card was clicked) is
  * passed through as a Typeform hidden field via the URL hash, Typeform's
  * documented convention for classic/iframe embeds.
  *
