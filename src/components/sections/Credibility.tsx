@@ -77,7 +77,7 @@ export default function Credibility() {
             </div>
           ) : (
             <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed border-bone/20 px-8 py-16 text-center">
-              <p className="font-display text-xl tracking-subhead text-bone">
+              <p className="font-display !font-medium text-xl tracking-subhead text-bone">
                 {CREDIBILITY.testimonialsPlaceholder}
               </p>
               <p className="font-body text-sm font-light text-bone/70">{CREDIBILITY.testimonialsSubline}</p>

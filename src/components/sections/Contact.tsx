@@ -23,7 +23,7 @@ export default function Contact() {
           className="mb-14 flex flex-col items-center gap-3 text-center"
         >
           <Eyebrow index="07" label={CONTACT.eyebrow} />
-          <p className="font-display text-2xl tracking-subhead text-bone/50 sm:text-3xl">{CONTACT.line1}</p>
+          <p className="font-display !font-medium text-2xl tracking-subhead text-bone/50 sm:text-3xl">{CONTACT.line1}</p>
           <h2 className="font-display text-3xl tracking-headline text-bone sm:text-4xl">{CONTACT.line2}</h2>
         </motion.div>
 
@@ -37,7 +37,7 @@ export default function Contact() {
         </motion.div>
 
         <div className="mt-10 flex flex-col items-center gap-6">
-          <span className="font-display text-xl tracking-subhead text-bone">{CONTACT.ctaFinal}</span>
+          <span className="font-display !font-medium text-xl tracking-subhead text-bone">{CONTACT.ctaFinal}</span>
           <CalendlyPlaceholder />
         </div>
       </div>

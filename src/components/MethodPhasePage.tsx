@@ -93,7 +93,7 @@ export default function MethodPhasePage({ phaseId }: { phaseId: MethodDetail["id
           <motion.div variants={heroStagger} initial="hidden" animate="show">
             <motion.span
               variants={heroItem}
-              className="flex items-center gap-2 font-mono text-sm font-medium uppercase tracking-caption text-bone sm:text-base"
+              className="flex items-center gap-2 font-mono text-sm uppercase tracking-caption text-bone sm:text-base"
             >
               <span
                 aria-hidden="true"

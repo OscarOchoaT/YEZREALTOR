@@ -98,7 +98,7 @@ export default function Method() {
         <div className="relative mx-auto max-w-6xl">
           <p
             ref={hintRef}
-            className="mx-auto mb-8 flex max-w-md items-center justify-center gap-2 text-center font-mono text-sm font-medium uppercase tracking-caption text-bone sm:text-base"
+            className="mx-auto mb-8 flex max-w-md items-center justify-center gap-2 text-center font-mono text-sm uppercase tracking-caption text-bone sm:text-base"
           >
             <span
               aria-hidden="true"
@@ -124,7 +124,7 @@ export default function Method() {
               }}
               className="flex flex-col gap-3 rounded-2xl bg-stone/20 p-8"
             >
-              <h4 className="font-display text-xl tracking-subhead text-bone">
+              <h4 className="font-display !font-medium text-xl tracking-subhead text-bone">
                 {TECH_VS_YEZ.columns.technology.label}
               </h4>
               <ul className="flex flex-col gap-2">
@@ -141,7 +141,7 @@ export default function Method() {
               }}
               className="flex flex-col gap-3 rounded-2xl bg-cocoaBark p-8"
             >
-              <h4 className="font-display text-xl tracking-subhead text-bone">{TECH_VS_YEZ.columns.yez.label}</h4>
+              <h4 className="font-display !font-medium text-xl tracking-subhead text-bone">{TECH_VS_YEZ.columns.yez.label}</h4>
               <ul className="flex flex-col gap-2">
                 {TECH_VS_YEZ.columns.yez.items.map((item) => (
                   <li key={item} className="font-body text-sm font-light text-bone/80">
@@ -154,7 +154,7 @@ export default function Method() {
 
           <p
             ref={compareClosingRef}
-            className="mt-10 text-center font-display text-xl tracking-subhead text-bone sm:text-2xl"
+            className="mt-10 text-center font-display !font-medium text-xl tracking-subhead text-bone sm:text-2xl"
           >
             {TECH_VS_YEZ.closingLine}
           </p>

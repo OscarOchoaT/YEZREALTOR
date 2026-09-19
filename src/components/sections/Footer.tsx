@@ -18,14 +18,14 @@ export default function Footer({ isHome = true }: { isHome?: boolean }) {
               <TransitionLink
                 key={link.href}
                 href={isHome ? link.href : `/${link.href}`}
-                className="font-body text-sm text-bone/80 hover:text-bone"
+                className="font-body text-sm font-medium text-bone/80 hover:text-bone"
               >
                 {link.label}
               </TransitionLink>
             ))}
           </nav>
 
-          <div className="flex flex-col gap-2 font-body text-sm text-bone/80">
+          <div className="flex flex-col gap-2 font-body text-sm font-medium text-bone/80">
             <a href={`mailto:${SITE.email}`} className="hover:text-bone">
               {SITE.email}
             </a>
@@ -48,7 +48,7 @@ export default function Footer({ isHome = true }: { isHome?: boolean }) {
         </div>
 
         <div className="flex flex-col items-center gap-2 border-t border-bone/10 pt-8 text-center">
-          <span className="font-display text-lg tracking-subhead text-bone">{FOOTER.tagline}</span>
+          <span className="font-display !font-medium text-lg tracking-subhead text-bone">{FOOTER.tagline}</span>
           <span className="font-mono text-[10px] uppercase tracking-caption text-bone/50">
             © {new Date().getFullYear()} {SITE.name}
           </span>

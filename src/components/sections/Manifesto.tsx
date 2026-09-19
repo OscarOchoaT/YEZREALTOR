@@ -77,7 +77,7 @@ export default function Manifesto() {
             ref={(el) => {
               lineRefs.current[BODY_COUNT + i] = el;
             }}
-            className="font-display text-2xl tracking-subhead text-bone sm:text-3xl"
+            className="font-display !font-medium text-2xl tracking-subhead text-bone sm:text-3xl"
           >
             {line}
           </p>

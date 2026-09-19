@@ -50,7 +50,7 @@ export default function Differentiator() {
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-20">
         <div ref={copyRef} className="flex flex-col gap-6">
           <Eyebrow index="05" label={DIFFERENTIATOR.eyebrow} align="left" />
-          <p className="font-display text-2xl tracking-subhead text-bone/40 line-through decoration-bone/30 sm:text-3xl">
+          <p className="font-display !font-medium text-2xl tracking-subhead text-bone/40 line-through decoration-bone/30 sm:text-3xl">
             {DIFFERENTIATOR.lineOld}
           </p>
           <p className="font-display text-3xl tracking-headline text-bone sm:text-4xl">

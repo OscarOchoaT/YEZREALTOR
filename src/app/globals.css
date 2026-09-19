@@ -11,7 +11,11 @@ body {
 }
 
 /* Coolvetica is not yet installed — see src/app/fonts.ts TODO. Until then the
-   display font falls back to Rubik Black, loaded via next/font/google. */
+   display font falls back to Rubik, loaded via next/font/google.
+   Default weight is the Primary Headline weight (Black 900) per the Brand
+   Guide's type hierarchy (p.17) — Subheadline usages override to Medium 500
+   with an explicit `!font-medium` on the element, since this rule's cascade
+   position would otherwise beat a plain (non-!important) utility class. */
 .font-display {
   font-weight: 900;
 }

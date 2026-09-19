@@ -168,7 +168,7 @@ function PhaseStage({
         className="invisible pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-4 px-6 text-center will-change-transform"
       >
         <div className="pointer-events-auto flex max-w-xl flex-col items-center gap-4">
-          <span className="font-mono text-sm font-medium uppercase tracking-caption text-cognac sm:text-base">
+          <span className="font-mono text-sm uppercase tracking-caption text-cognac sm:text-base">
             The Next Move Method™
           </span>
           <h1 className="font-display text-3xl tracking-headline text-bone xl:text-4xl">{HERO_COPY.headline}</h1>
@@ -372,7 +372,7 @@ export default function Hero() {
           ))}
         </div>
         <div className="mx-auto flex max-w-2xl flex-col items-center gap-6 text-center">
-          <span className="font-mono text-sm font-medium uppercase tracking-caption text-cognac sm:text-base">
+          <span className="font-mono text-sm uppercase tracking-caption text-cognac sm:text-base">
             The Next Move Method™
           </span>
           <h1 className="font-display text-4xl tracking-headline text-bone">{HERO_COPY.headline}</h1>

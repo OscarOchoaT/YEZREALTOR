@@ -110,7 +110,7 @@ export default function MethodShowcase() {
                 style={{ background: "radial-gradient(closest-side, rgba(0,0,0,0.4), transparent 72%)" }}
               />
               <div className="relative z-10 mx-auto flex max-h-full max-w-2xl flex-col items-center gap-3 overflow-hidden text-center sm:gap-4">
-                <span className="flex items-center gap-2 font-mono text-sm font-medium uppercase tracking-caption text-bone sm:text-base">
+                <span className="flex items-center gap-2 font-mono text-sm uppercase tracking-caption text-bone sm:text-base">
                   <span
                     aria-hidden="true"
                     className="h-2 w-2 shrink-0 rounded-full bg-cognac motion-safe:[animation:dot-pulse_2s_ease-in-out_infinite]"
@@ -179,7 +179,7 @@ export default function MethodShowcase() {
               className={`relative flex flex-col items-center gap-5 overflow-hidden rounded-3xl border border-bone/10 px-6 py-14 text-center ${PHASE_TONE[phase.id]}`}
             >
               <RadialAperture className="left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2" />
-              <span className="relative z-10 flex items-center gap-2 font-mono text-sm font-medium uppercase tracking-caption text-bone sm:text-base">
+              <span className="relative z-10 flex items-center gap-2 font-mono text-sm uppercase tracking-caption text-bone sm:text-base">
                 <span aria-hidden="true" className="h-2 w-2 shrink-0 rounded-full bg-cognac" />
                 The Next Move Method™ <span className="text-bone/60">· Phase 0{i + 1}</span>
               </span>
