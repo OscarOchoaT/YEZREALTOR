@@ -29,9 +29,9 @@ const EXIT = 0.06;
 const GAP = 0.03;
 const BLOCK = ENTER + HOLD + EXIT + GAP;
 
-// The hero opens on the main statement (eyebrow, headline, copy, CTAs). Only
-// once the visitor scrolls does it give way to the four phases, one at a
-// time, and it returns at the very end so the CTAs are reachable again.
+// Order of the hero: 1) THE NEXT MOVE METHOD™ alone, 2) the four phases one
+// at a time, 3) the main statement (headline, copy, CTAs), which is where the
+// pinned hero ends.
 const HEADLINE_HOLD = 0.08;
 const PHASES_START = HEADLINE_HOLD + EXIT + GAP;
 
@@ -51,15 +51,18 @@ function buildPhaseSequence(
   wordRefs: (HTMLDivElement | null)[],
   labelRefs: (HTMLDivElement | null)[],
   headlineRef: HTMLDivElement | null,
-  phaseLabelRef: HTMLDivElement | null
+  phaseLabelRef: HTMLDivElement | null,
+  introRef: HTMLDivElement | null
 ) {
   gsap.set(wordRefs, { autoAlpha: 0, scale: 0.15 });
   gsap.set(labelRefs, { autoAlpha: 0 });
   gsap.set(phaseLabelRef, { autoAlpha: 0 });
 
-  gsap.fromTo(headlineRef, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 1.1, delay: 0.2, ease: "power2.out" });
+  gsap.set(headlineRef, { autoAlpha: 0, y: 24 });
 
-  tl.to(headlineRef, { autoAlpha: 0, y: -24, duration: EXIT, ease: "power1.in" }, HEADLINE_HOLD);
+  gsap.fromTo(introRef, { autoAlpha: 0, scale: 0.92 }, { autoAlpha: 1, scale: 1, duration: 1.2, delay: 0.2, ease: "power2.out" });
+
+  tl.to(introRef, { autoAlpha: 0, scale: 1.08, duration: EXIT, ease: "power1.in" }, HEADLINE_HOLD);
   tl.to(phaseLabelRef, { autoAlpha: 1, duration: ENTER }, PHASES_START);
 
   for (let i = 0; i < METHOD_DETAILS.length; i++) {
@@ -74,7 +77,7 @@ function buildPhaseSequence(
 
   const finalStart = PHASES_START + (METHOD_DETAILS.length - 1) * BLOCK + ENTER + HOLD + EXIT;
   tl.to(phaseLabelRef, { autoAlpha: 0, duration: EXIT * 0.5 }, finalStart - EXIT * 0.5);
-  tl.fromTo(headlineRef, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, ease: "power2.out", duration: 0.12, immediateRender: false }, finalStart + GAP);
+  tl.to(headlineRef, { autoAlpha: 1, y: 0, ease: "power2.out", duration: 0.12 }, finalStart + GAP);
 }
 
 const CTA_CLASS =
@@ -84,7 +87,7 @@ function CTAs() {
   return (
     <div className="flex flex-col items-center gap-3 sm:flex-row">
       <Magnetic strength={0.35}>
-        <a href="#contact" className={`${CTA_CLASS} border-glow bg-glow text-espresso hover:border-bone hover:bg-bone`}>
+        <a href="#contact" className={`${CTA_CLASS} border-bone/40 text-bone hover:border-bone hover:bg-bone/10`}>
           {HERO_COPY.ctaPrimary}
         </a>
       </Magnetic>
@@ -102,11 +105,13 @@ function PhaseStage({
   labelRefs,
   headlineRef,
   phaseLabelRef,
+  introRef,
 }: {
   wordRefs: React.MutableRefObject<(HTMLDivElement | null)[]>;
   labelRefs: React.MutableRefObject<(HTMLDivElement | null)[]>;
   headlineRef: React.RefObject<HTMLDivElement | null>;
   phaseLabelRef: React.RefObject<HTMLDivElement | null>;
+  introRef: React.RefObject<HTMLDivElement | null>;
 }) {
   return (
     <>
@@ -132,6 +137,16 @@ function PhaseStage({
         </span>
         <span className="font-mono text-[11px] uppercase tracking-caption text-bone/50 sm:text-xs">
           Decode · Design · Execute · Advance
+        </span>
+      </div>
+
+      {/* First beat: the brand name alone, centered, before anything else. */}
+      <div
+        ref={introRef}
+        className="invisible pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center"
+      >
+        <span className="font-display text-5xl uppercase tracking-headline text-bone drop-shadow-[0_4px_20px_rgba(0,0,0,0.55)] sm:text-7xl lg:text-8xl">
+          The Next Move Method<span className="align-super text-xl sm:text-3xl">™</span>
         </span>
       </div>
 
@@ -190,6 +205,7 @@ export default function Hero() {
   const labelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const headlineWrapRef = useRef<HTMLDivElement>(null);
   const phaseLabelRef = useRef<HTMLDivElement>(null);
+  const introRef = useRef<HTMLDivElement>(null);
 
   // Mobile refs — a single un-pinned stage, scrubbed by the section's own
   // natural scroll position (see setupMobile below).
@@ -199,6 +215,7 @@ export default function Hero() {
   const mobileLabelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const mobileHeadlineRef = useRef<HTMLDivElement>(null);
   const mobilePhaseLabelRef = useRef<HTMLDivElement>(null);
+  const mobileIntroRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
@@ -247,7 +264,7 @@ export default function Hero() {
           },
         });
 
-        buildPhaseSequence(tl, wordRefs.current, labelRefs.current, headlineWrapRef.current, phaseLabelRef.current);
+        buildPhaseSequence(tl, wordRefs.current, labelRefs.current, headlineWrapRef.current, phaseLabelRef.current, introRef.current);
       }
 
       /**
@@ -282,7 +299,8 @@ export default function Hero() {
           mobileWordRefs.current,
           mobileLabelRefs.current,
           mobileHeadlineRef.current,
-          mobilePhaseLabelRef.current
+          mobilePhaseLabelRef.current,
+          mobileIntroRef.current
         );
       }
 
@@ -319,7 +337,7 @@ export default function Hero() {
           />
           <HudFrame />
 
-          <PhaseStage wordRefs={wordRefs} labelRefs={labelRefs} headlineRef={headlineWrapRef} phaseLabelRef={phaseLabelRef} />
+          <PhaseStage wordRefs={wordRefs} labelRefs={labelRefs} headlineRef={headlineWrapRef} phaseLabelRef={phaseLabelRef} introRef={introRef} />
 
           {/* A quiet technical flourish, not a data point anyone needs —
               the same "precision instrument" register as the mono/caption
@@ -363,6 +381,7 @@ export default function Hero() {
             labelRefs={mobileLabelRefs}
             headlineRef={mobileHeadlineRef}
             phaseLabelRef={mobilePhaseLabelRef}
+            introRef={mobileIntroRef}
           />
         </div>
       </div>
