@@ -15,7 +15,7 @@ import type { ServiceId } from "@/content/services";
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 // Aligned to the 2-column card grid below (quarters of the row).
-const CARD_X: Record<ServiceId, number> = { buy: 25, sell: 75 };
+const CARD_X: Record<ServiceId, number> = { buy: 16.67, sell: 50, relocate: 83.33 };
 const SOURCE_POINT = { x: 50, y: 0 };
 
 export default function Services() {
@@ -77,7 +77,7 @@ export default function Services() {
         </h2>
 
         {/* Fan connector: both strategies branch from the same method. */}
-        <div className="relative mx-auto mt-14 hidden h-14 max-w-2xl sm:block">
+        <div className="relative mx-auto mt-14 hidden h-14 max-w-5xl sm:block">
           <ConnectorOverlay>
             {SERVICES.cards.map((card, i) => (
               <ConnectorLine
@@ -98,7 +98,7 @@ export default function Services() {
           <div ref={dotRef} className="absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cognac" />
         </div>
 
-        <div className="mx-auto mt-6 grid max-w-2xl grid-cols-1 gap-6 sm:mt-2 sm:grid-cols-2">
+        <div className="mx-auto mt-6 grid max-w-5xl grid-cols-1 gap-6 sm:mt-2 sm:grid-cols-3">
           {SERVICES.cards.map((card, i) => (
             <a
               key={card.id}
@@ -114,13 +114,13 @@ export default function Services() {
               onMouseLeave={() => setHovered(null)}
               className={`group flex flex-col justify-between gap-10 rounded-2xl p-8 transition-transform hover:-translate-y-1 ${
                 card.featured
-                  ? "bg-cocoaBark text-bone sm:scale-105 sm:py-10"
+                  ? "bg-cocoaBark text-bone sm:py-10"
                   : "border border-bone/10 bg-bone/[0.04] text-bone"
               }`}
             >
               <div className="flex flex-col gap-3">
-                <span className="font-mono text-[11px] uppercase tracking-caption text-cognac">0{i + 1}</span>
-                <h3 className="font-display text-4xl tracking-headline">{card.label}</h3>
+                <span className="font-mono text-[11px] uppercase tracking-caption text-cognac">{card.label}</span>
+                <h3 className="font-display text-3xl tracking-headline">{card.headline}</h3>
                 <p className={`font-body text-sm font-light ${card.featured ? "text-bone/80" : "text-bone/70"}`}>
                   {card.description}
                 </p>

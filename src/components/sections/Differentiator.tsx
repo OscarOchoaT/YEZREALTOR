@@ -53,9 +53,9 @@ export default function Differentiator() {
           <p className="font-display !font-medium text-2xl tracking-subhead text-bone/40 line-through decoration-bone/30 sm:text-3xl">
             {DIFFERENTIATOR.lineOld}
           </p>
-          <p className="font-display text-3xl tracking-headline text-bone sm:text-4xl">
+          <h2 className="font-display text-3xl tracking-headline text-bone sm:text-4xl">
             {DIFFERENTIATOR.lineNew}
-          </p>
+          </h2>
         </div>
 
         <ul ref={listRef} className="flex flex-col justify-center gap-4">

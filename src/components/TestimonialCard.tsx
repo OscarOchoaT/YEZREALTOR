@@ -1,8 +1,4 @@
-/**
- * Reusable testimonial card. Real testimonials are not written yet — do not
- * fabricate quotes. Pass `quote`/`author` once the client shares real ones;
- * until then <Credibility /> renders the empty state below instead of this.
- */
+/** Reusable testimonial card — only ever fed real, verified review text. */
 export default function TestimonialCard({
   quote,
   author,

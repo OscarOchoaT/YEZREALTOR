@@ -19,9 +19,8 @@ export const SITE = {
   facebookLabel: "yez the realtor",
   facebookUrl: "https://facebook.com/yeztherealtor",
 
-  // TODO(client): paste the real, live profile URLs once available.
-  googleReviewsUrl: "#",
-  realtorDotComUrl: "#",
+  googleReviewsUrl: "https://g.co/kgs/qw51G9x",
+  realtorDotComUrl: "https://www.realtor.com/realestateagents/662f5158cb09cc14edd5f023",
 
   typeformBaseUrl: "https://form.typeform.com/to/DaucnE48",
 } as const;
@@ -29,6 +28,6 @@ export const SITE = {
 export const NAV_LINKS = [
   { label: "The Method", href: "#method" },
   { label: "Services", href: "#services" },
-  { label: "About", href: "#about" },
+  { label: "Who Is Yez", href: "#about" },
   { label: "Contact", href: "#contact" },
 ] as const;

@@ -5,8 +5,10 @@
 // gets written down in one place.
 
 export const HERO_COPY = {
-  headline: "Homeownership, designed for what comes next.",
-  subheadline: "Strategic homeownership for the next generation.",
+  headline: "Homeownership, designed with purpose.",
+  subheadline: "Strategic homeownership for the next generation of professionals.",
+  supporting:
+    "I help professionals turn buying or selling a home into an intentional decision, built around their financial picture, lifestyle, career, and the life they’re building.",
   ctaPrimary: "Design My Next Move",
-  ctaSecondary: "Explore the Method",
+  ctaSecondary: "Explore The Method",
 };

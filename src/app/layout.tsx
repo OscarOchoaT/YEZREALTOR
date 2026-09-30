@@ -16,7 +16,7 @@ const SITE_URL = "https://www.yeztherealtor.com"; // TODO(client): confirm produ
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Yez The Realtor | Bilingual Austin Realtor & Homeownership Strategist",
+  title: "Yez The Realtor | Austin Realtor & Strategic Homeownership",
   description:
     "Yez is a bilingual real estate advisor and homeownership strategist licensed in Austin, Texas — helping first-time buyers, relocators, and investors design their next move with The Next Move Method. Realtor en Español, Austin.",
   keywords: [
@@ -29,9 +29,9 @@ export const metadata: Metadata = {
     "homeownership strategy Texas",
   ],
   openGraph: {
-    title: "Yez The Realtor | Homeownership, designed for what comes next.",
+    title: "Yez The Realtor | Homeownership, designed with purpose.",
     description:
-      "Strategic homeownership for the next generation. Bilingual Realtor and homeownership strategist based in Austin, Texas.",
+      "Strategic homeownership for the next generation of professionals. Bilingual Realtor and homeownership strategist based in Austin, Texas.",
     url: SITE_URL,
     siteName: "Yez The Realtor",
     locale: "en_US",
@@ -39,8 +39,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Yez The Realtor | Homeownership, designed for what comes next.",
-    description: "Strategic homeownership for the next generation. Bilingual Realtor based in Austin, Texas.",
+    title: "Yez The Realtor | Homeownership, designed with purpose.",
+    description: "Strategic homeownership for the next generation of professionals. Bilingual Realtor based in Austin, Texas.",
   },
 };
 
@@ -55,7 +55,7 @@ const jsonLd = {
   address: { "@type": "PostalAddress", addressLocality: "Austin", addressRegion: "TX", addressCountry: "US" },
   telephone: SITE.phone,
   email: SITE.email,
-  sameAs: [SITE.instagramUrl, SITE.tiktokUrl, SITE.facebookUrl],
+  sameAs: [SITE.instagramUrl, SITE.tiktokUrl, SITE.facebookUrl, SITE.googleReviewsUrl, SITE.realtorDotComUrl],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -8,12 +8,14 @@ import { CREDIBILITY } from "@/content/credibility";
 import { SITE } from "@/content/site";
 import DotGridBackground from "@/components/DotGridBackground";
 import Eyebrow from "@/components/Eyebrow";
+import TestimonialCard from "@/components/TestimonialCard";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-// Real testimonials go here once the client shares them — pass an array of
-// <TestimonialCard /> props instead of leaving this empty. See
-// src/components/TestimonialCard.tsx.
+// Real, verified reviews only — never fabricate. Add entries (quote, author,
+// detail e.g. "Buyer" / "Relocation" / "New construction") copied verbatim from
+// Google / Realtor.com and they render as cards below. While empty, the section
+// shows just the heading and the two review links.
 const TESTIMONIALS: { quote: string; author: string; detail?: string }[] = [];
 
 export default function Credibility() {
@@ -56,7 +58,12 @@ export default function Credibility() {
           <Eyebrow index="06" label={CREDIBILITY.eyebrow} />
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+        <h2 className="mt-6 text-center font-display text-3xl tracking-headline text-bone sm:text-4xl">
+          {CREDIBILITY.headline}
+        </h2>
+        <p className="mt-3 text-center font-body text-base font-light text-bone/70">{CREDIBILITY.subline}</p>
+
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
           {CREDIBILITY.facts.map((fact, i) => (
             <span
               key={fact}
@@ -70,37 +77,31 @@ export default function Credibility() {
           ))}
         </div>
 
-        <div className="mt-16">
-          {TESTIMONIALS.length > 0 ? (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              {/* Map real testimonials into <TestimonialCard /> here once available. */}
-            </div>
-          ) : (
-            <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed border-bone/20 px-8 py-16 text-center">
-              <p className="font-display !font-medium text-xl tracking-subhead text-bone">
-                {CREDIBILITY.testimonialsPlaceholder}
-              </p>
-              <p className="font-body text-sm font-light text-bone/70">{CREDIBILITY.testimonialsSubline}</p>
-              <div className="mt-2 flex items-center gap-6">
-                <a
-                  href={SITE.googleReviewsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-mono text-xs uppercase tracking-caption text-bone underline decoration-cognac decoration-1 underline-offset-4 hover:text-cognac"
-                >
-                  Google Reviews
-                </a>
-                <a
-                  href={SITE.realtorDotComUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-mono text-xs uppercase tracking-caption text-bone underline decoration-cognac decoration-1 underline-offset-4 hover:text-cognac"
-                >
-                  Realtor.com
-                </a>
-              </div>
-            </div>
-          )}
+        {TESTIMONIALS.length > 0 && (
+          <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-3">
+            {TESTIMONIALS.map((t) => (
+              <TestimonialCard key={t.author + t.quote} {...t} />
+            ))}
+          </div>
+        )}
+
+        <div className="mt-12 flex items-center justify-center gap-8">
+          <a
+            href={SITE.googleReviewsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-mono text-xs uppercase tracking-caption text-bone underline decoration-cognac decoration-1 underline-offset-4 hover:text-cognac"
+          >
+            Google Reviews
+          </a>
+          <a
+            href={SITE.realtorDotComUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-mono text-xs uppercase tracking-caption text-bone underline decoration-cognac decoration-1 underline-offset-4 hover:text-cognac"
+          >
+            Realtor.com Reviews
+          </a>
         </div>
       </div>
     </section>

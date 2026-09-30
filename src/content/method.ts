@@ -1,10 +1,9 @@
 export const METHOD_INTRO = {
   eyebrow: "The Next Move Method™",
   headline: "Decode. Design. Execute. Advance.",
-  accentLine: "Real strategy, decoded before day one.",
+  accentLine: "Not simply the buying process. The methodology Yez uses to help you make and execute the right ownership decision.",
 };
 
-export type MethodHudMetric = { label: string; value: number };
 
 export type MethodDetail = {
   id: "decode" | "design" | "execute" | "advance";
@@ -13,9 +12,9 @@ export type MethodDetail = {
   /** One cinematic line, set in the site's italic accent face — the same
    * register as the gold captions in the client's own mood reference. */
   accentLine: string;
-  /** Powers each phase page's HUD instrument — a restrained, on-brand
-   * translation of that reference's holographic percentage-ring dashboard. */
-  hud: MethodHudMetric[];
+  /** The phase's key focus areas, shown in the HUD panel — labels only,
+   * never scores or percentages. */
+  hud: string[];
   items: string[];
 };
 
@@ -34,14 +33,9 @@ export const METHOD_DETAILS: MethodDetail[] = [
   {
     id: "decode",
     title: "DECODE",
-    microlabel: "We understand your full situation.",
+    microlabel: "Before looking at properties, we understand your financial position, timeline, lifestyle, and future objectives.",
     accentLine: "We decode the story your finances are already telling.",
-    hud: [
-      { label: "Financial Position", value: 87 },
-      { label: "Timing Readiness", value: 64 },
-      { label: "Investment Capacity", value: 91 },
-      { label: "Lifestyle Fit", value: 78 },
-    ],
+    hud: ["Financial Position", "Timing", "Lifestyle", "Future Objectives"],
     items: [
       "Not just what home you want",
       "Your real financial position",
@@ -54,14 +48,9 @@ export const METHOD_DETAILS: MethodDetail[] = [
   {
     id: "design",
     title: "DESIGN",
-    microlabel: "We build your Personalized Ownership Strategy.",
-    accentLine: "A strategy built around your life — never a generic search.",
-    hud: [
-      { label: "Search Precision", value: 93 },
-      { label: "Budget Alignment", value: 88 },
-      { label: "Scenario Coverage", value: 76 },
-      { label: "Fit Score", value: 95 },
-    ],
+    microlabel: "We turn what we learned into your Personalized Ownership Strategy, defining your budget, scenarios, priorities, lifestyle, and next steps.",
+    accentLine: "A strategy built around your life, never a generic search.",
+    hud: ["Budget Alignment", "Scenario Planning", "Search Strategy", "Lifestyle Fit"],
     items: [
       "What we're looking for, and why",
       "How we evaluate opportunities against your goals",
@@ -71,14 +60,9 @@ export const METHOD_DETAILS: MethodDetail[] = [
   {
     id: "execute",
     title: "EXECUTE",
-    microlabel: "We represent you through every step.",
-    accentLine: "Every step, represented — nothing left to chance.",
-    hud: [
-      { label: "Offer Strength", value: 90 },
-      { label: "Negotiation Leverage", value: 82 },
-      { label: "Timeline Control", value: 97 },
-      { label: "Risk Mitigation", value: 89 },
-    ],
+    microlabel: "From property analysis and offer preparation to inspections, negotiation, financing coordination, and closing, we manage the process with intention.",
+    accentLine: "Every step, represented, nothing left to chance.",
+    hud: ["Property Analysis", "Offer Strategy", "Negotiation", "Timeline Control", "Risk Management"],
     items: [
       "Search, tours, and property analysis",
       "Offer strategy and negotiation",
@@ -91,17 +75,14 @@ export const METHOD_DETAILS: MethodDetail[] = [
   {
     id: "advance",
     title: "ADVANCE",
-    microlabel: "The relationship keeps moving after closing.",
+    microlabel: "Ownership doesn’t stop at closing. We continue the plan around equity, market changes, future moves, investment opportunities, and the next chapter of your real estate strategy.",
     accentLine: "The relationship keeps moving long after closing day.",
-    hud: [
-      { label: "Equity Growth", value: 71 },
-      { label: "Portfolio Health", value: 94 },
-      { label: "Market Position", value: 85 },
-      { label: "Relationship Continuity", value: 100 },
-    ],
+    hud: ["Equity", "Network", "Market Position", "Portfolio", "Future Moves"],
     items: [
+      "Equity and market position, reviewed as they change",
       "Ongoing guidance after you own",
-      "A first look at The Arrival Experience — part of the Yez ecosystem, coming soon",
+      "Investment opportunities and future moves",
+      "The next chapter of your real estate strategy",
     ],
   },
 ];
@@ -111,11 +92,11 @@ export const TECH_VS_YEZ = {
   columns: {
     technology: {
       label: "Technology",
-      items: ["Organizes information", "Compares scenarios", "Reduces noise", "Visualizes decisions", "Automates follow-up"],
+      items: ["Organizes information", "Compares scenarios", "Simplifies complex decisions", "Visualizes the numbers", "Keeps the process moving"],
     },
     yez: {
       label: "Human",
-      items: ["Listens", "Interprets", "Recommends", "Negotiates", "Protects", "Represents", "Understands context"],
+      items: ["Listens", "Interprets", "Advises", "Negotiates", "Protects", "Represents", "Understands context"],
     },
   },
   closingLine: "High-tech where it simplifies. Deeply human where it matters.",

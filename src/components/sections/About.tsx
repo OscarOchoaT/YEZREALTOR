@@ -4,7 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import PhotoPlaceholder from "@/components/PhotoPlaceholder";
+import Image from "next/image";
 import DotGridBackground from "@/components/DotGridBackground";
 import Eyebrow from "@/components/Eyebrow";
 import { ABOUT } from "@/content/about";
@@ -48,15 +48,19 @@ export default function About() {
       <DotGridBackground />
       <div className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
         <div ref={photoRef}>
-          <PhotoPlaceholder
-            label={ABOUT.photoPlaceholder}
-            tone="stone"
-            className="aspect-[4/5] w-full rounded-2xl"
+          <Image
+            src={ABOUT.photo}
+            alt={ABOUT.photoAlt}
+            width={1400}
+            height={2100}
+            sizes="(min-width: 1024px) 560px, 100vw"
+            className="aspect-[4/5] w-full rounded-2xl object-cover object-[50%_60%]"
           />
         </div>
 
         <div ref={copyRef} className="flex flex-col gap-6">
           <Eyebrow index="02" label={ABOUT.eyebrow} align="left" />
+          <h2 className="sr-only">Who Is Yez</h2>
 
           <div className="flex flex-col gap-4">
             {ABOUT.paragraphs.map((p) => (
@@ -66,17 +70,8 @@ export default function About() {
             ))}
           </div>
 
-          <div className="flex flex-wrap gap-x-2 gap-y-2 pt-2">
-            {ABOUT.tags.map((tag, i) => (
-              <span key={tag} className="flex items-center font-mono text-[11px] uppercase tracking-caption text-bone/60">
-                {tag}
-                {i < ABOUT.tags.length - 1 && <span className="ml-2 text-cognac">·</span>}
-              </span>
-            ))}
-          </div>
-
-          <p className="border-t border-bone/10 pt-5 font-mono text-xs uppercase tracking-caption text-stone">
-            {ABOUT.credibilityLine}
+          <p className="border-t border-bone/10 pt-6 font-accent text-xl italic leading-relaxed text-glow sm:text-2xl">
+            {ABOUT.tags.join(" · ")}
           </p>
         </div>
       </div>

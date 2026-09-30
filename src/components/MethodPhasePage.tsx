@@ -124,7 +124,7 @@ export default function MethodPhasePage({ phaseId }: { phaseId: MethodDetail["id
             transition={{ duration: 0.7, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
             className="mt-12 max-w-xl sm:mt-14"
           >
-            <PhaseHud heading={`${phase.title} · Live Read`} metrics={phase.hud} />
+            <PhaseHud heading={`${phase.title} · Focus`} metrics={phase.hud} />
           </motion.div>
         </div>
 
@@ -174,7 +174,7 @@ export default function MethodPhasePage({ phaseId }: { phaseId: MethodDetail["id
 
             <Magnetic strength={0.3}>
               <TransitionLink
-                href="/#services"
+                href="/#contact"
                 className="inline-flex items-center justify-center rounded-full bg-glow px-7 py-3.5 font-body text-sm font-medium text-espresso transition-colors hover:bg-bone"
               >
                 Design My Next Move

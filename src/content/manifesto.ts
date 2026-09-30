@@ -1,13 +1,11 @@
 export const MANIFESTO = {
+  title: "A better way to approach ownership.",
   body: [
-    "A strategy built around real life.",
-    "Technology that makes decisions easier.",
+    "Technology that makes decisions clearer.",
     "Human guidance when the stakes are high.",
-    "And an experience worthy of the moment.",
+    "An experience designed around where you’re going, not just what you’re buying.",
   ],
-  closing: [
-    "The next generation doesn't need another realtor.",
-    "It needs a better way to think about ownership.",
-  ],
-  closingStatement: "This is homeownership by design.",
+  statement: "The next generation doesn’t need another Realtor. It needs a better way to think about ownership.",
+  closingStatement: "This is Strategic Homeownership.",
+  signature: "Ownership, Designed.",
 };

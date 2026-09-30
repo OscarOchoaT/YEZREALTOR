@@ -171,10 +171,13 @@ function PhaseStage({
           <span className="font-mono text-sm uppercase tracking-caption text-cognac sm:text-base">
             The Next Move Method™
           </span>
-          <h1 className="font-display text-3xl tracking-headline text-bone xl:text-4xl">{HERO_COPY.headline}</h1>
-          <p className="font-body font-light text-base text-bone/80 tracking-subhead xl:text-lg">
+          <p aria-hidden="true" className="font-display text-3xl tracking-headline text-bone xl:text-4xl">
+            {HERO_COPY.headline}
+          </p>
+          <p className="font-body font-light text-base text-bone tracking-subhead xl:text-lg">
             {HERO_COPY.subheadline}
           </p>
+          <p className="max-w-md font-body text-sm font-light text-bone/70">{HERO_COPY.supporting}</p>
           <CTAs />
         </div>
       </div>
@@ -286,7 +289,10 @@ export default function Hero() {
   );
 
   return (
-    <section ref={sectionRef} id="hero" aria-label="Yez The Realtor — Homeownership, designed for what comes next.">
+    <section ref={sectionRef} id="hero" aria-label={`Yez The Realtor — ${HERO_COPY.headline}`}>
+      <h1 className="sr-only">
+        The Next Move Method™ — {HERO_COPY.headline}
+      </h1>
       {/* Desktop: pinned scroll-driven phase reveal (lg and up, motion-safe). */}
       <div className="hidden lg:motion-safe:block">
         <div ref={stickyRef} className="relative h-screen w-full overflow-hidden bg-espresso">
@@ -375,8 +381,9 @@ export default function Hero() {
           <span className="font-mono text-sm uppercase tracking-caption text-cognac sm:text-base">
             The Next Move Method™
           </span>
-          <h1 className="font-display text-4xl tracking-headline text-bone">{HERO_COPY.headline}</h1>
-          <p className="font-body font-light text-lg text-bone/80 tracking-subhead">{HERO_COPY.subheadline}</p>
+          <p aria-hidden="true" className="font-display text-4xl tracking-headline text-bone">{HERO_COPY.headline}</p>
+          <p className="font-body font-light text-lg text-bone tracking-subhead">{HERO_COPY.subheadline}</p>
+          <p className="max-w-md font-body text-sm font-light text-bone/70">{HERO_COPY.supporting}</p>
           <CTAs />
         </div>
       </div>

@@ -129,7 +129,7 @@ export default function MethodShowcase() {
                     ref={(el) => {
                       hudRefs.current[i] = el;
                     }}
-                    heading={`${phase.title} · Live Read`}
+                    heading={`${phase.title} · Focus`}
                     metrics={phase.hud}
                     autoPlay={false}
                   />
@@ -189,7 +189,7 @@ export default function MethodShowcase() {
               <p className="relative z-10 max-w-sm font-accent text-xl italic text-glow">{phase.accentLine}</p>
               <p className="relative z-10 max-w-sm font-body text-base font-light text-bone/80">{phase.microlabel}</p>
               <div className="relative z-10 mt-2 w-full">
-                <PhaseHud heading={`${phase.title} · Live Read`} metrics={phase.hud} />
+                <PhaseHud heading={`${phase.title} · Focus`} metrics={phase.hud} />
               </div>
             </div>
           ))}
