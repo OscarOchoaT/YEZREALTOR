@@ -10,7 +10,7 @@ export default function Footer({ isHome = true }: { isHome?: boolean }) {
         <div className="flex flex-col justify-between gap-10 sm:flex-row">
           <div className="flex flex-col gap-4">
             <Image src="/logo/logo-inverse.png" alt="Yez The Realtor" width={194} height={100} className="h-11 w-auto" />
-            <p className="max-w-xs font-body text-sm font-light text-bone/70">{SITE.location}</p>
+            <p className="max-w-xs font-mono text-xs uppercase tracking-caption text-bone/70">{SITE.location}</p>
           </div>
 
           <nav className="flex flex-wrap gap-x-8 gap-y-3">
@@ -18,14 +18,14 @@ export default function Footer({ isHome = true }: { isHome?: boolean }) {
               <TransitionLink
                 key={link.href}
                 href={isHome ? link.href : `/${link.href}`}
-                className="font-body text-sm font-medium text-bone/80 hover:text-bone"
+                className="font-mono text-xs uppercase tracking-caption text-bone/80 hover:text-bone"
               >
                 {link.label}
               </TransitionLink>
             ))}
           </nav>
 
-          <div className="flex flex-col gap-2 font-body text-sm font-medium text-bone/80">
+          <div className="flex flex-col gap-2 font-mono text-xs uppercase tracking-caption text-bone/80">
             <a href={`mailto:${SITE.email}`} className="hover:text-bone">
               {SITE.email}
             </a>

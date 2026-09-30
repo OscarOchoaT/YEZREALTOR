@@ -53,12 +53,13 @@ export default function Method() {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top 85%",
-          end: "top 45%",
-          scrub: 1,
+          once: true,
         },
       });
-      tl.to(hintRef.current, { autoAlpha: 1, duration: 0.15 }, 0);
-      tl.to(cards, { autoAlpha: 1, y: 0, scale: 1, stagger: 0.07, duration: 0.3, ease: "power2.out" }, 0.05);
+      // Plays once at full strength (not scrubbed), so the cards are never
+      // stuck half-faded at whatever scroll position the visitor rests on.
+      tl.to(hintRef.current, { autoAlpha: 1, duration: 0.4 }, 0);
+      tl.to(cards, { autoAlpha: 1, y: 0, scale: 1, stagger: 0.1, duration: 0.7, ease: "power2.out" }, 0.1);
 
       // Comparison block below — its own separate scrub, same section-3 pattern.
       gsap.set(compareItems, { autoAlpha: 0, y: 20 });

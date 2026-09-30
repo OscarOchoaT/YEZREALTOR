@@ -78,7 +78,7 @@ export default function MethodNodes({ cardRefs }: MethodNodesProps) {
 
               <div
                 aria-hidden="true"
-                className={`pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent transition-opacity duration-500 ${
+                className={`pointer-events-none absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent transition-opacity duration-500 ${
                   isExpanded ? "opacity-100" : "opacity-40"
                 }`}
               />
@@ -107,7 +107,7 @@ export default function MethodNodes({ cardRefs }: MethodNodesProps) {
                   isExpanded ? "translate-y-0 opacity-100 delay-150" : "pointer-events-none translate-y-3 opacity-0"
                 }`}
               >
-                <span className="flex items-center gap-2 font-mono text-xs uppercase tracking-caption text-bone/60">
+                <span className="flex items-center gap-2 font-mono text-xs uppercase tracking-caption text-bone/85">
                   <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-glow" />
                   Phase 0{i + 1}
                 </span>
@@ -115,8 +115,8 @@ export default function MethodNodes({ cardRefs }: MethodNodesProps) {
                   {detail.title}
                 </h3>
                 <p className="max-w-[26ch] font-body text-lg font-medium tracking-subhead text-glow">{detail.accentLine}</p>
-                <p className="max-w-[24ch] font-body text-sm font-light text-bone/75">{detail.microlabel}</p>
-                <span className="mt-2 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-caption text-bone/70 transition-colors group-hover:text-bone">
+                <p className="max-w-[24ch] font-body text-sm font-normal text-bone">{detail.microlabel}</p>
+                <span className="mt-2 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-caption text-bone transition-colors group-hover:text-glow">
                   Explore in full
                   <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
                     →
@@ -154,7 +154,7 @@ export default function MethodNodes({ cardRefs }: MethodNodesProps) {
               </span>
               <h3 className="mt-1 font-display text-3xl tracking-headline text-bone">{detail.title}</h3>
             </div>
-            <p className="relative font-body text-sm font-light text-bone/70">{detail.microlabel}</p>
+            <p className="relative font-body text-sm font-normal text-bone">{detail.microlabel}</p>
           </button>
         ))}
       </div>

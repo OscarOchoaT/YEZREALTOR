@@ -14,11 +14,10 @@ const config: Config = {
         linen: "#E8E2D5",
         cognac: "#7A5239",
         siena: "#602F10",
-        // Not in the Brand Guide's palette proper — reserved exclusively for
-        // the accent line on dark phase heroes, where
-        // cognac itself doesn't carry enough contrast to read as the warm
-        // "gold caption" beat from the client's mood reference.
-        glow: "#E3B27C",
+        // Alias of Linen (a Brand Guide color) for highlights on dark
+        // surfaces, where cognac doesn't carry enough contrast. Keep it on
+        // palette: no off-brand golds.
+        glow: "#E8E2D5",
       },
       fontFamily: {
         // Coolvetica is the brand display face — see src/app/fonts.ts.
