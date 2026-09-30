@@ -24,6 +24,13 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
+    // Always start a fresh load at the top. The browser's restored scroll
+    // position lands before the hero's pin spacer exists, which left the
+    // scrubbed hero words stacked on top of each other after a reload.
+    // Deep links (#contact, etc.) are left alone.
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    if (!window.location.hash) window.scrollTo(0, 0);
+
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) {
       return;

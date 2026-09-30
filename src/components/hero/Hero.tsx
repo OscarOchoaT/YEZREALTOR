@@ -51,19 +51,25 @@ function buildPhaseSequence(
   wordRefs: (HTMLDivElement | null)[],
   labelRefs: (HTMLDivElement | null)[],
   headlineRef: HTMLDivElement | null,
-  phaseLabelRef: HTMLDivElement | null,
   introRef: HTMLDivElement | null
 ) {
   gsap.set(wordRefs, { autoAlpha: 0, scale: 0.15 });
   gsap.set(labelRefs, { autoAlpha: 0 });
-  gsap.set(phaseLabelRef, { autoAlpha: 0 });
 
   gsap.set(headlineRef, { autoAlpha: 0, y: 24 });
 
-  gsap.fromTo(introRef, { autoAlpha: 0, scale: 0.92 }, { autoAlpha: 1, scale: 1, duration: 1.2, delay: 0.2, ease: "power2.out" });
+  // The intro wrapper is owned by the scrubbed timeline alone (visible at
+  // progress 0, hidden after). The load-in entrance plays on its inner text
+  // instead: a separate element, so a reload with restored scroll can never
+  // fight the scrub over the same properties and leave words stacked.
+  gsap.set(introRef, { autoAlpha: 1 });
+  gsap.fromTo(
+    introRef?.firstElementChild ?? null,
+    { autoAlpha: 0, scale: 0.92 },
+    { autoAlpha: 1, scale: 1, duration: 1.2, delay: 0.2, ease: "power2.out" }
+  );
 
   tl.to(introRef, { autoAlpha: 0, scale: 1.08, duration: EXIT, ease: "power1.in" }, HEADLINE_HOLD);
-  tl.to(phaseLabelRef, { autoAlpha: 1, duration: ENTER }, PHASES_START);
 
   for (let i = 0; i < METHOD_DETAILS.length; i++) {
     const start = PHASES_START + i * BLOCK;
@@ -76,7 +82,6 @@ function buildPhaseSequence(
   }
 
   const finalStart = PHASES_START + (METHOD_DETAILS.length - 1) * BLOCK + ENTER + HOLD + EXIT;
-  tl.to(phaseLabelRef, { autoAlpha: 0, duration: EXIT * 0.5 }, finalStart - EXIT * 0.5);
   tl.to(headlineRef, { autoAlpha: 1, y: 0, ease: "power2.out", duration: 0.12 }, finalStart + GAP);
 }
 
@@ -104,13 +109,11 @@ function PhaseStage({
   wordRefs,
   labelRefs,
   headlineRef,
-  phaseLabelRef,
   introRef,
 }: {
   wordRefs: React.MutableRefObject<(HTMLDivElement | null)[]>;
   labelRefs: React.MutableRefObject<(HTMLDivElement | null)[]>;
   headlineRef: React.RefObject<HTMLDivElement | null>;
-  phaseLabelRef: React.RefObject<HTMLDivElement | null>;
   introRef: React.RefObject<HTMLDivElement | null>;
 }) {
   return (
@@ -122,23 +125,6 @@ function PhaseStage({
         aria-hidden="true"
         className="pointer-events-none absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cognac/60 motion-safe:[animation:dot-pulse_2.4s_ease-in-out_infinite]"
       />
-
-      {/* The Next Move Method™ is the brand — the mother of Decode/Design/
-          Execute/Advance below, not one more label among them. It sits
-          at the top of the stage while the phases play (the main statement
-          carries the same eyebrow before and after), so the phase carousel
-          underneath reads as that brand's supporting, rotating detail. */}
-      <div
-        ref={phaseLabelRef}
-        className="invisible pointer-events-none absolute inset-x-0 top-[12%] flex flex-col items-center gap-1 px-6 text-center sm:top-[15%]"
-      >
-        <span className="font-display text-2xl uppercase tracking-headline text-bone drop-shadow-[0_4px_20px_rgba(0,0,0,0.55)] sm:text-3xl lg:text-4xl">
-          The Next Move Method<span className="align-super text-xs sm:text-sm">™</span>
-        </span>
-        <span className="font-mono text-[11px] uppercase tracking-caption text-bone/50 sm:text-xs">
-          Decode · Design · Execute · Advance
-        </span>
-      </div>
 
       {/* First beat: the brand name alone, centered, before anything else. */}
       <div
@@ -204,7 +190,6 @@ export default function Hero() {
   const wordRefs = useRef<(HTMLDivElement | null)[]>([]);
   const labelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const headlineWrapRef = useRef<HTMLDivElement>(null);
-  const phaseLabelRef = useRef<HTMLDivElement>(null);
   const introRef = useRef<HTMLDivElement>(null);
 
   // Mobile refs — a single un-pinned stage, scrubbed by the section's own
@@ -214,7 +199,6 @@ export default function Hero() {
   const mobileWordRefs = useRef<(HTMLDivElement | null)[]>([]);
   const mobileLabelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const mobileHeadlineRef = useRef<HTMLDivElement>(null);
-  const mobilePhaseLabelRef = useRef<HTMLDivElement>(null);
   const mobileIntroRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -264,7 +248,7 @@ export default function Hero() {
           },
         });
 
-        buildPhaseSequence(tl, wordRefs.current, labelRefs.current, headlineWrapRef.current, phaseLabelRef.current, introRef.current);
+        buildPhaseSequence(tl, wordRefs.current, labelRefs.current, headlineWrapRef.current, introRef.current);
       }
 
       /**
@@ -299,7 +283,6 @@ export default function Hero() {
           mobileWordRefs.current,
           mobileLabelRefs.current,
           mobileHeadlineRef.current,
-          mobilePhaseLabelRef.current,
           mobileIntroRef.current
         );
       }
@@ -337,7 +320,7 @@ export default function Hero() {
           />
           <HudFrame />
 
-          <PhaseStage wordRefs={wordRefs} labelRefs={labelRefs} headlineRef={headlineWrapRef} phaseLabelRef={phaseLabelRef} introRef={introRef} />
+          <PhaseStage wordRefs={wordRefs} labelRefs={labelRefs} headlineRef={headlineWrapRef} introRef={introRef} />
 
           {/* A quiet technical flourish, not a data point anyone needs —
               the same "precision instrument" register as the mono/caption
@@ -380,7 +363,6 @@ export default function Hero() {
             wordRefs={mobileWordRefs}
             labelRefs={mobileLabelRefs}
             headlineRef={mobileHeadlineRef}
-            phaseLabelRef={mobilePhaseLabelRef}
             introRef={mobileIntroRef}
           />
         </div>
