@@ -31,11 +31,11 @@ const PhaseHud = forwardRef<
         <span className="font-mono text-[11px] uppercase tracking-caption text-bone">{heading}</span>
       </div>
 
-      <ul className="relative grid grid-cols-2 gap-x-4 gap-y-3 p-5 sm:gap-x-6 sm:p-6">
+      <ul className="relative grid grid-cols-1 gap-x-4 gap-y-3 p-5 sm:grid-cols-2 sm:gap-x-6 sm:p-6">
         {metrics.map((label, i) => (
-          <li key={label} className="flex items-center gap-3">
+          <li key={label} className="flex items-center gap-3 whitespace-nowrap">
             <span className="font-mono text-[10px] text-stone">0{i + 1}</span>
-            <span className="font-mono text-xs uppercase leading-snug tracking-caption text-bone">{label}</span>
+            <span className="font-mono text-[11px] uppercase leading-snug tracking-[0.12em] text-bone">{label}</span>
           </li>
         ))}
       </ul>

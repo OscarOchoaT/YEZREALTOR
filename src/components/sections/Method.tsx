@@ -4,7 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { TECH_VS_YEZ } from "@/content/method";
+import HumanTech from "@/components/sections/HumanTech";
 import MethodShowcase from "@/components/sections/MethodShowcase";
 import MethodNodes from "@/components/sections/MethodNodes";
 import InteractiveDotGrid from "@/components/InteractiveDotGrid";
@@ -26,23 +26,15 @@ export default function Method() {
   const cardRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const hintRef = useRef<HTMLParagraphElement>(null);
 
-  const compareRef = useRef<HTMLDivElement>(null);
-  const compareEyebrowRef = useRef<HTMLSpanElement>(null);
-  const compareColRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const compareClosingRef = useRef<HTMLParagraphElement>(null);
 
   useGSAP(
     () => {
       const cards = cardRefs.current.filter((el): el is HTMLButtonElement => Boolean(el));
-      const compareItems = [compareEyebrowRef.current, ...compareColRefs.current, compareClosingRef.current].filter(
-        (el): el is HTMLElement => Boolean(el)
-      );
       const prefersReducedMotion = window.matchMedia(REDUCE_MOTION_QUERY).matches;
 
       if (prefersReducedMotion) {
         gsap.set(cards, { clearProps: "all" });
         gsap.set(hintRef.current, { autoAlpha: 1 });
-        gsap.set(compareItems, { clearProps: "all" });
         return;
       }
 
@@ -60,20 +52,6 @@ export default function Method() {
       // stuck half-faded at whatever scroll position the visitor rests on.
       tl.to(hintRef.current, { autoAlpha: 1, duration: 0.4 }, 0);
       tl.to(cards, { autoAlpha: 1, y: 0, scale: 1, stagger: 0.1, duration: 0.7, ease: "power2.out" }, 0.1);
-
-      // Comparison block below — its own separate scrub, same section-3 pattern.
-      gsap.set(compareItems, { autoAlpha: 0, y: 20 });
-      const compareTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: compareRef.current,
-          start: "top 82%",
-          end: "top 40%",
-          scrub: 1,
-        },
-      });
-      compareItems.forEach((el, i) => {
-        compareTl.to(el, { autoAlpha: 1, y: 0, ease: "power2.out", duration: 0.6 }, i * 0.15);
-      });
     },
     { scope: sectionRef }
   );
@@ -110,56 +88,7 @@ export default function Method() {
           <MethodNodes cardRefs={cardRefs} />
         </div>
 
-        <div ref={compareRef} className="relative mx-auto mt-20 max-w-3xl">
-          <span
-            ref={compareEyebrowRef}
-            className="mx-auto block text-center font-mono text-xs uppercase tracking-caption text-cognac"
-          >
-            {TECH_VS_YEZ.eyebrow}
-          </span>
-
-          <div className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2">
-            <div
-              ref={(el) => {
-                compareColRefs.current[0] = el;
-              }}
-              className="flex flex-col gap-3 rounded-2xl bg-stone/20 p-8"
-            >
-              <h4 className="font-display !font-medium text-xl tracking-subhead text-bone">
-                {TECH_VS_YEZ.columns.technology.label}
-              </h4>
-              <ul className="flex flex-col gap-2">
-                {TECH_VS_YEZ.columns.technology.items.map((item) => (
-                  <li key={item} className="font-body text-sm font-light text-bone/75">
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div
-              ref={(el) => {
-                compareColRefs.current[1] = el;
-              }}
-              className="flex flex-col gap-3 rounded-2xl bg-cocoaBark p-8"
-            >
-              <h4 className="font-display !font-medium text-xl tracking-subhead text-bone">{TECH_VS_YEZ.columns.yez.label}</h4>
-              <ul className="flex flex-col gap-2">
-                {TECH_VS_YEZ.columns.yez.items.map((item) => (
-                  <li key={item} className="font-body text-sm font-light text-bone/80">
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <p
-            ref={compareClosingRef}
-            className="mt-10 text-center font-display !font-medium text-xl tracking-subhead text-bone sm:text-2xl"
-          >
-            {TECH_VS_YEZ.closingLine}
-          </p>
-        </div>
+        <HumanTech />
       </section>
     </>
   );
