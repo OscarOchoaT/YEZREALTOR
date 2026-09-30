@@ -58,7 +58,7 @@ export default function About() {
           />
         </div>
 
-        <div ref={copyRef} className="flex flex-col gap-6">
+        <div ref={copyRef} className="flex flex-col gap-6 lg:translate-y-4">
           <Eyebrow index="02" label={ABOUT.eyebrow} align="left" />
           <h2 className="sr-only">Who Is Yez</h2>
 
@@ -69,11 +69,11 @@ export default function About() {
               </p>
             ))}
           </div>
-
-          <p className="border-t border-bone/10 pt-6 font-body text-base font-medium leading-relaxed tracking-subhead text-glow sm:text-lg">
-            {ABOUT.tags.join(" · ")}
-          </p>
         </div>
+
+        <p className="col-span-full font-mono text-[10px] font-normal uppercase tracking-caption text-glow sm:text-xs lg:whitespace-nowrap lg:text-[11px] xl:text-xs">
+          {ABOUT.tags.join(" · ")}
+        </p>
       </div>
     </section>
   );
