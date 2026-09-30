@@ -52,8 +52,8 @@ export default function Method() {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 80%",
-          end: "top 25%",
+          start: "top 85%",
+          end: "top 45%",
           scrub: 1,
         },
       });
@@ -93,9 +93,9 @@ export default function Method() {
             surface no matter how the pinned section's own fade lands. */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-48 bg-gradient-to-b from-espresso to-transparent sm:h-64"
+          className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-24 bg-gradient-to-b from-espresso to-transparent sm:h-32"
         />
-        <div className="relative mx-auto max-w-6xl">
+        <div className="relative z-[2] mx-auto max-w-6xl">
           <p
             ref={hintRef}
             className="mx-auto mb-8 flex max-w-md items-center justify-center gap-2 text-center font-mono text-sm uppercase tracking-caption text-bone sm:text-base"

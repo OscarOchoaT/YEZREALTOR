@@ -79,7 +79,7 @@ export default function MethodNodes({ cardRefs }: MethodNodesProps) {
               <div
                 aria-hidden="true"
                 className={`pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent transition-opacity duration-500 ${
-                  isExpanded ? "opacity-100" : "opacity-70"
+                  isExpanded ? "opacity-100" : "opacity-40"
                 }`}
               />
 
@@ -91,9 +91,9 @@ export default function MethodNodes({ cardRefs }: MethodNodesProps) {
                   isExpanded ? "pointer-events-none opacity-0" : "opacity-100 delay-150"
                 }`}
               >
-                <span className="font-mono text-xs tracking-caption text-bone/50">0{i + 1}</span>
+                <span className="font-mono text-xs tracking-caption text-bone/70">0{i + 1}</span>
                 <span
-                  className="font-display text-2xl tracking-headline text-bone/85"
+                  className="font-display text-2xl tracking-headline text-bone"
                   style={{ writingMode: "vertical-rl" }}
                 >
                   {detail.title}
