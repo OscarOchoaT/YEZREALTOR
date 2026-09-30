@@ -1,14 +1,14 @@
 "use client";
 
+import { useCallback, useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { motion } from "framer-motion";
 import { TECH_VS_YEZ } from "@/content/method";
+import { Fx } from "@/lib/fx";
 
-const draw = (delay = 0) => ({
-  initial: { pathLength: 0, opacity: 0 },
-  whileInView: { pathLength: 1, opacity: 1 },
-  viewport: { once: true, amount: 0.4 },
-  transition: { duration: 1.6, delay, ease: "easeInOut" as const },
-});
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 // Left hemisphere silhouette; the right one is the same path mirrored.
 const HEMISPHERE =
@@ -22,6 +22,7 @@ const GYRI = [
   "M140 226 C152 220 166 226 176 236",
 ];
 
+// Each trace ends on the node at the same index.
 const TRACES = [
   "M262 126 V96 H232",
   "M274 126 V84 H292",
@@ -44,136 +45,399 @@ const NODES: [number, number][] = [
   [236, 162],
 ];
 
-function Brain() {
-  return (
-    <svg viewBox="0 0 400 300" className="h-auto w-full" role="img" aria-label="A brain whose right half is a circuit: human plus technology">
-      {/* Human hemisphere */}
-      <motion.path d={HEMISPHERE} fill="none" strokeWidth={1.5} className="stroke-stone" {...draw(0)} />
-      {GYRI.map((d, i) => (
-        <motion.path
-          key={d}
-          d={d}
-          fill="none"
-          strokeWidth={1.5}
-          strokeLinecap="round"
-          className="stroke-stone/80"
-          {...draw(0.3 + i * 0.15)}
-        />
-      ))}
+// Depth of each layer, in px, for the tilt parallax.
+const Z = { glow: -60, human: 0, tech: 26, chip: 64 };
 
-      {/* Technology hemisphere (mirrored silhouette) */}
-      <g transform="translate(400 0) scale(-1 1)">
-        <motion.path d={HEMISPHERE} fill="none" strokeWidth={1.5} className="stroke-bone" {...draw(0.2)} />
-      </g>
-      {TRACES.map((d, i) => (
-        <motion.path
-          key={d}
-          d={d}
-          fill="none"
-          strokeWidth={1.5}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="stroke-bone/80"
-          {...draw(0.5 + i * 0.1)}
-        />
-      ))}
-      {NODES.map(([cx, cy]) => (
-        <motion.circle
-          key={`${cx}-${cy}`}
-          cx={cx}
-          cy={cy}
-          r={3.5}
-          className="fill-bone"
-          initial={{ opacity: 0, scale: 0 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.4, delay: 1.6 }}
-          style={{ transformBox: "fill-box", transformOrigin: "center" }}
-        />
-      ))}
+const GLYPHS = "01<>/\\{}[]#$%&*+=ABCDEFGHJKLMNPQRSTUVWXYZ";
+const scrambled = (text: string) => text.replace(/\S/g, () => GLYPHS[Math.floor(Math.random() * GLYPHS.length)]);
 
-      {/* Chip */}
-      <motion.g
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, amount: 0.4 }}
-        transition={{ duration: 0.8, delay: 0.8 }}
-      >
-        <rect x={250} y={126} width={48} height={48} rx={5} className="fill-cocoaBark stroke-bone" strokeWidth={1.5} />
-        <rect x={262} y={138} width={24} height={24} rx={2} className="fill-none stroke-bone/60" strokeWidth={1} />
-      </motion.g>
-
-      {/* Where they meet */}
-      <motion.circle
-        cx={200}
-        cy={150}
-        r={5}
-        className="fill-cognac"
-        initial={{ opacity: 0, scale: 0 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true, amount: 0.4 }}
-        transition={{ duration: 0.5, delay: 1.2 }}
-        style={{ transformBox: "fill-box", transformOrigin: "center" }}
-      />
-    </svg>
-  );
+/** Left-to-right "decode": unresolved characters churn until the word lands. */
+function decode(el: HTMLElement, text: string, duration: number, onTick?: () => void) {
+  const state = { p: 0 };
+  let lastLocked = -1;
+  return gsap.to(state, {
+    p: 1,
+    duration,
+    ease: "none",
+    onUpdate: () => {
+      const locked = Math.floor(state.p * text.length);
+      if (locked !== lastLocked) {
+        lastLocked = locked;
+        onTick?.();
+      }
+      el.textContent = text.slice(0, locked) + scrambled(text.slice(locked));
+    },
+    onComplete: () => {
+      el.textContent = text;
+    },
+  });
 }
 
-function Column({
-  label,
-  items,
-  align,
-  delay,
-}: {
-  label: string;
-  items: string[];
-  align: "left" | "right";
-  delay: number;
-}) {
-  const right = align === "right";
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: right ? -16 : 16 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.7, delay, ease: "easeOut" }}
-      className={`flex flex-col gap-4 ${right ? "lg:items-end lg:text-right" : "lg:items-start lg:text-left"} items-center text-center`}
-    >
-      <h3 className="font-display text-3xl tracking-headline text-bone">{label}</h3>
-      <ul className="flex flex-col gap-2.5">
-        {items.map((item) => (
-          <li
-            key={item}
-            className={`flex items-center gap-3 font-body text-base font-normal text-bone/90 ${
-              right ? "lg:flex-row-reverse" : ""
-            }`}
-          >
-            <span aria-hidden="true" className={`h-1.5 w-1.5 shrink-0 rounded-full ${right ? "bg-stone" : "bg-bone"}`} />
-            {item}
-          </li>
-        ))}
-      </ul>
-    </motion.div>
-  );
-}
+const PATH_PROPS = { fill: "none", strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round" } as const;
 
 export default function HumanTech() {
-  const { human, technology } = { human: TECH_VS_YEZ.columns.yez, technology: TECH_VS_YEZ.columns.technology };
+  const human = TECH_VS_YEZ.columns.yez;
+  const technology = TECH_VS_YEZ.columns.technology;
+
+  const rootRef = useRef<HTMLDivElement>(null);
+  const tiltRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
+  const humanOutlineRef = useRef<SVGPathElement>(null);
+  const gyriRefs = useRef<(SVGPathElement | null)[]>([]);
+  const techOutlineRef = useRef<SVGPathElement>(null);
+  const traceRefs = useRef<(SVGPathElement | null)[]>([]);
+  const pulseRefs = useRef<(SVGPathElement | null)[]>([]);
+  const nodeRefs = useRef<(SVGCircleElement | null)[]>([]);
+  const chipRef = useRef<SVGGElement>(null);
+  const centerRef = useRef<SVGCircleElement>(null);
+  const statusRef = useRef<HTMLSpanElement>(null);
+  const headRefs = useRef<(HTMLElement | null)[]>([]);
+  const humanItemRefs = useRef<(HTMLElement | null)[]>([]);
+  const techItemRefs = useRef<(HTMLElement | null)[]>([]);
+
+  const tlRef = useRef<gsap.core.Timeline | null>(null);
+  const pulseTlRef = useRef<gsap.core.Timeline | null>(null);
+  const fxRef = useRef<Fx | null>(null);
+  const soundRef = useRef(false);
+  const [soundOn, setSoundOn] = useState(false);
+
+  useEffect(() => {
+    fxRef.current = new Fx();
+    return () => fxRef.current?.dispose();
+  }, []);
+
+  useGSAP(
+    () => {
+      const gyri = gyriRefs.current.filter((el): el is SVGPathElement => Boolean(el));
+      const traces = traceRefs.current.filter((el): el is SVGPathElement => Boolean(el));
+      const pulses = pulseRefs.current.filter((el): el is SVGPathElement => Boolean(el));
+      const nodes = nodeRefs.current.filter((el): el is SVGCircleElement => Boolean(el));
+      const humanItems = humanItemRefs.current.filter((el): el is HTMLElement => Boolean(el));
+      const techItems = techItemRefs.current.filter((el): el is HTMLElement => Boolean(el));
+      const heads = headRefs.current.filter((el): el is HTMLElement => Boolean(el));
+      const outlines = [humanOutlineRef.current, techOutlineRef.current].filter((el): el is SVGPathElement =>
+        Boolean(el)
+      );
+      const status = statusRef.current;
+      const chip = chipRef.current;
+      const center = centerRef.current;
+      const glow = glowRef.current;
+      const tilt = tiltRef.current;
+      if (!status || !chip || !center || !glow || !tilt || heads.length < 2) return;
+
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const fx = () => (soundRef.current ? fxRef.current : null);
+
+      if (prefersReducedMotion) {
+        gsap.set(pulses, { autoAlpha: 0 });
+        status.textContent = "Human + Technology";
+        return;
+      }
+
+      // ---- starting state: nothing built, all text still "encrypted" ----
+      const drawables = [...outlines, ...gyri, ...traces];
+      drawables.forEach((el) => {
+        const len = el.getTotalLength();
+        gsap.set(el, { strokeDasharray: len, strokeDashoffset: len });
+      });
+      gsap.set(nodes, { scale: 0, transformBox: "fill-box", transformOrigin: "center" });
+      gsap.set(chip, { autoAlpha: 0, scale: 0.6, transformBox: "fill-box", transformOrigin: "center" });
+      gsap.set(center, { scale: 0, transformBox: "fill-box", transformOrigin: "center" });
+      gsap.set(glow, { autoAlpha: 0, scale: 0.7 });
+      pulses.forEach((el) => {
+        const len = el.getTotalLength();
+        gsap.set(el, { strokeDasharray: `10 ${len + 20}`, strokeDashoffset: 10, autoAlpha: 0 });
+      });
+
+      const headText: [HTMLElement, string][] = [
+        [heads[0], human.label],
+        [heads[1], technology.label],
+      ];
+      const humanText: [HTMLElement, string][] = humanItems.map((el, i) => [el, human.items[i]]);
+      const techText: [HTMLElement, string][] = techItems.map((el, i) => [el, technology.items[i]]);
+      [...headText, ...humanText, ...techText].forEach(([el, text]) => {
+        el.textContent = scrambled(text);
+        gsap.set(el, { opacity: 0.3 });
+      });
+      status.textContent = "";
+
+      // ---- the build ----
+      const tl = gsap.timeline({ paused: true });
+      const draw = (el: SVGPathElement, at: number, dur: number) =>
+        tl.to(el, { strokeDashoffset: 0, duration: dur, ease: "power1.inOut" }, at);
+      const say = (msg: string, at: number) => tl.add(decode(status, msg, 0.7), at);
+      const reveal = (list: [HTMLElement, string][], at: number, step: number) =>
+        list.forEach(([el, text], i) => {
+          tl.to(el, { opacity: 1, duration: 0.3 }, at + i * step);
+          tl.add(decode(el, text, 0.55, () => fx()?.tick()), at + i * step);
+        });
+
+      // 1. Human hemisphere
+      say("Decoding human…", 0);
+      tl.to(glow, { autoAlpha: 1, scale: 1, duration: 2.4, ease: "power2.out" }, 0);
+      draw(outlines[0], 0.1, 1.8);
+      gyri.forEach((el, i) => {
+        draw(el, 0.6 + i * 0.22, 1.1);
+        tl.call(() => fx()?.blip(i), [], 0.6 + i * 0.22);
+      });
+      reveal([headText[0], ...humanText], 1.0, 0.22);
+
+      // 2. Technology hemisphere and chip
+      const T2 = 3.2;
+      say("Building technology…", T2);
+      draw(outlines[1], T2, 1.6);
+      tl.call(() => fx()?.powerUp(), [], T2 + 0.6);
+      tl.to(chip, { autoAlpha: 1, scale: 1, duration: 0.9, ease: "back.out(1.6)" }, T2 + 0.6);
+      traces.forEach((el, i) => {
+        const at = T2 + 1.3 + i * 0.16;
+        draw(el, at, 0.7);
+        tl.to(nodes[i], { scale: 1, duration: 0.3, ease: "back.out(3)" }, at + 0.6);
+        tl.call(() => fx()?.blip(5 + (i % 6)), [], at + 0.6);
+      });
+      reveal([headText[1], ...techText], T2 + 1.0, 0.22);
+
+      // 3. They connect
+      const T3 = T2 + 3.4;
+      say("Connecting…", T3 - 0.4);
+      tl.to(center, { scale: 1, duration: 0.5, ease: "back.out(3)" }, T3);
+      tl.call(() => fx()?.resolve(), [], T3);
+      tl.to(outlines, { strokeWidth: 2.5, duration: 0.4, yoyo: true, repeat: 1 }, T3);
+      say("Human + Technology", T3 + 0.5);
+
+      // Idle: data pulses running along the circuit once it's built.
+      const pulseTl = gsap.timeline({ paused: true });
+      pulses.forEach((el, i) => {
+        const len = el.getTotalLength();
+        pulseTl.fromTo(
+          el,
+          { strokeDashoffset: 10, autoAlpha: 1 },
+          { strokeDashoffset: -(len + 10), duration: 1.6, ease: "none", repeat: -1, repeatDelay: 1.2 + (i % 3) * 0.4 },
+          i * 0.25
+        );
+      });
+      tl.call(() => void pulseTl.play(0), [], T3 + 0.4);
+
+      tlRef.current = tl;
+      pulseTlRef.current = pulseTl;
+
+      // ---- 3D tilt: layers sit at different depths, so moving the pointer
+      // shears them against each other. A slow idle drift keeps it alive. ----
+      const rotY = gsap.quickTo(tilt, "rotationY", { duration: 0.8, ease: "power3.out" });
+      const rotX = gsap.quickTo(tilt, "rotationX", { duration: 0.8, ease: "power3.out" });
+      const drift = gsap.to(tilt, {
+        rotationY: 8,
+        rotationX: -3,
+        duration: 5,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: -1,
+      });
+      const root = rootRef.current;
+      const onMove = (e: PointerEvent) => {
+        const r = tilt.getBoundingClientRect();
+        const nx = (e.clientX - (r.left + r.width / 2)) / window.innerWidth;
+        const ny = (e.clientY - (r.top + r.height / 2)) / window.innerHeight;
+        drift.pause();
+        rotY(gsap.utils.clamp(-22, 22, nx * 60));
+        rotX(gsap.utils.clamp(-16, 16, -ny * 40));
+      };
+      const onLeave = () => {
+        rotY(0);
+        rotX(0);
+        gsap.delayedCall(0.9, () => void drift.resume());
+      };
+      root?.addEventListener("pointermove", onMove);
+      root?.addEventListener("pointerleave", onLeave);
+
+      ScrollTrigger.create({
+        trigger: root,
+        start: "top 65%",
+        once: true,
+        onEnter: () => void tl.play(0),
+      });
+
+      return () => {
+        root?.removeEventListener("pointermove", onMove);
+        root?.removeEventListener("pointerleave", onLeave);
+      };
+    },
+    { scope: rootRef }
+  );
+
+  const replay = useCallback(() => {
+    pulseTlRef.current?.pause(0);
+    pulseRefs.current.forEach((el) => el && gsap.set(el, { autoAlpha: 0 }));
+    tlRef.current?.restart();
+  }, []);
+
+  const toggleSound = () => {
+    const next = !soundOn;
+    if (next) {
+      if (!fxRef.current?.enable()) return;
+      fxRef.current.blip(4, 0.06);
+    }
+    soundRef.current = next;
+    setSoundOn(next);
+  };
+
+  const layer = "pointer-events-none absolute inset-0 h-full w-full overflow-visible";
+  const control =
+    "text-bone/70 underline decoration-cognac decoration-1 underline-offset-4 transition-colors hover:text-bone";
+
   return (
-    <div className="relative mx-auto mt-24 max-w-6xl">
+    <div ref={rootRef} className="relative mx-auto mt-24 max-w-6xl">
       <h2 className="text-center font-display text-3xl tracking-headline text-bone sm:text-4xl">
         <span className="text-stone">Human</span> <span className="text-cognac">+</span> Technology
       </h2>
 
-      <div className="mt-12 grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_minmax(0,26rem)_1fr] lg:gap-8">
-        <div className="order-2 lg:order-none">
-          <Column label={human.label} items={human.items} align="right" delay={0.1} />
+      <div className="mt-12 grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_minmax(0,28rem)_1fr] lg:gap-8">
+        {/* Human */}
+        <div className="order-2 flex flex-col items-center gap-4 text-center lg:order-none lg:items-end lg:text-right">
+          <h3
+            ref={(el) => {
+              headRefs.current[0] = el;
+            }}
+            className="font-mono text-sm uppercase tracking-caption text-stone"
+          >
+            {human.label}
+          </h3>
+          <ul className="flex flex-col gap-2.5">
+            {human.items.map((item, i) => (
+              <li
+                key={item}
+                ref={(el) => {
+                  humanItemRefs.current[i] = el;
+                }}
+                className="font-mono text-xs uppercase tracking-caption text-bone sm:text-[13px]"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
-        <div className="order-1 mx-auto w-full max-w-sm lg:order-none lg:max-w-none">
-          <Brain />
+
+        {/* Brain + chip, built in layers for depth */}
+        <div className="order-1 mx-auto w-full max-w-sm lg:order-none lg:max-w-none" style={{ perspective: "1000px" }}>
+          <div
+            ref={tiltRef}
+            className="relative aspect-[4/3] w-full"
+            style={{ transformStyle: "preserve-3d" }}
+            role="img"
+            aria-label="A brain whose right half is a circuit: human plus technology"
+          >
+            <div
+              ref={glowRef}
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-[8%] rounded-full blur-3xl"
+              style={{
+                transform: `translateZ(${Z.glow}px)`,
+                background: "radial-gradient(circle, rgba(122,82,57,0.55) 0%, transparent 70%)",
+              }}
+            />
+
+            <svg viewBox="0 0 400 300" className={layer} style={{ transform: `translateZ(${Z.human}px)` }} aria-hidden="true">
+              <path ref={humanOutlineRef} d={HEMISPHERE} {...PATH_PROPS} className="stroke-stone" />
+              {GYRI.map((d, i) => (
+                <path
+                  key={d}
+                  ref={(el) => {
+                    gyriRefs.current[i] = el;
+                  }}
+                  d={d}
+                  {...PATH_PROPS}
+                  className="stroke-stone/80"
+                />
+              ))}
+            </svg>
+
+            <svg viewBox="0 0 400 300" className={layer} style={{ transform: `translateZ(${Z.tech}px)` }} aria-hidden="true">
+              <g transform="translate(400 0) scale(-1 1)">
+                <path ref={techOutlineRef} d={HEMISPHERE} {...PATH_PROPS} className="stroke-bone" />
+              </g>
+              {TRACES.map((d, i) => (
+                <path
+                  key={d}
+                  ref={(el) => {
+                    traceRefs.current[i] = el;
+                  }}
+                  d={d}
+                  {...PATH_PROPS}
+                  className="stroke-bone/80"
+                />
+              ))}
+              {TRACES.map((d, i) => (
+                <path
+                  key={`pulse-${d}`}
+                  ref={(el) => {
+                    pulseRefs.current[i] = el;
+                  }}
+                  d={d}
+                  {...PATH_PROPS}
+                  strokeWidth={3}
+                  className="stroke-cognac"
+                />
+              ))}
+              {NODES.map(([cx, cy], i) => (
+                <circle
+                  key={`${cx}-${cy}`}
+                  ref={(el) => {
+                    nodeRefs.current[i] = el;
+                  }}
+                  cx={cx}
+                  cy={cy}
+                  r={3.5}
+                  className="fill-bone"
+                />
+              ))}
+            </svg>
+
+            <svg viewBox="0 0 400 300" className={layer} style={{ transform: `translateZ(${Z.chip}px)` }} aria-hidden="true">
+              <g ref={chipRef}>
+                <rect x={250} y={126} width={48} height={48} rx={5} className="fill-cocoaBark stroke-bone" strokeWidth={1.5} />
+                <rect x={262} y={138} width={24} height={24} rx={2} className="fill-none stroke-bone/60" strokeWidth={1} />
+              </g>
+              <circle ref={centerRef} cx={200} cy={150} r={5} className="fill-cognac" />
+            </svg>
+          </div>
+
+          <div className="mt-6 flex justify-center font-mono text-[11px] uppercase tracking-caption text-bone/80">
+            <span className="min-h-[1.25rem] min-w-[14ch] text-center" aria-live="polite">
+              <span ref={statusRef} />
+            </span>
+          </div>
+          <div className="mt-3 flex items-center justify-center gap-6 font-mono text-[11px] uppercase tracking-caption">
+            <button type="button" onClick={toggleSound} aria-pressed={soundOn} className={control}>
+              Sound {soundOn ? "on" : "off"}
+            </button>
+            <button type="button" onClick={replay} className={control}>
+              Replay
+            </button>
+          </div>
         </div>
-        <div className="order-3 lg:order-none">
-          <Column label={technology.label} items={technology.items} align="left" delay={0.2} />
+
+        {/* Technology */}
+        <div className="order-3 flex flex-col items-center gap-4 text-center lg:order-none lg:items-start lg:text-left">
+          <h3
+            ref={(el) => {
+              headRefs.current[1] = el;
+            }}
+            className="font-mono text-sm uppercase tracking-caption text-bone"
+          >
+            {technology.label}
+          </h3>
+          <ul className="flex flex-col gap-2.5">
+            {technology.items.map((item, i) => (
+              <li
+                key={item}
+                ref={(el) => {
+                  techItemRefs.current[i] = el;
+                }}
+                className="font-mono text-xs uppercase tracking-caption text-bone sm:text-[13px]"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 
