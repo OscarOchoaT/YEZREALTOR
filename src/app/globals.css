@@ -16,6 +16,8 @@ body {
    with an explicit `!font-medium` on the element, since this rule's cascade
    position would otherwise beat a plain (non-!important) utility class. */
 .font-display {
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
   font-weight: 900;
 }
 

@@ -27,8 +27,8 @@ const config: Config = {
         mono: ["var(--font-mono)", "JetBrains Mono", "ui-monospace", "monospace"],
       },
       letterSpacing: {
-        headline: "-0.04em",
-        subhead: "-0.02em",
+        headline: "-0.015em",
+        subhead: "-0.005em",
         caption: "0.2em",
         tagline: "0.22em",
       },

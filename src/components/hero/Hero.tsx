@@ -131,7 +131,7 @@ function PhaseStage({
         ref={introRef}
         className="invisible pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center"
       >
-        <span className="font-display text-5xl uppercase tracking-headline text-bone drop-shadow-[0_4px_20px_rgba(0,0,0,0.55)] sm:text-7xl lg:text-8xl">
+        <span className="font-display text-5xl uppercase tracking-[0.02em] text-bone drop-shadow-[0_4px_20px_rgba(0,0,0,0.55)] sm:text-7xl lg:text-8xl">
           The Next Move Method<span className="align-super text-xl sm:text-3xl">™</span>
         </span>
       </div>
@@ -145,7 +145,7 @@ function PhaseStage({
           className="invisible pointer-events-none absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-3 will-change-transform"
         >
           <span className="font-mono text-[11px] uppercase tracking-caption text-cognac">0{i + 1}</span>
-          <span className="whitespace-nowrap font-display text-6xl tracking-headline text-bone sm:text-7xl lg:text-8xl">
+          <span className="whitespace-nowrap font-display text-6xl tracking-[0.02em] text-bone sm:text-7xl lg:text-8xl">
             {phase.title}
           </span>
           <div
@@ -371,7 +371,7 @@ export default function Hero() {
       {/* Reduced motion: static, single fade-in, no scroll choreography. */}
       <div className="hidden motion-reduce:block bg-espresso px-6 py-24">
         <div className="mx-auto mb-14 flex max-w-xl flex-col items-center gap-1 text-center">
-          <span className="font-display text-2xl uppercase tracking-headline text-bone sm:text-3xl">
+          <span className="font-display text-2xl uppercase tracking-[0.02em] text-bone sm:text-3xl">
             The Next Move Method<span className="align-super text-xs sm:text-sm">™</span>
           </span>
         </div>
@@ -379,7 +379,7 @@ export default function Hero() {
           {METHOD_DETAILS.map((phase, i) => (
             <div key={phase.id} className="flex flex-col items-center gap-3 text-center">
               <span className="font-mono text-xs uppercase tracking-caption text-cognac">0{i + 1}</span>
-              <span className="font-display text-3xl tracking-headline text-bone">{phase.title}</span>
+              <span className="font-display text-3xl tracking-[0.02em] text-bone">{phase.title}</span>
               <span className="max-w-xs font-mono text-[10px] uppercase tracking-caption text-stone">
                 {phase.microlabel}
               </span>
