@@ -71,7 +71,7 @@ export default function About() {
           </div>
         </div>
 
-        <p className="col-span-full -mt-6 text-center font-mono text-[10px] font-normal uppercase tracking-caption text-glow sm:text-xs lg:whitespace-nowrap lg:text-[11px] xl:text-xs">
+        <p className="col-span-full -mt-6 text-center font-mono text-[10px] font-normal uppercase tracking-caption text-stone sm:text-xs lg:whitespace-nowrap lg:text-[11px] xl:text-xs">
           {ABOUT.tags.join(" · ")}
         </p>
       </div>

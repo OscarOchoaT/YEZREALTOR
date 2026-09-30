@@ -147,7 +147,7 @@ export default function MethodShowcase() {
               of clipping into a visible edge at the pin's release point. */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-2/3 bg-gradient-to-b from-transparent via-espresso/80 to-espresso"
+            className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-28 bg-gradient-to-b from-transparent to-espresso"
           />
 
           {/* Progress rail — same "precision instrument" numbering language
