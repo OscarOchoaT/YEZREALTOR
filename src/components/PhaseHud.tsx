@@ -28,14 +28,14 @@ const PhaseHud = forwardRef<
           aria-hidden="true"
           className="h-1.5 w-1.5 shrink-0 rounded-full bg-cognac motion-safe:[animation:dot-pulse_2s_ease-in-out_infinite]"
         />
-        <span className="font-mono text-[11px] uppercase tracking-caption text-bone/75">{heading}</span>
+        <span className="font-mono text-[11px] uppercase tracking-caption text-bone">{heading}</span>
       </div>
 
       <ul className="relative grid grid-cols-2 gap-x-4 gap-y-3 p-5 sm:gap-x-6 sm:p-6">
         {metrics.map((label, i) => (
           <li key={label} className="flex items-center gap-3">
-            <span className="font-mono text-[10px] text-cognac">0{i + 1}</span>
-            <span className="font-mono text-[11px] uppercase leading-snug tracking-caption text-bone/85">{label}</span>
+            <span className="font-mono text-[10px] text-stone">0{i + 1}</span>
+            <span className="font-mono text-xs uppercase leading-snug tracking-caption text-bone">{label}</span>
           </li>
         ))}
       </ul>

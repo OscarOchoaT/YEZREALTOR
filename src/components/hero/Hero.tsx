@@ -144,7 +144,7 @@ function PhaseStage({
           }}
           className="invisible pointer-events-none absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-3 will-change-transform"
         >
-          <span className="font-mono text-[11px] uppercase tracking-caption text-cognac">0{i + 1}</span>
+          <span className="font-mono text-sm uppercase tracking-caption text-bone sm:text-base">0{i + 1}</span>
           <span className="whitespace-nowrap font-display text-6xl tracking-[0.02em] text-bone sm:text-7xl lg:text-8xl">
             {phase.title}
           </span>
@@ -152,7 +152,7 @@ function PhaseStage({
             ref={(el) => {
               labelRefs.current[i] = el;
             }}
-            className="invisible max-w-xs text-center font-mono text-[11px] uppercase tracking-caption text-bone/55"
+            className="invisible max-w-sm text-center font-body text-sm font-normal text-bone sm:max-w-md sm:text-base"
           >
             {phase.microlabel}
           </div>
@@ -164,7 +164,7 @@ function PhaseStage({
         className="invisible pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-4 px-6 text-center will-change-transform"
       >
         <div className="pointer-events-auto flex max-w-xl flex-col items-center gap-4">
-          <span className="font-mono text-sm uppercase tracking-caption text-cognac sm:text-base">
+          <span className="font-mono text-sm uppercase tracking-caption text-stone sm:text-base">
             The Next Move Method™
           </span>
           <p aria-hidden="true" className="font-display text-3xl tracking-headline text-bone xl:text-4xl">
@@ -378,16 +378,16 @@ export default function Hero() {
         <div className="mx-auto grid max-w-3xl grid-cols-1 gap-12 pb-20 sm:grid-cols-2">
           {METHOD_DETAILS.map((phase, i) => (
             <div key={phase.id} className="flex flex-col items-center gap-3 text-center">
-              <span className="font-mono text-xs uppercase tracking-caption text-cognac">0{i + 1}</span>
+              <span className="font-mono text-xs uppercase tracking-caption text-bone">0{i + 1}</span>
               <span className="font-display text-3xl tracking-[0.02em] text-bone">{phase.title}</span>
-              <span className="max-w-xs font-mono text-[10px] uppercase tracking-caption text-stone">
+              <span className="max-w-xs font-body text-sm font-normal text-bone">
                 {phase.microlabel}
               </span>
             </div>
           ))}
         </div>
         <div className="mx-auto flex max-w-2xl flex-col items-center gap-6 text-center">
-          <span className="font-mono text-sm uppercase tracking-caption text-cognac sm:text-base">
+          <span className="font-mono text-sm uppercase tracking-caption text-stone sm:text-base">
             The Next Move Method™
           </span>
           <p aria-hidden="true" className="font-display text-4xl tracking-headline text-bone">{HERO_COPY.headline}</p>

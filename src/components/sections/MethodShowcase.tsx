@@ -107,7 +107,7 @@ export default function MethodShowcase() {
               <div
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-0"
-                style={{ background: "radial-gradient(closest-side, rgba(0,0,0,0.4), transparent 72%)" }}
+                style={{ background: "radial-gradient(closest-side, rgba(26,18,11,0.72), rgba(26,18,11,0.5) 55%, transparent 90%)" }}
               />
               <div className="relative z-10 mx-auto flex max-h-full max-w-2xl flex-col items-center gap-3 overflow-hidden text-center sm:gap-4">
                 <span className="flex items-center gap-2 font-mono text-sm uppercase tracking-caption text-bone sm:text-base">
@@ -123,7 +123,7 @@ export default function MethodShowcase() {
                 <p className="max-w-lg font-body text-xl font-medium tracking-subhead text-glow drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] sm:text-2xl">
                   {phase.accentLine}
                 </p>
-                <p className="max-w-md font-body text-base font-light text-bone/85 sm:text-lg">{phase.microlabel}</p>
+                <p className="max-w-md font-body text-base font-normal text-bone sm:text-lg">{phase.microlabel}</p>
                 <div className="mt-2 w-full max-w-md">
                   <PhaseHud
                     ref={(el) => {
