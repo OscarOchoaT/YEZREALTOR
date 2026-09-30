@@ -114,7 +114,7 @@ export default function MethodNodes({ cardRefs }: MethodNodesProps) {
                 <h3 className="font-display text-4xl leading-[0.95] tracking-headline text-bone xl:text-5xl">
                   {detail.title}
                 </h3>
-                <p className="max-w-[26ch] font-accent text-lg italic text-glow">{detail.accentLine}</p>
+                <p className="max-w-[26ch] font-body text-lg font-medium tracking-subhead text-glow">{detail.accentLine}</p>
                 <p className="max-w-[24ch] font-body text-sm font-light text-bone/75">{detail.microlabel}</p>
                 <span className="mt-2 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-caption text-bone/70 transition-colors group-hover:text-bone">
                   Explore in full
@@ -184,7 +184,7 @@ export default function MethodNodes({ cardRefs }: MethodNodesProps) {
             transition={{ type: "spring", stiffness: 260, damping: 30 }}
             role="dialog"
             aria-modal="true"
-            aria-label={`${active.title} — The Next Move Method`}
+            aria-label={`${active.title}: The Next Move Method`}
             className="fixed inset-3 z-[70] flex flex-col overflow-y-auto rounded-3xl bg-cocoaBark p-8 sm:inset-x-10 sm:inset-y-8 sm:p-14 lg:inset-x-24 lg:inset-y-12"
           >
             <button
@@ -215,7 +215,7 @@ export default function MethodNodes({ cardRefs }: MethodNodesProps) {
             <ul className="mt-8 flex max-w-xl flex-col gap-3 border-t border-bone/10 pt-6">
               {active.items.map((item) => (
                 <li key={item} className="flex gap-3 font-body text-base font-light text-bone/85">
-                  <span className="text-cognac">—</span>
+                  <span aria-hidden="true" className="text-cognac">·</span>
                   {item}
                 </li>
               ))}

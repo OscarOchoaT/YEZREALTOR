@@ -120,7 +120,7 @@ export default function MethodShowcase() {
                 <h2 className="font-display text-5xl leading-[0.9] tracking-headline text-bone drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)] sm:text-6xl lg:text-7xl">
                   {phase.title}
                 </h2>
-                <p className="max-w-lg font-accent text-xl italic text-glow drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] sm:text-2xl">
+                <p className="max-w-lg font-body text-xl font-medium tracking-subhead text-glow drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] sm:text-2xl">
                   {phase.accentLine}
                 </p>
                 <p className="max-w-md font-body text-base font-light text-bone/85 sm:text-lg">{phase.microlabel}</p>
@@ -186,7 +186,7 @@ export default function MethodShowcase() {
               <h2 className="relative z-10 font-display text-5xl leading-[0.9] tracking-headline text-bone sm:text-6xl">
                 {phase.title}
               </h2>
-              <p className="relative z-10 max-w-sm font-accent text-xl italic text-glow">{phase.accentLine}</p>
+              <p className="relative z-10 max-w-sm font-body text-xl font-medium tracking-subhead text-glow">{phase.accentLine}</p>
               <p className="relative z-10 max-w-sm font-body text-base font-light text-bone/80">{phase.microlabel}</p>
               <div className="relative z-10 mt-2 w-full">
                 <PhaseHud heading={`${phase.title} · Focus`} metrics={phase.hud} />

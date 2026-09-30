@@ -70,7 +70,7 @@ export default function About() {
             ))}
           </div>
 
-          <p className="border-t border-bone/10 pt-6 font-accent text-xl italic leading-relaxed text-glow sm:text-2xl">
+          <p className="border-t border-bone/10 pt-6 font-body text-base font-medium leading-relaxed tracking-subhead text-glow sm:text-lg">
             {ABOUT.tags.join(" · ")}
           </p>
         </div>

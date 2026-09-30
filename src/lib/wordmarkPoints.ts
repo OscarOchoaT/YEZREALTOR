@@ -56,8 +56,7 @@ export async function sampleWordmarkPoints(
   if (!ctx) return empty;
   ctx.scale(dpr, dpr);
 
-  // Read whatever font .font-display currently resolves to (Rubik Black now,
-  // Coolvetica once the client's file lands — see src/app/fonts.ts TODO).
+  // Read whatever font .font-display currently resolves to (Coolvetica Heavy — see src/app/fonts.ts).
   const probe = document.createElement("span");
   probe.className = "font-display";
   probe.style.visibility = "hidden";

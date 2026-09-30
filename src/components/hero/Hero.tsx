@@ -289,9 +289,9 @@ export default function Hero() {
   );
 
   return (
-    <section ref={sectionRef} id="hero" aria-label={`Yez The Realtor — ${HERO_COPY.headline}`}>
+    <section ref={sectionRef} id="hero" aria-label={`Yez The Realtor: ${HERO_COPY.headline}`}>
       <h1 className="sr-only">
-        The Next Move Method™ — {HERO_COPY.headline}
+        The Next Move Method™. {HERO_COPY.headline}
       </h1>
       {/* Desktop: pinned scroll-driven phase reveal (lg and up, motion-safe). */}
       <div className="hidden lg:motion-safe:block">

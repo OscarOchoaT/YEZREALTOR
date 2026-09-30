@@ -28,7 +28,7 @@ export default function TypeformEmbed({ source }: { source?: ServiceId | null })
       <iframe
         key={src}
         src={src}
-        title="Yez The Realtor — Contact form"
+        title="Yez The Realtor contact form"
         allow="camera; microphone; autoplay; encrypted-media;"
         loading="lazy"
         style={{ width: "100%", height: "640px", border: "none" }}

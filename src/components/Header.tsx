@@ -30,7 +30,7 @@ export default function Header() {
         <TransitionLink
           href={isHome ? "#hero" : "/"}
           className="flex items-center gap-2"
-          aria-label="Yez The Realtor — home"
+          aria-label="Yez The Realtor, home"
         >
           {/* Same lockup at rest and scrolled — only its size/the header's padding
               shrink, so nothing swaps or flips. Source PNG is trimmed to its ink

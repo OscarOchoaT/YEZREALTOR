@@ -42,7 +42,7 @@ export default function Manifesto() {
 
         <motion.div {...fadeUp} className="flex flex-col items-center gap-5">
           <p className="font-body text-base font-light text-bone/70">{MANIFESTO.closingStatement}</p>
-          <p className="font-accent text-4xl italic text-glow sm:text-5xl">{MANIFESTO.signature}</p>
+          <p className="font-display text-4xl tracking-headline text-glow sm:text-6xl">{MANIFESTO.signature}</p>
         </motion.div>
       </div>
     </section>

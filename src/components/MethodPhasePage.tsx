@@ -109,7 +109,7 @@ export default function MethodPhasePage({ phaseId }: { phaseId: MethodDetail["id
               {phase.title}
             </motion.h1>
 
-            <motion.p variants={heroItem} className="mt-6 max-w-xl font-accent text-2xl italic text-glow sm:text-3xl">
+            <motion.p variants={heroItem} className="mt-6 max-w-xl font-body text-2xl font-medium tracking-subhead text-glow sm:text-3xl">
               {phase.accentLine}
             </motion.p>
 

@@ -1,4 +1,5 @@
-import { Fraunces, Hanken_Grotesk, JetBrains_Mono, Rubik } from "next/font/google";
+import localFont from "next/font/local";
+import { Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 
 export const hankenGrotesk = Hanken_Grotesk({
   subsets: ["latin"],
@@ -14,28 +15,16 @@ export const jetBrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-// TODO(brand): Coolvetica (Regular 400 / Medium 500 / Black 900) is Yez's real
-// display typeface but is not distributed on Google Fonts and the client has not
-// delivered the licensed file yet (fontdownloader.net/coolvetica-font/ — do not
-// auto-download third-party font files). Rubik Black stands in as a structural
-// fallback (geometric grotesque, 900 weight available) until the real file lands
-// in /public/fonts and this is swapped for a local @font-face / next/font/local load.
-export const rubik = Rubik({
-  subsets: ["latin"],
-  weight: ["400", "500", "900"],
+// Coolvetica is Yez's display typeface (licensed files delivered in /FONTS).
+// The family ships Regular and Heavy but no Medium/Black, so the Brand Guide's
+// Subheadline (Medium 500) maps to Regular and the Primary Headline (Black 900)
+// maps to Heavy.
+export const coolvetica = localFont({
+  src: [
+    { path: "../fonts/Coolvetica-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/Coolvetica-Regular.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/Coolvetica-Heavy-Regular.woff2", weight: "900", style: "normal" },
+  ],
   variable: "--font-display",
-  display: "swap",
-});
-
-// The site's one moment of voice: an italic serif reserved for a single
-// cinematic line per dramatic beat (Method phase pages, the homepage Method
-// intro, the Manifesto close) — the same register as the gold italic
-// captions in the client's own "Next Move Method" mood reference. Never used
-// for body copy or UI labels, so it stays a flourish, not a second display face.
-export const fraunces = Fraunces({
-  subsets: ["latin"],
-  style: ["italic"],
-  weight: ["400", "500"],
-  variable: "--font-accent",
   display: "swap",
 });

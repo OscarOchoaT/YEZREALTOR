@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
-import { fraunces, hankenGrotesk, jetBrainsMono, rubik } from "./fonts";
+import { hankenGrotesk, jetBrainsMono, coolvetica } from "./fonts";
 import SmoothScroll from "@/components/SmoothScroll";
 import Header from "@/components/Header";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "Yez The Realtor | Austin Realtor & Strategic Homeownership",
   description:
-    "Yez is a bilingual real estate advisor and homeownership strategist licensed in Austin, Texas — helping first-time buyers, relocators, and investors design their next move with The Next Move Method. Realtor en Español, Austin.",
+    "Yez is a bilingual real estate advisor and homeownership strategist licensed in Austin, Texas, helping first-time buyers, relocators, and investors design their next move with The Next Move Method. Realtor en Español, Austin.",
   keywords: [
     "Austin realtor",
     "bilingual realtor Austin Texas",
@@ -62,7 +62,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${hankenGrotesk.variable} ${jetBrainsMono.variable} ${rubik.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${hankenGrotesk.variable} ${jetBrainsMono.variable} ${coolvetica.variable} h-full antialiased`}
       // The blocking script below mutates this element's classList before
       // React hydrates (see SKIP_LOADER_SCRIPT) — without this, React flags
       // that as a hydration mismatch and bails out of reconciling <html>

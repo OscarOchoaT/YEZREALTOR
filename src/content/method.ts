@@ -40,7 +40,7 @@ export const METHOD_DETAILS: MethodDetail[] = [
       "Not just what home you want",
       "Your real financial position",
       "Buying and investing capacity",
-      "Timing — now, or when it makes sense",
+      "Timing: now, or when it makes sense",
       "Lifestyle and priorities",
       "Where this move fits your future",
     ],

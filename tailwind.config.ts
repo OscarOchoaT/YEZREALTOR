@@ -15,21 +15,16 @@ const config: Config = {
         cognac: "#7A5239",
         siena: "#602F10",
         // Not in the Brand Guide's palette proper — reserved exclusively for
-        // the italic accent line (font-accent) on dark phase heroes, where
+        // the accent line on dark phase heroes, where
         // cognac itself doesn't carry enough contrast to read as the warm
         // "gold caption" beat from the client's mood reference.
         glow: "#E3B27C",
       },
       fontFamily: {
-        // Coolvetica is the brand display face; the client has not delivered the
-        // licensed font file yet. Rubik Black is a close-enough structural fallback
-        // (geometric grotesque, very heavy weight). TODO: swap for Coolvetica once
-        // the .otf/.woff2 files are provided — see src/app/fonts.ts.
-        display: ["var(--font-display)", "Rubik", "system-ui", "sans-serif"],
+        // Coolvetica is the brand display face — see src/app/fonts.ts.
+        display: ["var(--font-display)", "system-ui", "sans-serif"],
         body: ["var(--font-body)", "Hanken Grotesk", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "JetBrains Mono", "ui-monospace", "monospace"],
-        // Reserved for one italic accent line per dramatic beat — see fonts.ts.
-        accent: ["var(--font-accent)", "Georgia", "serif"],
       },
       letterSpacing: {
         headline: "-0.04em",
