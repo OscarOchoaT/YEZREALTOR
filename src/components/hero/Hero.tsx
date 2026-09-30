@@ -152,7 +152,7 @@ function PhaseStage({
             ref={(el) => {
               labelRefs.current[i] = el;
             }}
-            className="invisible max-w-sm text-center font-body text-sm font-normal text-bone sm:max-w-md sm:text-base"
+            className="invisible max-w-xs text-center font-mono text-[11px] uppercase tracking-caption text-bone/55"
           >
             {phase.microlabel}
           </div>
@@ -380,7 +380,7 @@ export default function Hero() {
             <div key={phase.id} className="flex flex-col items-center gap-3 text-center">
               <span className="font-mono text-xs uppercase tracking-caption text-bone">0{i + 1}</span>
               <span className="font-display text-3xl tracking-[0.02em] text-bone">{phase.title}</span>
-              <span className="max-w-xs font-body text-sm font-normal text-bone">
+              <span className="max-w-xs font-mono text-[10px] uppercase tracking-caption text-stone">
                 {phase.microlabel}
               </span>
             </div>
