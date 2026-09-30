@@ -60,7 +60,7 @@ export default function Header() {
         <Magnetic strength={0.3}>
           <TransitionLink
             href={isHome ? "#contact" : "/#contact"}
-            className="inline-flex items-center justify-center rounded-full bg-cognac px-5 py-2.5 font-mono text-xs uppercase tracking-caption text-bone transition-colors hover:bg-siena"
+            className="inline-flex items-center justify-center border border-cognac bg-cognac px-5 py-2.5 font-mono text-xs uppercase tracking-caption text-bone transition-colors hover:border-siena hover:bg-siena"
           >
             {HERO_COPY.ctaPrimary}
           </TransitionLink>

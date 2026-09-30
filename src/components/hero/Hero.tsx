@@ -29,49 +29,41 @@ const EXIT = 0.06;
 const GAP = 0.03;
 const BLOCK = ENTER + HOLD + EXIT + GAP;
 
+// The hero opens on the main statement (eyebrow, headline, copy, CTAs). Only
+// once the visitor scrolls does it give way to the four phases, one at a
+// time, and it returns at the very end so the CTAs are reachable again.
+const HEADLINE_HOLD = 0.08;
+const PHASES_START = HEADLINE_HOLD + EXIT + GAP;
+
 /**
- * Builds the "one phase at a time, emerging from depth" sequence onto an
- * existing GSAP timeline — shared verbatim by desktop (pinned) and mobile
- * (scrubbed-in-place) setups below, since the choreography itself doesn't
- * depend on how the timeline is triggered, only what drives its progress.
- * Every phase is centered by CSS from the start (no per-breakpoint position
- * math needed, unlike the old word-migration version), so this is pure
+ * Builds the sequence onto an existing GSAP timeline — shared verbatim by
+ * desktop (pinned) and mobile (scrubbed-in-place) setups below, since the
+ * choreography itself doesn't depend on how the timeline is triggered, only
+ * what drives its progress. Everything is centered by CSS, so this is pure
  * timing, no layout.
  *
- * The first phase is set visible BEFORE the timeline (not as its first
- * tween) so it's already there at scroll position 0, on first paint, with
- * no scroll required — a scrub timeline only evaluates once scrolling
- * actually starts, so gating even the first word behind it left the entire
- * hero blank until a visitor scrolled a few pixels. Phase 0 only exits via
- * the timeline; phases 1+ still enter and exit from it as before.
+ * The headline block is visible on first paint (a one-time mount tween gives
+ * it an entrance, independent of the scrub) so the page never opens blank or
+ * on anything but the main text.
  */
 function buildPhaseSequence(
   tl: gsap.core.Timeline,
   wordRefs: (HTMLDivElement | null)[],
   labelRefs: (HTMLDivElement | null)[],
-  headlineRef: HTMLDivElement | null
+  headlineRef: HTMLDivElement | null,
+  phaseLabelRef: HTMLDivElement | null
 ) {
   gsap.set(wordRefs, { autoAlpha: 0, scale: 0.15 });
   gsap.set(labelRefs, { autoAlpha: 0 });
-  gsap.set(headlineRef, { autoAlpha: 0, y: 24 });
+  gsap.set(phaseLabelRef, { autoAlpha: 0 });
 
-  // Phase 0: already on screen, no scroll needed. A one-time mount tween
-  // (independent of the scroll-scrubbed timeline below) gives it a genuine
-  // entrance the moment the page loads, matching HeroCanvas's own camera
-  // dolly-in — so the very first paint already feels alive.
-  gsap.fromTo(
-    wordRefs[0],
-    { autoAlpha: 0, scale: 0.4 },
-    { autoAlpha: 1, scale: 1, duration: 1.4, ease: "power2.out" }
-  );
-  gsap.to(labelRefs[0], { autoAlpha: 1, duration: 1, delay: 0.5, ease: "power1.out" });
+  gsap.fromTo(headlineRef, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 1.1, delay: 0.2, ease: "power2.out" });
 
-  const firstHoldEnd = HOLD;
-  tl.to(labelRefs[0], { autoAlpha: 0, duration: EXIT * 0.5 }, firstHoldEnd);
-  tl.to(wordRefs[0], { autoAlpha: 0, scale: 1.5, duration: EXIT, ease: "power1.in" }, firstHoldEnd);
+  tl.to(headlineRef, { autoAlpha: 0, y: -24, duration: EXIT, ease: "power1.in" }, HEADLINE_HOLD);
+  tl.to(phaseLabelRef, { autoAlpha: 1, duration: ENTER }, PHASES_START);
 
-  for (let i = 1; i < METHOD_DETAILS.length; i++) {
-    const start = HOLD + EXIT + GAP + (i - 1) * BLOCK;
+  for (let i = 0; i < METHOD_DETAILS.length; i++) {
+    const start = PHASES_START + i * BLOCK;
     const holdEnd = start + ENTER + HOLD;
 
     tl.to(wordRefs[i], { autoAlpha: 1, scale: 1, duration: ENTER, ease: "power2.out" }, start);
@@ -80,25 +72,23 @@ function buildPhaseSequence(
     tl.to(wordRefs[i], { autoAlpha: 0, scale: 1.5, duration: EXIT, ease: "power1.in" }, holdEnd);
   }
 
-  const finalStart = HOLD + EXIT + GAP + (METHOD_DETAILS.length - 1) * BLOCK;
-  tl.to(headlineRef, { autoAlpha: 1, y: 0, ease: "power2.out", duration: 1 - finalStart }, finalStart);
+  const finalStart = PHASES_START + (METHOD_DETAILS.length - 1) * BLOCK + ENTER + HOLD + EXIT;
+  tl.to(phaseLabelRef, { autoAlpha: 0, duration: EXIT * 0.5 }, finalStart - EXIT * 0.5);
+  tl.fromTo(headlineRef, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, ease: "power2.out", duration: 0.12, immediateRender: false }, finalStart + GAP);
 }
+
+const CTA_CLASS =
+  "inline-flex min-w-[15rem] items-center justify-center border px-8 py-4 font-mono text-xs uppercase tracking-caption transition-colors";
 
 function CTAs() {
   return (
-    <div className="flex flex-col items-center gap-4 sm:flex-row">
+    <div className="flex flex-col items-center gap-3 sm:flex-row">
       <Magnetic strength={0.35}>
-        <a
-          href="#contact"
-          className="inline-flex items-center justify-center rounded-full bg-glow px-8 py-4 font-body text-sm font-medium tracking-normal text-espresso transition-colors hover:bg-bone"
-        >
+        <a href="#contact" className={`${CTA_CLASS} border-glow bg-glow text-espresso hover:border-bone hover:bg-bone`}>
           {HERO_COPY.ctaPrimary}
         </a>
       </Magnetic>
-      <a
-        href="#method"
-        className="font-mono text-xs uppercase tracking-caption text-bone/70 underline decoration-cognac decoration-1 underline-offset-4 transition-colors hover:text-bone"
-      >
+      <a href="#method" className={`${CTA_CLASS} border-bone/40 text-bone hover:border-bone hover:bg-bone/10`}>
         {HERO_COPY.ctaSecondary}
       </a>
     </div>
@@ -111,10 +101,12 @@ function PhaseStage({
   wordRefs,
   labelRefs,
   headlineRef,
+  phaseLabelRef,
 }: {
   wordRefs: React.MutableRefObject<(HTMLDivElement | null)[]>;
   labelRefs: React.MutableRefObject<(HTMLDivElement | null)[]>;
   headlineRef: React.RefObject<HTMLDivElement | null>;
+  phaseLabelRef: React.RefObject<HTMLDivElement | null>;
 }) {
   return (
     <>
@@ -128,10 +120,13 @@ function PhaseStage({
 
       {/* The Next Move Method™ is the brand — the mother of Decode/Design/
           Execute/Advance below, not one more label among them. It sits
-          permanently at the top of the stage, visible on first paint before
-          any scroll, so it reads as the primary claim; the phase carousel
-          underneath is the supporting, rotating detail. */}
-      <div className="pointer-events-none absolute inset-x-0 top-[12%] flex flex-col items-center gap-1 px-6 text-center sm:top-[15%]">
+          at the top of the stage while the phases play (the main statement
+          carries the same eyebrow before and after), so the phase carousel
+          underneath reads as that brand's supporting, rotating detail. */}
+      <div
+        ref={phaseLabelRef}
+        className="invisible pointer-events-none absolute inset-x-0 top-[12%] flex flex-col items-center gap-1 px-6 text-center sm:top-[15%]"
+      >
         <span className="font-display text-2xl uppercase tracking-headline text-bone drop-shadow-[0_4px_20px_rgba(0,0,0,0.55)] sm:text-3xl lg:text-4xl">
           The Next Move Method<span className="align-super text-xs sm:text-sm">™</span>
         </span>
@@ -194,6 +189,7 @@ export default function Hero() {
   const wordRefs = useRef<(HTMLDivElement | null)[]>([]);
   const labelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const headlineWrapRef = useRef<HTMLDivElement>(null);
+  const phaseLabelRef = useRef<HTMLDivElement>(null);
 
   // Mobile refs — a single un-pinned stage, scrubbed by the section's own
   // natural scroll position (see setupMobile below).
@@ -202,6 +198,7 @@ export default function Hero() {
   const mobileWordRefs = useRef<(HTMLDivElement | null)[]>([]);
   const mobileLabelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const mobileHeadlineRef = useRef<HTMLDivElement>(null);
+  const mobilePhaseLabelRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
@@ -239,7 +236,7 @@ export default function Hero() {
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top top",
-            end: "+=160%",
+            end: "+=220%",
             scrub: 1,
             pin: stickyEl,
             anticipatePin: 1,
@@ -250,7 +247,7 @@ export default function Hero() {
           },
         });
 
-        buildPhaseSequence(tl, wordRefs.current, labelRefs.current, headlineWrapRef.current);
+        buildPhaseSequence(tl, wordRefs.current, labelRefs.current, headlineWrapRef.current, phaseLabelRef.current);
       }
 
       /**
@@ -280,7 +277,13 @@ export default function Hero() {
           },
         });
 
-        buildPhaseSequence(tl, mobileWordRefs.current, mobileLabelRefs.current, mobileHeadlineRef.current);
+        buildPhaseSequence(
+          tl,
+          mobileWordRefs.current,
+          mobileLabelRefs.current,
+          mobileHeadlineRef.current,
+          mobilePhaseLabelRef.current
+        );
       }
 
       return () => mm.revert();
@@ -316,7 +319,7 @@ export default function Hero() {
           />
           <HudFrame />
 
-          <PhaseStage wordRefs={wordRefs} labelRefs={labelRefs} headlineRef={headlineWrapRef} />
+          <PhaseStage wordRefs={wordRefs} labelRefs={labelRefs} headlineRef={headlineWrapRef} phaseLabelRef={phaseLabelRef} />
 
           {/* A quiet technical flourish, not a data point anyone needs —
               the same "precision instrument" register as the mono/caption
@@ -355,7 +358,12 @@ export default function Hero() {
           />
           <HudFrame />
 
-          <PhaseStage wordRefs={mobileWordRefs} labelRefs={mobileLabelRefs} headlineRef={mobileHeadlineRef} />
+          <PhaseStage
+            wordRefs={mobileWordRefs}
+            labelRefs={mobileLabelRefs}
+            headlineRef={mobileHeadlineRef}
+            phaseLabelRef={mobilePhaseLabelRef}
+          />
         </div>
       </div>
 

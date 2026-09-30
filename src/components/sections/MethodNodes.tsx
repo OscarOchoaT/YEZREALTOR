@@ -225,7 +225,7 @@ export default function MethodNodes({ cardRefs }: MethodNodesProps) {
               <Magnetic strength={0.3}>
                 <TransitionLink
                   href={`/metodo/${active.id}`}
-                  className="inline-flex items-center gap-2 rounded-full bg-glow px-7 py-3.5 font-body text-sm font-medium text-espresso transition-colors hover:bg-bone"
+                  className="inline-flex items-center justify-center border border-glow bg-glow px-8 py-4 font-mono text-xs uppercase tracking-caption text-espresso transition-colors hover:border-bone hover:bg-bone gap-2"
                 >
                   Explore {titleCase(active.title)} in full
                   <span aria-hidden="true">→</span>

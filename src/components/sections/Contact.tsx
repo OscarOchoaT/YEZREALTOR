@@ -46,7 +46,7 @@ export default function Contact() {
           <p className="max-w-lg text-center font-body text-base font-light text-bone/75">{CONTACT.supporting}</p>
           <a
             href="#contact-form"
-            className="inline-flex items-center justify-center rounded-full bg-glow px-8 py-4 font-body text-sm font-medium text-espresso transition-colors hover:bg-bone"
+            className="inline-flex items-center justify-center border border-glow bg-glow px-8 py-4 font-mono text-xs uppercase tracking-caption text-espresso transition-colors hover:border-bone hover:bg-bone"
           >
             {CONTACT.ctaFinal}
           </a>
