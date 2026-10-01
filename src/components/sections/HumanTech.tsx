@@ -302,7 +302,7 @@ export default function HumanTech() {
   return (
     <div ref={rootRef} className="relative mx-auto mt-24 max-w-6xl">
       <h2 className="text-center font-display text-3xl tracking-headline text-bone sm:text-4xl">
-        <span className="text-stone">{TECH_VS_YEZ.heading[0]}</span> <span className="text-cognac">+</span> {TECH_VS_YEZ.heading[1]}
+        <span>{TECH_VS_YEZ.heading[0]}</span> <span className="text-cognac">+</span> {TECH_VS_YEZ.heading[1]}
       </h2>
 
       <div className="mt-12 grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_minmax(0,28rem)_1fr] lg:gap-8">

@@ -9,7 +9,7 @@ export const METHOD_INTRO_I18N: Localized<{ eyebrow: string; headline: string; a
   },
   es: {
     eyebrow: "The Next Move Method™",
-    headline: "Descifra. Diseña. Ejecuta. Avanza.",
+    headline: "Decode. Design. Execute. Advance.",
     accentLine:
       "No es solo el proceso de compra. Es la metodología que Yez usa para ayudarte a tomar y ejecutar la decisión de propiedad correcta.",
   },
@@ -102,7 +102,7 @@ export const METHOD_DETAILS_I18N: Localized<MethodDetail[]> = {
   es: [
     {
       id: "decode",
-      title: "DESCIFRAR",
+      title: "DECODE",
       microlabel: "Antes de mirar propiedades, entendemos tu posición financiera, tus tiempos, tu estilo de vida y tus objetivos a futuro.",
       accentLine: "Desciframos la historia que tus finanzas ya están contando.",
       hud: ["Posición financiera", "Tiempos", "Estilo de vida", "Objetivos a futuro"],
@@ -117,7 +117,7 @@ export const METHOD_DETAILS_I18N: Localized<MethodDetail[]> = {
     },
     {
       id: "design",
-      title: "DISEÑAR",
+      title: "DESIGN",
       microlabel: "Convertimos lo que aprendimos en tu Estrategia de Propiedad Personalizada, definiendo tu presupuesto, escenarios, prioridades, estilo de vida y próximos pasos.",
       accentLine: "Una estrategia construida en torno a tu vida, nunca una búsqueda genérica.",
       hud: ["Alineación de presupuesto", "Planeación de escenarios", "Estrategia de búsqueda", "Ajuste al estilo de vida"],
@@ -129,7 +129,7 @@ export const METHOD_DETAILS_I18N: Localized<MethodDetail[]> = {
     },
     {
       id: "execute",
-      title: "EJECUTAR",
+      title: "EXECUTE",
       microlabel: "Desde el análisis de propiedades y la preparación de ofertas hasta las inspecciones, la negociación, la coordinación del financiamiento y el cierre, gestionamos el proceso con intención.",
       accentLine: "Cada paso, representado; nada se deja al azar.",
       hud: ["Análisis de propiedades", "Estrategia de oferta", "Negociación", "Control de tiempos", "Gestión de riesgos"],
@@ -144,7 +144,7 @@ export const METHOD_DETAILS_I18N: Localized<MethodDetail[]> = {
     },
     {
       id: "advance",
-      title: "AVANZAR",
+      title: "ADVANCE",
       microlabel: "La propiedad no termina en el cierre. Continuamos el plan en torno al capital, los cambios del mercado, futuras mudanzas, oportunidades de inversión y el siguiente capítulo de tu estrategia inmobiliaria.",
       accentLine: "La relación sigue avanzando mucho después del día del cierre.",
       hud: ["Capital", "Red de contactos", "Posición de mercado", "Portafolio", "Futuras mudanzas"],

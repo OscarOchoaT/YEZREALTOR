@@ -65,5 +65,5 @@ export const CONTACT_I18N: Localized<{
 
 export const FOOTER_I18N: Localized<{ tagline: string }> = {
   en: { tagline: "Ownership, Designed." },
-  es: { tagline: "Propiedad, diseñada." },
+  es: { tagline: "Ownership, Designed." },
 };

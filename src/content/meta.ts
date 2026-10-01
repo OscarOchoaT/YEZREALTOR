@@ -81,22 +81,22 @@ export const PHASE_META: Localized<Record<PhaseId, { title: string; description:
   },
   es: {
     decode: {
-      title: "Descifrar | The Next Move Method | Yez The Realtor",
+      title: "Decode | The Next Move Method | Yez The Realtor",
       description:
         "La primera fase de The Next Move Method: entender tu situación completa: posición financiera, tiempos, estilo de vida y dónde encaja esta mudanza en tu futuro.",
     },
     design: {
-      title: "Diseñar | The Next Move Method | Yez The Realtor",
+      title: "Design | The Next Move Method | Yez The Realtor",
       description:
         "La segunda fase de The Next Move Method: convertir lo que aprendimos en una Estrategia de Propiedad Personalizada, construida en torno a tu presupuesto, escenarios y prioridades.",
     },
     execute: {
-      title: "Ejecutar | The Next Move Method | Yez The Realtor",
+      title: "Execute | The Next Move Method | Yez The Realtor",
       description:
         "La tercera fase de The Next Move Method: análisis de propiedades, ofertas, negociación, inspecciones, coordinación del financiamiento y cierre, gestionados con intención.",
     },
     advance: {
-      title: "Avanzar | The Next Move Method | Yez The Realtor",
+      title: "Advance | The Next Move Method | Yez The Realtor",
       description:
         "La cuarta fase de The Next Move Method: continuar el plan después del cierre en torno al capital, los cambios del mercado, futuras mudanzas y oportunidades de inversión.",
     },

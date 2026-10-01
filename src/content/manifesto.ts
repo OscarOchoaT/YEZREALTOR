@@ -33,6 +33,6 @@ export const MANIFESTO_I18N: Localized<{
     ],
     statement: "La próxima generación no necesita otro agente inmobiliario. Necesita una mejor forma de pensar la propiedad.",
     closingStatement: "Esto es la Propiedad de Vivienda Estratégica.",
-    signature: "Propiedad, diseñada.",
+    signature: "Ownership, Designed.",
   },
 };
