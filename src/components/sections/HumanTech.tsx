@@ -1,13 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { motion } from "framer-motion";
 import { TECH_VS_YEZ_I18N } from "@/content/method";
 import { useContent } from "@/i18n/LocaleProvider";
-import { SOUND_EVENT, getSoundPref, setSoundPref } from "@/lib/soundPref";
+import { SOUND_EVENT, getSoundPref } from "@/lib/soundPref";
 import { Fx } from "@/lib/fx";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -102,7 +102,6 @@ export default function HumanTech() {
   const pulseTlRef = useRef<gsap.core.Timeline | null>(null);
   const fxRef = useRef<Fx | null>(null);
   const soundRef = useRef(false);
-  const [soundOn, setSoundOn] = useState(false);
 
   useEffect(() => {
     const fx = new Fx();
@@ -111,7 +110,6 @@ export default function HumanTech() {
     const turnOn = () => {
       if (!fx.enable()) return;
       soundRef.current = true;
-      setSoundOn(true);
     };
 
     // Sound was chosen on the entry screen: the click on "Enter" dispatches
@@ -299,26 +297,7 @@ export default function HumanTech() {
     { scope: rootRef }
   );
 
-  const replay = useCallback(() => {
-    pulseTlRef.current?.pause(0);
-    pulseRefs.current.forEach((el) => el && gsap.set(el, { autoAlpha: 0 }));
-    tlRef.current?.restart();
-  }, []);
-
-  const toggleSound = () => {
-    const next = !soundOn;
-    if (next) {
-      if (!fxRef.current?.enable()) return;
-      fxRef.current.blip(4, 0.06);
-    }
-    soundRef.current = next;
-    setSoundOn(next);
-    setSoundPref(next);
-  };
-
   const layer = "pointer-events-none absolute inset-0 h-full w-full overflow-visible";
-  const control =
-    "text-bone/70 underline decoration-cognac decoration-1 underline-offset-4 transition-colors hover:text-bone";
 
   return (
     <div ref={rootRef} className="relative mx-auto mt-24 max-w-6xl">
@@ -440,14 +419,6 @@ export default function HumanTech() {
             <span className="min-h-[1.25rem] min-w-[14ch] text-center" aria-live="polite">
               <span ref={statusRef} />
             </span>
-          </div>
-          <div className="mt-3 flex items-center justify-center gap-6 font-mono text-[11px] uppercase tracking-caption">
-            <button type="button" onClick={toggleSound} aria-pressed={soundOn} className={control}>
-              {soundOn ? TECH_VS_YEZ.soundOn : TECH_VS_YEZ.soundOff}
-            </button>
-            <button type="button" onClick={replay} className={control}>
-              {TECH_VS_YEZ.replay}
-            </button>
           </div>
         </div>
 

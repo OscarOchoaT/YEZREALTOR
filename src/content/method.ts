@@ -169,9 +169,6 @@ export const TECH_VS_YEZ_I18N: Localized<{
   statusHuman: string;
   statusTech: string;
   statusDone: string;
-  soundOn: string;
-  soundOff: string;
-  replay: string;
 }> = {
   en: {
     heading: ["Human", "Technology"],
@@ -190,9 +187,6 @@ export const TECH_VS_YEZ_I18N: Localized<{
     statusHuman: "Decoding human…",
     statusTech: "Building technology…",
     statusDone: "Human + Technology",
-    soundOn: "Sound on",
-    soundOff: "Sound off",
-    replay: "Replay",
   },
   es: {
     heading: ["Humano", "Tecnología"],
@@ -211,8 +205,5 @@ export const TECH_VS_YEZ_I18N: Localized<{
     statusHuman: "Descifrando lo humano…",
     statusTech: "Construyendo tecnología…",
     statusDone: "Humano + Tecnología",
-    soundOn: "Sonido activado",
-    soundOff: "Sonido desactivado",
-    replay: "Repetir",
   },
 };

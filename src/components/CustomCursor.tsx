@@ -57,7 +57,7 @@ export default function CustomCursor() {
     <div
       ref={cursorRef}
       aria-hidden="true"
-      className="pointer-events-none fixed left-0 top-0 z-[100] -translate-x-1/2 -translate-y-1/2 select-none font-display text-xl leading-none text-cognac opacity-0 will-change-transform"
+      className="pointer-events-none fixed left-0 top-0 z-[110] -translate-x-1/2 -translate-y-1/2 select-none font-display text-xl leading-none text-cognac opacity-0 will-change-transform"
     >
       Y
     </div>
