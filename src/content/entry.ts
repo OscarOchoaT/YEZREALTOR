@@ -27,7 +27,7 @@ export const ENTRY_I18N: Localized<{
   es: {
     accept: "Acepto la Política de Privacidad y los Términos de Uso.",
     sound: "Activar sonido",
-    soundHint: "Para la experiencia interactiva Humano + Tecnología.",
+    soundHint: "Para la experiencia interactiva Factor Humano.",
     enter: "Entrar",
     needAccept: "Acepta las políticas para continuar.",
   },

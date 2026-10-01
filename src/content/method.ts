@@ -159,7 +159,7 @@ export const METHOD_DETAILS_I18N: Localized<MethodDetail[]> = {
 };
 
 export const TECH_VS_YEZ_I18N: Localized<{
-  heading: [string, string];
+  heading: [string, string] | [string];
   columns: {
     technology: { label: string; items: string[] };
     yez: { label: string; items: string[] };
@@ -189,7 +189,7 @@ export const TECH_VS_YEZ_I18N: Localized<{
     statusDone: "Human + Technology",
   },
   es: {
-    heading: ["Humano", "Tecnología"],
+    heading: ["Factor Humano"],
     columns: {
       technology: {
         label: "Tecnología",
@@ -204,6 +204,6 @@ export const TECH_VS_YEZ_I18N: Localized<{
     ariaLabel: "Un cerebro cuya mitad derecha es un circuito: humano más tecnología",
     statusHuman: "Descifrando lo humano…",
     statusTech: "Construyendo tecnología…",
-    statusDone: "Humano + Tecnología",
+    statusDone: "Factor Humano",
   },
 };
