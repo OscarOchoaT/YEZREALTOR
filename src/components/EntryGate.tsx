@@ -110,7 +110,7 @@ export default function EntryGate() {
             initial={skipIntro ? false : { opacity: 0, scale: 0.7 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 2.2, ease: EASE }}
-            className="pointer-events-none absolute inset-0"
+            className="pointer-events-none absolute inset-0 overflow-hidden"
           >
             <RadialAperture
               tone="cognac"

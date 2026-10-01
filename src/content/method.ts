@@ -179,7 +179,7 @@ export const TECH_VS_YEZ_I18N: Localized<{
       },
       yez: {
         label: "Human",
-        items: ["Listens", "Interprets", "Advises", "Negotiates", "Protects", "Represents", "Understands context"],
+        items: ["Listens & Interprets", "Advises", "Negotiates & Protects", "Represents", "Understands context"],
       },
     },
     closingLine: "High-tech where it simplifies. Deeply human where it matters.",
@@ -197,7 +197,7 @@ export const TECH_VS_YEZ_I18N: Localized<{
       },
       yez: {
         label: "Humano",
-        items: ["Escucha", "Interpreta", "Aconseja", "Negocia", "Protege", "Representa", "Entiende el contexto"],
+        items: ["Escucha e interpreta", "Aconseja", "Negocia y protege", "Representa", "Entiende el contexto"],
       },
     },
     closingLine: "Alta tecnología donde simplifica. Profundamente humano donde importa.",
