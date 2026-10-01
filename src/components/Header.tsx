@@ -8,7 +8,6 @@ import Magnetic from "@/components/Magnetic";
 import { NAV_LINKS_I18N } from "@/content/site";
 import { HERO_COPY_I18N } from "@/content/hero";
 import { UI_I18N } from "@/content/ui";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useContent, useLang } from "@/i18n/LocaleProvider";
 
 export default function Header() {
@@ -64,8 +63,6 @@ export default function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-3 sm:gap-5">
-        <LanguageSwitcher />
         <Magnetic strength={0.3}>
           <TransitionLink
             href={isHome ? "#contact" : "/#contact"}
@@ -74,7 +71,6 @@ export default function Header() {
             {HERO_COPY.ctaPrimary}
           </TransitionLink>
         </Magnetic>
-        </div>
       </div>
     </header>
   );

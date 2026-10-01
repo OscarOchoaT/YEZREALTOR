@@ -12,6 +12,8 @@ import GrainOverlay from "@/components/GrainOverlay";
 import { SourceProvider } from "@/components/SourceContext";
 import { SITE } from "@/content/site";
 import { SITE_META, SITE_URL } from "@/content/meta";
+import EntryGate from "@/components/EntryGate";
+import { ENTRY_KEY } from "@/content/entry";
 import { LocaleProvider } from "@/i18n/LocaleProvider";
 import { LOCALES, hasLocale, type Locale } from "@/i18n/config";
 import "../globals.css";
@@ -66,6 +68,10 @@ const buildJsonLd = (lang: Locale) => ({
   sameAs: [SITE.instagramUrl, SITE.tiktokUrl, SITE.facebookUrl, SITE.googleReviewsUrl, SITE.realtorDotComUrl],
 });
 
+// Runs before first paint: visitors who already passed the entry screen get
+// data-entered on <html>, which globals.css uses to hide the gate (no flash).
+const ENTRY_SCRIPT = `try{if(localStorage.getItem("${ENTRY_KEY}")==="1")document.documentElement.dataset.entered="1"}catch(e){}`;
+
 export default async function RootLayout({ children, params }: LayoutProps<"/[lang]">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
@@ -81,6 +87,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-espresso font-body font-light text-bone">
+        <script dangerouslySetInnerHTML={{ __html: ENTRY_SCRIPT }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildJsonLd(lang)) }} />
         <LocaleProvider lang={lang}>
           <PageTransitionOverlay>
@@ -91,6 +98,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
                 <WhatsAppButton />
                 <CustomCursor />
               </SmoothScroll>
+              <EntryGate />
             </SourceProvider>
           </PageTransitionOverlay>
         </LocaleProvider>

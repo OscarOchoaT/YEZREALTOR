@@ -7,6 +7,7 @@ import { useGSAP } from "@gsap/react";
 import { motion } from "framer-motion";
 import { TECH_VS_YEZ_I18N } from "@/content/method";
 import { useContent } from "@/i18n/LocaleProvider";
+import { SOUND_EVENT, getSoundPref, setSoundPref } from "@/lib/soundPref";
 import { Fx } from "@/lib/fx";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -104,8 +105,40 @@ export default function HumanTech() {
   const [soundOn, setSoundOn] = useState(false);
 
   useEffect(() => {
-    fxRef.current = new Fx();
-    return () => fxRef.current?.dispose();
+    const fx = new Fx();
+    fxRef.current = fx;
+
+    const turnOn = () => {
+      if (!fx.enable()) return;
+      soundRef.current = true;
+      setSoundOn(true);
+    };
+
+    // Sound was chosen on the entry screen: the click on "Enter" dispatches
+    // this event (a real gesture, so audio can start now).
+    const onChoice = (e: Event) => {
+      if ((e as CustomEvent<boolean>).detail) turnOn();
+    };
+    window.addEventListener(SOUND_EVENT, onChoice);
+
+    // Returning visitor who opted in earlier: restore it, and resume the
+    // (initially suspended) audio context on their first interaction.
+    let resume: (() => void) | null = null;
+    if (getSoundPref()) {
+      turnOn();
+      resume = () => void fx.enable();
+      window.addEventListener("pointerdown", resume, { once: true });
+      window.addEventListener("keydown", resume, { once: true });
+    }
+
+    return () => {
+      window.removeEventListener(SOUND_EVENT, onChoice);
+      if (resume) {
+        window.removeEventListener("pointerdown", resume);
+        window.removeEventListener("keydown", resume);
+      }
+      fx.dispose();
+    };
   }, []);
 
   useGSAP(
@@ -280,6 +313,7 @@ export default function HumanTech() {
     }
     soundRef.current = next;
     setSoundOn(next);
+    setSoundPref(next);
   };
 
   const layer = "pointer-events-none absolute inset-0 h-full w-full overflow-visible";

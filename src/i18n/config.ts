@@ -21,3 +21,8 @@ export function switchLocalePath(pathname: string, lang: Locale): string {
   const [, first, ...rest] = pathname.split("/");
   return `/${[lang, ...(hasLocale(first) ? rest : [first, ...rest].filter(Boolean))].join("/")}`;
 }
+
+/** Remembers the visitor's explicit choice so the proxy stops guessing from Accept-Language. */
+export function saveLocale(lang: Locale) {
+  document.cookie = `${LOCALE_COOKIE}=${lang}; path=/; max-age=31536000; samesite=lax`;
+}

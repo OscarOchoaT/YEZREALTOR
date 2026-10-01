@@ -1,14 +1,18 @@
 import type { Localized } from "@/i18n/config";
 
 export const MANIFESTO_I18N: Localized<{
+  eyebrow: string;
   title: string;
+  highlight: string;
   body: string[];
   statement: string;
   closingStatement: string;
   signature: string;
 }> = {
   en: {
+    eyebrow: "Manifesto",
     title: "A better way to approach ownership.",
+    highlight: "ownership",
     body: [
       "Technology that makes decisions clearer.",
       "Human guidance when the stakes are high.",
@@ -19,7 +23,9 @@ export const MANIFESTO_I18N: Localized<{
     signature: "Ownership, Designed.",
   },
   es: {
+    eyebrow: "Manifiesto",
     title: "Una mejor forma de abordar la propiedad.",
+    highlight: "propiedad",
     body: [
       "Tecnología que hace las decisiones más claras.",
       "Guía humana cuando hay mucho en juego.",
