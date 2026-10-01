@@ -4,7 +4,8 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { CREDIBILITY } from "@/content/credibility";
+import { CREDIBILITY_I18N } from "@/content/credibility";
+import { useContent } from "@/i18n/LocaleProvider";
 import { SITE } from "@/content/site";
 import DotGridBackground from "@/components/DotGridBackground";
 import Eyebrow from "@/components/Eyebrow";
@@ -19,6 +20,7 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 const TESTIMONIALS: { quote: string; author: string; detail?: string }[] = [];
 
 export default function Credibility() {
+  const CREDIBILITY = useContent(CREDIBILITY_I18N);
   const sectionRef = useRef<HTMLElement>(null);
   const factRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
@@ -92,7 +94,7 @@ export default function Credibility() {
             rel="noopener noreferrer"
             className="font-mono text-xs uppercase tracking-caption text-bone underline decoration-cognac decoration-1 underline-offset-4 hover:text-cognac"
           >
-            Google Reviews
+            {CREDIBILITY.googleReviews}
           </a>
           <a
             href={SITE.realtorDotComUrl}
@@ -100,7 +102,7 @@ export default function Credibility() {
             rel="noopener noreferrer"
             className="font-mono text-xs uppercase tracking-caption text-bone underline decoration-cognac decoration-1 underline-offset-4 hover:text-cognac"
           >
-            Realtor.com Reviews
+            {CREDIBILITY.realtorReviews}
           </a>
         </div>
       </div>

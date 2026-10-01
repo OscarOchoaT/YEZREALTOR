@@ -2,6 +2,8 @@
 
 import { SITE } from "@/content/site";
 import type { ServiceId } from "@/content/services";
+import { CONTACT_I18N } from "@/content/credibility";
+import { useContent } from "@/i18n/LocaleProvider";
 
 /**
  * Plain iframe embed of the real Typeform from the brief
@@ -21,6 +23,7 @@ import type { ServiceId } from "@/content/services";
  *   Answer text #F4F0E8 (Bone)   Button/accent  #7A5239 (Cognac)
  */
 export default function TypeformEmbed({ source }: { source?: ServiceId | null }) {
+  const CONTACT = useContent(CONTACT_I18N);
   const src = source ? `${SITE.typeformBaseUrl}#source=${source}` : SITE.typeformBaseUrl;
 
   return (
@@ -28,7 +31,7 @@ export default function TypeformEmbed({ source }: { source?: ServiceId | null })
       <iframe
         key={src}
         src={src}
-        title="Yez The Realtor contact form"
+        title={CONTACT.formTitle}
         allow="camera; microphone; autoplay; encrypted-media;"
         loading="lazy"
         style={{ width: "100%", height: "640px", border: "none" }}

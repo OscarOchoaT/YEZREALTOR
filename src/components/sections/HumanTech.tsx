@@ -5,7 +5,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { motion } from "framer-motion";
-import { TECH_VS_YEZ } from "@/content/method";
+import { TECH_VS_YEZ_I18N } from "@/content/method";
+import { useContent } from "@/i18n/LocaleProvider";
 import { Fx } from "@/lib/fx";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -76,6 +77,7 @@ function decode(el: HTMLElement, text: string, duration: number, onTick?: () => 
 const PATH_PROPS = { fill: "none", strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round" } as const;
 
 export default function HumanTech() {
+  const TECH_VS_YEZ = useContent(TECH_VS_YEZ_I18N);
   const human = TECH_VS_YEZ.columns.yez;
   const technology = TECH_VS_YEZ.columns.technology;
 
@@ -130,7 +132,7 @@ export default function HumanTech() {
 
       if (prefersReducedMotion) {
         gsap.set(pulses, { autoAlpha: 0 });
-        status.textContent = "Human + Technology";
+        status.textContent = TECH_VS_YEZ.statusDone;
         return;
       }
 
@@ -173,7 +175,7 @@ export default function HumanTech() {
         });
 
       // 1. Human hemisphere
-      say("Decoding human…", 0);
+      say(TECH_VS_YEZ.statusHuman, 0);
       tl.to(glow, { autoAlpha: 1, scale: 1, duration: 2.4, ease: "power2.out" }, 0);
       draw(outlines[0], 0.1, 1.8);
       gyri.forEach((el, i) => {
@@ -184,7 +186,7 @@ export default function HumanTech() {
 
       // 2. Technology hemisphere and chip
       const T2 = 3.2;
-      say("Building technology…", T2);
+      say(TECH_VS_YEZ.statusTech, T2);
       draw(outlines[1], T2, 1.6);
       tl.call(() => fx()?.powerUp(), [], T2 + 0.6);
       tl.to(chip, { autoAlpha: 1, scale: 1, duration: 0.9, ease: "back.out(1.6)" }, T2 + 0.6);
@@ -287,7 +289,7 @@ export default function HumanTech() {
   return (
     <div ref={rootRef} className="relative mx-auto mt-24 max-w-6xl">
       <h2 className="text-center font-display text-3xl tracking-headline text-bone sm:text-4xl">
-        <span className="text-stone">Human</span> <span className="text-cognac">+</span> Technology
+        <span className="text-stone">{TECH_VS_YEZ.heading[0]}</span> <span className="text-cognac">+</span> {TECH_VS_YEZ.heading[1]}
       </h2>
 
       <div className="mt-12 grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_minmax(0,28rem)_1fr] lg:gap-8">
@@ -323,7 +325,7 @@ export default function HumanTech() {
             className="relative aspect-[4/3] w-full"
             style={{ transformStyle: "preserve-3d" }}
             role="img"
-            aria-label="A brain whose right half is a circuit: human plus technology"
+            aria-label={TECH_VS_YEZ.ariaLabel}
           >
             <div
               ref={glowRef}
@@ -407,10 +409,10 @@ export default function HumanTech() {
           </div>
           <div className="mt-3 flex items-center justify-center gap-6 font-mono text-[11px] uppercase tracking-caption">
             <button type="button" onClick={toggleSound} aria-pressed={soundOn} className={control}>
-              Sound {soundOn ? "on" : "off"}
+              {soundOn ? TECH_VS_YEZ.soundOn : TECH_VS_YEZ.soundOff}
             </button>
             <button type="button" onClick={replay} className={control}>
-              Replay
+              {TECH_VS_YEZ.replay}
             </button>
           </div>
         </div>

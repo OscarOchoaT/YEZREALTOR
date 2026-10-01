@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MANIFESTO } from "@/content/manifesto";
+import { MANIFESTO_I18N } from "@/content/manifesto";
+import { useContent } from "@/i18n/LocaleProvider";
 import RadialAperture from "@/components/RadialAperture";
 import { ConnectorOverlay, ConnectorLine } from "@/components/NodeConnector";
 
@@ -21,6 +22,7 @@ const PILLAR_X = [16.67, 50, 83.33];
  * the core statement held inside the brand circle, then the signature.
  */
 export default function Manifesto() {
+  const MANIFESTO = useContent(MANIFESTO_I18N);
   return (
     <section className="relative overflow-hidden bg-espresso px-6 py-28 text-bone sm:py-36">
       <div className="relative mx-auto max-w-5xl">

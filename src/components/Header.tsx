@@ -5,13 +5,20 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import TransitionLink from "@/components/TransitionLink";
 import Magnetic from "@/components/Magnetic";
-import { NAV_LINKS } from "@/content/site";
-import { HERO_COPY } from "@/content/hero";
+import { NAV_LINKS_I18N } from "@/content/site";
+import { HERO_COPY_I18N } from "@/content/hero";
+import { UI_I18N } from "@/content/ui";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { useContent, useLang } from "@/i18n/LocaleProvider";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-  const isHome = pathname === "/";
+  const lang = useLang();
+  const NAV_LINKS = useContent(NAV_LINKS_I18N);
+  const HERO_COPY = useContent(HERO_COPY_I18N);
+  const ui = useContent(UI_I18N);
+  const isHome = pathname === `/${lang}` || pathname === `/${lang}/`;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 96);
@@ -30,7 +37,7 @@ export default function Header() {
         <TransitionLink
           href={isHome ? "#hero" : "/"}
           className="flex items-center gap-2"
-          aria-label="Yez The Realtor, home"
+          aria-label={ui.homeAria}
         >
           {/* Same lockup at rest and scrolled — only its size/the header's padding
               shrink, so nothing swaps or flips. Source PNG is trimmed to its ink
@@ -57,6 +64,8 @@ export default function Header() {
           ))}
         </nav>
 
+        <div className="flex items-center gap-3 sm:gap-5">
+        <LanguageSwitcher />
         <Magnetic strength={0.3}>
           <TransitionLink
             href={isHome ? "#contact" : "/#contact"}
@@ -65,6 +74,7 @@ export default function Header() {
             {HERO_COPY.ctaPrimary}
           </TransitionLink>
         </Magnetic>
+        </div>
       </div>
     </header>
   );

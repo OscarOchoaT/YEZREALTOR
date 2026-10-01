@@ -3,12 +3,29 @@
 // directly from content/method.ts's METHOD_DETAILS (title/microlabel) rather
 // than duplicating that data here — Decode/Design/Execute/Advance only ever
 // gets written down in one place.
+import type { Localized } from "@/i18n/config";
 
-export const HERO_COPY = {
-  headline: "Homeownership, designed with purpose.",
-  subheadline: "Strategic homeownership for the next generation of professionals.",
-  supporting:
-    "I help professionals turn buying or selling a home into an intentional decision, built around their financial picture, lifestyle, career, and the life they’re building.",
-  ctaPrimary: "Design My Next Move",
-  ctaSecondary: "Explore The Method",
+export const HERO_COPY_I18N: Localized<{
+  headline: string;
+  subheadline: string;
+  supporting: string;
+  ctaPrimary: string;
+  ctaSecondary: string;
+}> = {
+  en: {
+    headline: "Homeownership, designed with purpose.",
+    subheadline: "Strategic homeownership for the next generation of professionals.",
+    supporting:
+      "I help professionals turn buying or selling a home into an intentional decision, built around their financial picture, lifestyle, career, and the life they’re building.",
+    ctaPrimary: "Design My Next Move",
+    ctaSecondary: "Explore The Method",
+  },
+  es: {
+    headline: "Tu hogar propio, diseñado con propósito.",
+    subheadline: "Propiedad de vivienda estratégica para la próxima generación de profesionales.",
+    supporting:
+      "Ayudo a profesionales a convertir la compra o venta de una vivienda en una decisión intencional, construida en torno a su situación financiera, su estilo de vida, su carrera y la vida que están construyendo.",
+    ctaPrimary: "Diseña mi próximo paso",
+    ctaSecondary: "Explora el método",
+  },
 };

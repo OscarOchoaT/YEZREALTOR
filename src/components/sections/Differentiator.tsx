@@ -5,11 +5,13 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Eyebrow from "@/components/Eyebrow";
-import { DIFFERENTIATOR } from "@/content/differentiator";
+import { DIFFERENTIATOR_I18N } from "@/content/differentiator";
+import { useContent } from "@/i18n/LocaleProvider";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 export default function Differentiator() {
+  const DIFFERENTIATOR = useContent(DIFFERENTIATOR_I18N);
   const sectionRef = useRef<HTMLElement>(null);
   const copyRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);

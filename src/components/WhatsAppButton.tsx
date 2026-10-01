@@ -1,10 +1,14 @@
 "use client";
 
-import { SITE } from "@/content/site";
+import { SITE, WHATSAPP_MESSAGE } from "@/content/site";
+import { UI_I18N } from "@/content/ui";
+import { useContent, useLang } from "@/i18n/LocaleProvider";
 import { trackEvent } from "@/lib/analytics";
 
 export default function WhatsAppButton() {
-  const href = `https://wa.me/${SITE.whatsappNumber}?text=${encodeURIComponent(SITE.whatsappMessage)}`;
+  const lang = useLang();
+  const ui = useContent(UI_I18N);
+  const href = `https://wa.me/${SITE.whatsappNumber}?text=${encodeURIComponent(WHATSAPP_MESSAGE[lang])}`;
 
   return (
     <a
@@ -12,7 +16,7 @@ export default function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       onClick={() => trackEvent("whatsapp_click")}
-      aria-label="Message Yez on WhatsApp"
+      aria-label={ui.whatsappAria}
       className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-cocoaBark text-bone shadow-lg shadow-black/30 transition-transform hover:scale-105 hover:bg-siena"
     >
       <svg viewBox="0 0 32 32" width="26" height="26" fill="currentColor" aria-hidden="true">

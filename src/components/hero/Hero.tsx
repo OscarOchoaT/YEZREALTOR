@@ -4,8 +4,10 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { HERO_COPY } from "@/content/hero";
-import { METHOD_DETAILS } from "@/content/method";
+import { HERO_COPY_I18N } from "@/content/hero";
+import { METHOD_DETAILS_I18N } from "@/content/method";
+import { BRAND_METHOD, UI_I18N } from "@/content/ui";
+import { useContent } from "@/i18n/LocaleProvider";
 import Magnetic from "@/components/Magnetic";
 import HeroCanvas, { type HeroCanvasHandle } from "@/components/hero/HeroCanvas";
 import HudFrame from "@/components/hero/HudFrame";
@@ -28,6 +30,9 @@ const HOLD = 0.05;
 const EXIT = 0.06;
 const GAP = 0.03;
 const BLOCK = ENTER + HOLD + EXIT + GAP;
+
+// Same in every language, so the scroll choreography never depends on the locale.
+const PHASE_COUNT = METHOD_DETAILS_I18N.en.length;
 
 // Order of the hero: 1) THE NEXT MOVE METHOD™ alone, 2) the four phases one
 // at a time, 3) the main statement (headline, copy, CTAs), which is where the
@@ -71,7 +76,7 @@ function buildPhaseSequence(
 
   tl.to(introRef, { autoAlpha: 0, scale: 1.08, duration: EXIT, ease: "power1.in" }, HEADLINE_HOLD);
 
-  for (let i = 0; i < METHOD_DETAILS.length; i++) {
+  for (let i = 0; i < PHASE_COUNT; i++) {
     const start = PHASES_START + i * BLOCK;
     const holdEnd = start + ENTER + HOLD;
 
@@ -81,7 +86,7 @@ function buildPhaseSequence(
     tl.to(wordRefs[i], { autoAlpha: 0, scale: 1.5, duration: EXIT, ease: "power1.in" }, holdEnd);
   }
 
-  const finalStart = PHASES_START + (METHOD_DETAILS.length - 1) * BLOCK + ENTER + HOLD + EXIT;
+  const finalStart = PHASES_START + (PHASE_COUNT - 1) * BLOCK + ENTER + HOLD + EXIT;
   tl.to(headlineRef, { autoAlpha: 1, y: 0, ease: "power2.out", duration: 0.12 }, finalStart + GAP);
 }
 
@@ -89,6 +94,7 @@ const CTA_CLASS =
   "inline-flex min-w-[15rem] items-center justify-center border px-8 py-4 font-mono text-xs uppercase tracking-caption transition-colors";
 
 function CTAs() {
+  const HERO_COPY = useContent(HERO_COPY_I18N);
   return (
     <div className="flex flex-col items-center gap-3 sm:flex-row">
       <Magnetic strength={0.35}>
@@ -116,6 +122,8 @@ function PhaseStage({
   headlineRef: React.RefObject<HTMLDivElement | null>;
   introRef: React.RefObject<HTMLDivElement | null>;
 }) {
+  const METHOD_DETAILS = useContent(METHOD_DETAILS_I18N);
+  const HERO_COPY = useContent(HERO_COPY_I18N);
   return (
     <>
       {/* A quiet, always-on pulse at the exact center — a heartbeat behind
@@ -165,7 +173,7 @@ function PhaseStage({
       >
         <div className="pointer-events-auto flex max-w-xl flex-col items-center gap-4">
           <span className="font-mono text-sm uppercase tracking-caption text-stone sm:text-base">
-            The Next Move Method™
+            {BRAND_METHOD}
           </span>
           <p aria-hidden="true" className="font-display text-3xl tracking-headline text-bone xl:text-4xl">
             {HERO_COPY.headline}
@@ -182,6 +190,9 @@ function PhaseStage({
 }
 
 export default function Hero() {
+  const METHOD_DETAILS = useContent(METHOD_DETAILS_I18N);
+  const HERO_COPY = useContent(HERO_COPY_I18N);
+  const ui = useContent(UI_I18N);
   const sectionRef = useRef<HTMLElement>(null);
   const heroCanvasRef = useRef<HeroCanvasHandle>(null);
 
@@ -293,9 +304,9 @@ export default function Hero() {
   );
 
   return (
-    <section ref={sectionRef} id="hero" aria-label={`Yez The Realtor: ${HERO_COPY.headline}`}>
+    <section ref={sectionRef} id="hero" aria-label={ui.heroAria(HERO_COPY.headline)}>
       <h1 className="sr-only">
-        The Next Move Method™. {HERO_COPY.headline}
+        {BRAND_METHOD}. {HERO_COPY.headline}
       </h1>
       {/* Desktop: pinned scroll-driven phase reveal (lg and up, motion-safe). */}
       <div className="hidden lg:motion-safe:block">
@@ -388,7 +399,7 @@ export default function Hero() {
         </div>
         <div className="mx-auto flex max-w-2xl flex-col items-center gap-6 text-center">
           <span className="font-mono text-sm uppercase tracking-caption text-stone sm:text-base">
-            The Next Move Method™
+            {BRAND_METHOD}
           </span>
           <p aria-hidden="true" className="font-display text-4xl tracking-headline text-bone">{HERO_COPY.headline}</p>
           <p className="font-body font-light text-lg text-bone tracking-subhead">{HERO_COPY.subheadline}</p>

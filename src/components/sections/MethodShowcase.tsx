@@ -4,7 +4,9 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { METHOD_DETAILS, PHASE_TONE } from "@/content/method";
+import { METHOD_DETAILS_I18N, PHASE_TONE } from "@/content/method";
+import { BRAND_METHOD, UI_I18N } from "@/content/ui";
+import { useContent } from "@/i18n/LocaleProvider";
 import PhaseHud, { type PhaseHudHandle } from "@/components/PhaseHud";
 import RadialAperture from "@/components/RadialAperture";
 
@@ -28,6 +30,8 @@ const TRANS = 0.09;
  * straight to a specific phase's full page.
  */
 export default function MethodShowcase() {
+  const METHOD_DETAILS = useContent(METHOD_DETAILS_I18N);
+  const ui = useContent(UI_I18N);
   const sectionRef = useRef<HTMLElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
   const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -115,7 +119,7 @@ export default function MethodShowcase() {
                     aria-hidden="true"
                     className="h-2 w-2 shrink-0 rounded-full bg-cognac motion-safe:[animation:dot-pulse_2s_ease-in-out_infinite]"
                   />
-                  The Next Move Method™ <span className="text-bone/60">· Phase 0{i + 1}</span>
+                  {BRAND_METHOD} <span className="text-bone/60">· {ui.phase} 0{i + 1}</span>
                 </span>
                 <h2 className="font-display text-5xl leading-[0.9] tracking-headline text-bone drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)] sm:text-6xl lg:text-7xl">
                   {phase.title}
@@ -129,7 +133,7 @@ export default function MethodShowcase() {
                     ref={(el) => {
                       hudRefs.current[i] = el;
                     }}
-                    heading={`${phase.title} · Focus`}
+                    heading={`${phase.title} · ${ui.focus}`}
                     metrics={phase.hud}
                     autoPlay={false}
                   />
@@ -181,7 +185,7 @@ export default function MethodShowcase() {
               <RadialAperture className="left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2" />
               <span className="relative z-10 flex items-center gap-2 font-mono text-sm uppercase tracking-caption text-bone sm:text-base">
                 <span aria-hidden="true" className="h-2 w-2 shrink-0 rounded-full bg-cognac" />
-                The Next Move Method™ <span className="text-bone/60">· Phase 0{i + 1}</span>
+                {BRAND_METHOD} <span className="text-bone/60">· {ui.phase} 0{i + 1}</span>
               </span>
               <h2 className="relative z-10 font-display text-5xl leading-[0.9] tracking-headline text-bone sm:text-6xl">
                 {phase.title}
@@ -189,7 +193,7 @@ export default function MethodShowcase() {
               <p className="relative z-10 max-w-sm font-body text-xl font-medium tracking-subhead text-glow">{phase.accentLine}</p>
               <p className="relative z-10 max-w-sm font-body text-base font-light text-bone/80">{phase.microlabel}</p>
               <div className="relative z-10 mt-2 w-full">
-                <PhaseHud heading={`${phase.title} · Focus`} metrics={phase.hud} />
+                <PhaseHud heading={`${phase.title} · ${ui.focus}`} metrics={phase.hud} />
               </div>
             </div>
           ))}

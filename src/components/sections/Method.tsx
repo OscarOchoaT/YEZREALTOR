@@ -9,6 +9,8 @@ import MethodShowcase from "@/components/sections/MethodShowcase";
 import MethodNodes from "@/components/sections/MethodNodes";
 import InteractiveDotGrid from "@/components/InteractiveDotGrid";
 import RadialAperture from "@/components/RadialAperture";
+import { BRAND_METHOD, UI_I18N } from "@/content/ui";
+import { useContent } from "@/i18n/LocaleProvider";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -22,6 +24,7 @@ const REDUCE_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
  * comparison closing the case for the method itself.
  */
 export default function Method() {
+  const ui = useContent(UI_I18N);
   const sectionRef = useRef<HTMLElement>(null);
   const cardRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const hintRef = useRef<HTMLParagraphElement>(null);
@@ -83,7 +86,7 @@ export default function Method() {
               aria-hidden="true"
               className="h-2 w-2 shrink-0 rounded-full bg-cognac motion-safe:[animation:dot-pulse_2s_ease-in-out_infinite]"
             />
-            The Next Move Method™ <span className="text-bone/60">· Full Breakdown</span>
+            {BRAND_METHOD} <span className="text-bone/60">· {ui.fullBreakdown}</span>
           </p>
           <MethodNodes cardRefs={cardRefs} />
         </div>

@@ -3,6 +3,8 @@
 import Link from "next/link";
 import type { ComponentProps, MouseEvent } from "react";
 import { useTransitionNavigate } from "@/components/PageTransitionOverlay";
+import { useLang } from "@/i18n/LocaleProvider";
+import { localizePath } from "@/i18n/config";
 
 type Props = ComponentProps<typeof Link>;
 
@@ -10,10 +12,13 @@ type Props = ComponentProps<typeof Link>;
  * Drop-in replacement for next/link's <Link> that runs the dot-formation
  * page transition before navigating. Hash-only hrefs ("#section") and
  * modified clicks (cmd/ctrl/shift/middle-click) fall through to Link's
- * normal behavior untouched.
+ * normal behavior untouched. Internal paths ("/", "/#contact", "/metodo/x")
+ * are prefixed with the current locale automatically.
  */
-export default function TransitionLink({ href, onClick, ...rest }: Props) {
+export default function TransitionLink({ href: rawHref, onClick, ...rest }: Props) {
   const { navigate } = useTransitionNavigate();
+  const lang = useLang();
+  const href = typeof rawHref === "string" ? localizePath(lang, rawHref) : rawHref;
 
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     onClick?.(e);

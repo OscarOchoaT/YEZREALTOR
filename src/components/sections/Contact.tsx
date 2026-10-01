@@ -5,12 +5,15 @@ import TypeformEmbed from "@/components/TypeformEmbed";
 import { useSource } from "@/components/SourceContext";
 import Eyebrow from "@/components/Eyebrow";
 import InteractiveDotGrid from "@/components/InteractiveDotGrid";
-import { CONTACT } from "@/content/credibility";
-import { SITE } from "@/content/site";
+import { CONTACT_I18N } from "@/content/credibility";
+import { SITE, WHATSAPP_MESSAGE } from "@/content/site";
+import { useContent, useLang } from "@/i18n/LocaleProvider";
 import { trackEvent } from "@/lib/analytics";
 
 export default function Contact() {
   const { source } = useSource();
+  const lang = useLang();
+  const CONTACT = useContent(CONTACT_I18N);
 
   return (
     <section id="contact" className="relative bg-cocoaBark/15 px-6 py-24 sm:py-32">
@@ -52,7 +55,7 @@ export default function Contact() {
           </a>
           <p className="mt-2 font-body text-sm font-light text-bone/70">{CONTACT.whatsappPrompt}</p>
           <a
-            href={`https://wa.me/${SITE.whatsappNumber}?text=${encodeURIComponent(SITE.whatsappMessage)}`}
+            href={`https://wa.me/${SITE.whatsappNumber}?text=${encodeURIComponent(WHATSAPP_MESSAGE[lang])}`}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => trackEvent("whatsapp_click")}

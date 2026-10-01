@@ -4,7 +4,8 @@ import { useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { SERVICES } from "@/content/services";
+import { SERVICES_I18N } from "@/content/services";
+import { useContent } from "@/i18n/LocaleProvider";
 import { useSource } from "@/components/SourceContext";
 import { trackEvent } from "@/lib/analytics";
 import { ConnectorOverlay, ConnectorLine } from "@/components/NodeConnector";
@@ -19,6 +20,7 @@ const CARD_X: Record<ServiceId, number> = { buy: 16.67, sell: 50, relocate: 83.3
 const SOURCE_POINT = { x: 50, y: 0 };
 
 export default function Services() {
+  const SERVICES = useContent(SERVICES_I18N);
   const { setSource } = useSource();
   const [hovered, setHovered] = useState<ServiceId | null>(null);
 
@@ -70,7 +72,7 @@ export default function Services() {
       <DotGridBackground />
       <div className="relative mx-auto max-w-6xl">
         <div className="mb-4 text-center">
-          <Eyebrow index="04" label="Strategy" />
+          <Eyebrow index="04" label={SERVICES.eyebrow} />
         </div>
         <h2 className="mx-auto max-w-xl text-center font-display text-3xl tracking-headline text-bone sm:text-4xl">
           {SERVICES.headline}

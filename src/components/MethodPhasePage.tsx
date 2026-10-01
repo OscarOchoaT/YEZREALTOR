@@ -11,7 +11,10 @@ import Magnetic from "@/components/Magnetic";
 import RadialAperture from "@/components/RadialAperture";
 import PhaseHud from "@/components/PhaseHud";
 import DotGridBackground from "@/components/DotGridBackground";
-import { METHOD_DETAILS, PHASE_TONE, type MethodDetail } from "@/content/method";
+import { METHOD_DETAILS_I18N, PHASE_TONE, type MethodDetail } from "@/content/method";
+import { BRAND_METHOD, UI_I18N } from "@/content/ui";
+import { HERO_COPY_I18N } from "@/content/hero";
+import { useContent } from "@/i18n/LocaleProvider";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -26,6 +29,9 @@ const heroItem = {
 };
 
 export default function MethodPhasePage({ phaseId }: { phaseId: MethodDetail["id"] }) {
+  const METHOD_DETAILS = useContent(METHOD_DETAILS_I18N);
+  const ui = useContent(UI_I18N);
+  const HERO_COPY = useContent(HERO_COPY_I18N);
   const index = METHOD_DETAILS.findIndex((d) => d.id === phaseId);
   const phase = METHOD_DETAILS[index];
   const next = METHOD_DETAILS[(index + 1) % METHOD_DETAILS.length];
@@ -99,7 +105,7 @@ export default function MethodPhasePage({ phaseId }: { phaseId: MethodDetail["id
                 aria-hidden="true"
                 className="h-2 w-2 shrink-0 rounded-full bg-cognac motion-safe:[animation:dot-pulse_2s_ease-in-out_infinite]"
               />
-              The Next Move Method™ <span className="text-bone/60">· Phase 0{index + 1}</span>
+              {BRAND_METHOD} <span className="text-bone/60">· {ui.phase} 0{index + 1}</span>
             </motion.span>
 
             <motion.h1
@@ -124,7 +130,7 @@ export default function MethodPhasePage({ phaseId }: { phaseId: MethodDetail["id
             transition={{ duration: 0.7, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
             className="mt-12 max-w-xl sm:mt-14"
           >
-            <PhaseHud heading={`${phase.title} · Focus`} metrics={phase.hud} />
+            <PhaseHud heading={`${phase.title} · ${ui.focus}`} metrics={phase.hud} />
           </motion.div>
         </div>
 
@@ -135,7 +141,7 @@ export default function MethodPhasePage({ phaseId }: { phaseId: MethodDetail["id
           aria-hidden="true"
           className="relative mx-auto mt-14 flex flex-col items-center gap-2 text-bone/40"
         >
-          <span className="font-mono text-[10px] uppercase tracking-caption">Scroll</span>
+          <span className="font-mono text-[10px] uppercase tracking-caption">{ui.scroll}</span>
           <span className="h-8 w-px animate-bounce bg-bone/40" />
         </motion.div>
       </section>
@@ -166,7 +172,7 @@ export default function MethodPhasePage({ phaseId }: { phaseId: MethodDetail["id
 
           <div className="mt-16 flex flex-col items-start justify-between gap-8 border-t border-bone/10 pt-10 sm:flex-row sm:items-center">
             <TransitionLink href={`/metodo/${next.id}`} className="group flex flex-col gap-1">
-              <span className="font-mono text-[11px] uppercase tracking-caption text-stone">Next phase</span>
+              <span className="font-mono text-[11px] uppercase tracking-caption text-stone">{ui.nextPhase}</span>
               <span className="font-display text-2xl tracking-headline text-bone transition-colors group-hover:text-cognac">
                 {next.title} →
               </span>
@@ -177,7 +183,7 @@ export default function MethodPhasePage({ phaseId }: { phaseId: MethodDetail["id
                 href="/#contact"
                 className="inline-flex items-center justify-center border border-glow bg-glow px-8 py-4 font-mono text-xs uppercase tracking-caption text-espresso transition-colors hover:border-bone hover:bg-bone"
               >
-                Design My Next Move
+                {HERO_COPY.ctaPrimary}
               </TransitionLink>
             </Magnetic>
           </div>

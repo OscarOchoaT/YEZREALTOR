@@ -2,13 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { METHOD_DETAILS, PHASE_TONE, type MethodDetail } from "@/content/method";
+import { METHOD_DETAILS_I18N, PHASE_TONE, type MethodDetail } from "@/content/method";
+import { BRAND_METHOD, UI_I18N } from "@/content/ui";
+import { useContent } from "@/i18n/LocaleProvider";
 import TransitionLink from "@/components/TransitionLink";
 import Magnetic from "@/components/Magnetic";
-
-function titleCase(title: string) {
-  return title.charAt(0) + title.slice(1).toLowerCase();
-}
 
 type MethodNodesProps = {
   /** Populated with each desktop panel's DOM node so Method.tsx can drive
@@ -19,6 +17,8 @@ type MethodNodesProps = {
 };
 
 export default function MethodNodes({ cardRefs }: MethodNodesProps) {
+  const METHOD_DETAILS = useContent(METHOD_DETAILS_I18N);
+  const ui = useContent(UI_I18N);
   const [activeId, setActiveId] = useState<MethodDetail["id"] | null>(null);
   const [expandedIndex, setExpandedIndex] = useState(0);
   const active = METHOD_DETAILS.find((d) => d.id === activeId) ?? null;
@@ -109,7 +109,7 @@ export default function MethodNodes({ cardRefs }: MethodNodesProps) {
               >
                 <span className="flex items-center gap-2 font-mono text-xs uppercase tracking-caption text-bone/85">
                   <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-glow" />
-                  Phase 0{i + 1}
+                  {ui.phase} 0{i + 1}
                 </span>
                 <h3 className="font-display text-4xl leading-[0.95] tracking-headline text-bone xl:text-5xl">
                   {detail.title}
@@ -117,7 +117,7 @@ export default function MethodNodes({ cardRefs }: MethodNodesProps) {
                 <p className="max-w-[26ch] font-body text-lg font-medium tracking-subhead text-glow">{detail.accentLine}</p>
                 <p className="max-w-[24ch] font-body text-sm font-normal text-bone">{detail.microlabel}</p>
                 <span className="mt-2 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-caption text-bone transition-colors group-hover:text-glow">
-                  Explore in full
+                  {ui.exploreInFull}
                   <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
                     →
                   </span>
@@ -184,12 +184,12 @@ export default function MethodNodes({ cardRefs }: MethodNodesProps) {
             transition={{ type: "spring", stiffness: 260, damping: 30 }}
             role="dialog"
             aria-modal="true"
-            aria-label={`${active.title}: The Next Move Method`}
+            aria-label={`${active.title}: ${BRAND_METHOD}`}
             className="fixed inset-3 z-[70] flex flex-col overflow-y-auto rounded-3xl bg-cocoaBark p-8 sm:inset-x-10 sm:inset-y-8 sm:p-14 lg:inset-x-24 lg:inset-y-12"
           >
             <button
               onClick={() => setActiveId(null)}
-              aria-label="Close"
+              aria-label={ui.close}
               className="absolute right-6 top-6 flex h-9 w-9 items-center justify-center rounded-full border border-bone/15 font-body text-bone/70 transition-colors hover:border-bone hover:text-bone"
             >
               ✕
@@ -227,7 +227,7 @@ export default function MethodNodes({ cardRefs }: MethodNodesProps) {
                   href={`/metodo/${active.id}`}
                   className="inline-flex items-center justify-center border border-glow bg-glow px-8 py-4 font-mono text-xs uppercase tracking-caption text-espresso transition-colors hover:border-bone hover:bg-bone gap-2"
                 >
-                  Explore {titleCase(active.title)} in full
+                  {ui.exploreTitle(active.title)}
                   <span aria-hidden="true">→</span>
                 </TransitionLink>
               </Magnetic>

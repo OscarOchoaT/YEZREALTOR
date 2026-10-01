@@ -1,9 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import TransitionLink from "@/components/TransitionLink";
-import { SITE, NAV_LINKS } from "@/content/site";
-import { FOOTER } from "@/content/credibility";
+import { SITE, NAV_LINKS_I18N } from "@/content/site";
+import { FOOTER_I18N } from "@/content/credibility";
+import { useContent } from "@/i18n/LocaleProvider";
 
 export default function Footer({ isHome = true }: { isHome?: boolean }) {
+  const NAV_LINKS = useContent(NAV_LINKS_I18N);
+  const FOOTER = useContent(FOOTER_I18N);
   return (
     <footer className="bg-cocoaBark px-6 py-16 text-bone">
       <div className="mx-auto flex max-w-6xl flex-col gap-12">

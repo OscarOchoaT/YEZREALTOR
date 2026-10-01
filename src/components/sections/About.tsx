@@ -7,11 +7,13 @@ import { useGSAP } from "@gsap/react";
 import Image from "next/image";
 import DotGridBackground from "@/components/DotGridBackground";
 import Eyebrow from "@/components/Eyebrow";
-import { ABOUT } from "@/content/about";
+import { ABOUT_I18N } from "@/content/about";
+import { useContent } from "@/i18n/LocaleProvider";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 export default function About() {
+  const ABOUT = useContent(ABOUT_I18N);
   const sectionRef = useRef<HTMLElement>(null);
   const photoRef = useRef<HTMLDivElement>(null);
   const copyRef = useRef<HTMLDivElement>(null);
@@ -60,7 +62,7 @@ export default function About() {
 
         <div ref={copyRef} className="flex flex-col gap-6 lg:translate-y-4">
           <Eyebrow index="02" label={ABOUT.eyebrow} align="left" />
-          <h2 className="sr-only">Who Is Yez</h2>
+          <h2 className="sr-only">{ABOUT.eyebrow}</h2>
 
           <div className="flex flex-col gap-4">
             {ABOUT.paragraphs.map((p) => (
