@@ -4,6 +4,9 @@
 
 export const SOUND_KEY = "yez-sound";
 export const SOUND_EVENT = "yez:sound";
+// Music only (no preference saved): lets the entry screen start/stop the
+// soundtrack from earlier gestures, e.g. the language pick.
+export const MUSIC_EVENT = "yez:music";
 
 export function getSoundPref(): boolean {
   try {

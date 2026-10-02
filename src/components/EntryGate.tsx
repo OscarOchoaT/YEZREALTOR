@@ -10,7 +10,7 @@ import { ENTRY_I18N, ENTRY_KEY, ENTRY_STEP_KEY, ENTRY_TAGLINE } from "@/content/
 import { useContent, useLang } from "@/i18n/LocaleProvider";
 import { LOCALES, saveLocale, switchLocalePath, type Locale } from "@/i18n/config";
 import { readLoaded, subscribeLoaded } from "@/lib/preloader";
-import { SOUND_EVENT, setSoundPref } from "@/lib/soundPref";
+import { MUSIC_EVENT, SOUND_EVENT, setSoundPref } from "@/lib/soundPref";
 
 const NAMES: Record<Locale, string> = { en: "English", es: "Español" };
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -68,8 +68,13 @@ export default function EntryGate() {
     };
   }, [open]);
 
+  const setMusic = (on: boolean) => window.dispatchEvent(new CustomEvent(MUSIC_EVENT, { detail: on }));
+
   const chooseLanguage = (l: Locale) => {
     saveLocale(l);
+    // The first click is the earliest gesture browsers accept for audio, so
+    // the music starts here (sound is on by default); step 2 can turn it off.
+    setMusic(true);
     if (l === lang) {
       setPickedNow(true);
       return;
@@ -205,7 +210,10 @@ export default function EntryGate() {
                       <input
                         type="checkbox"
                         checked={sound}
-                        onChange={(e) => setSound(e.target.checked)}
+                        onChange={(e) => {
+                          setSound(e.target.checked);
+                          setMusic(e.target.checked);
+                        }}
                         className="mt-0.5 h-4 w-4 shrink-0 accent-[#7A5239]"
                       />
                       <span>

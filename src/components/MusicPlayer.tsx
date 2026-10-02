@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { SOUND_EVENT, getSoundPref } from "@/lib/soundPref";
+import { MUSIC_EVENT, SOUND_EVENT, getSoundPref } from "@/lib/soundPref";
 
 const SRC = "/audio/music.mp3";
 const VOLUME = 0.45;
@@ -67,16 +67,30 @@ export default function MusicPlayer() {
       else stop();
     };
     window.addEventListener(SOUND_EVENT, onChoice);
+    window.addEventListener(MUSIC_EVENT, onChoice);
 
-    let resume: (() => void) | null = null;
+    // Returning visitor who opted in: try to autoplay right away. Browsers
+    // allow that only for sites with enough prior engagement; otherwise the
+    // attempt is rejected and the first real gesture starts it instead.
+    const GESTURES = ["pointerdown", "keydown", "touchend", "click"] as const;
+    const unarm = () => GESTURES.forEach((g) => window.removeEventListener(g, onGesture));
+    function onGesture() {
+      if (audio && !audio.paused) return unarm();
+      start();
+    }
+    const playing = () => {
+      unarm();
+    };
     if (getSoundPref()) {
       wanted = true;
-      // Already playing (language switch remount): nothing to resume.
-      resume = () => {
-        if (!audio || audio.paused) start();
-      };
-      window.addEventListener("pointerdown", resume, { once: true });
-      window.addEventListener("keydown", resume, { once: true });
+      const el = getAudio();
+      if (!el.paused) {
+        // Already playing (language switch remount): nothing to do.
+      } else {
+        el.addEventListener("playing", playing, { once: true });
+        GESTURES.forEach((g) => window.addEventListener(g, onGesture));
+        start();
+      }
     }
 
     // Don't keep playing in a background tab.
@@ -89,11 +103,9 @@ export default function MusicPlayer() {
 
     return () => {
       window.removeEventListener(SOUND_EVENT, onChoice);
+      window.removeEventListener(MUSIC_EVENT, onChoice);
       document.removeEventListener("visibilitychange", onVisibility);
-      if (resume) {
-        window.removeEventListener("pointerdown", resume);
-        window.removeEventListener("keydown", resume);
-      }
+      unarm();
     };
   }, []);
 
