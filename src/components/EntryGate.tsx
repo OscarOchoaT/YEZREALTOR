@@ -9,6 +9,7 @@ import RadialAperture from "@/components/RadialAperture";
 import { ENTRY_I18N, ENTRY_KEY, ENTRY_STEP_KEY, ENTRY_TAGLINE } from "@/content/entry";
 import { useContent, useLang } from "@/i18n/LocaleProvider";
 import { LOCALES, saveLocale, switchLocalePath, type Locale } from "@/i18n/config";
+import { readLoaded, subscribeLoaded } from "@/lib/preloader";
 import { SOUND_EVENT, setSoundPref } from "@/lib/soundPref";
 
 const NAMES: Record<Locale, string> = { en: "English", es: "Español" };
@@ -49,6 +50,9 @@ export default function EntryGate() {
   const [dismissed, setDismissed] = useState(false);
   const [accepted, setAccepted] = useState(false);
   const [sound, setSound] = useState(true);
+
+  // Hold the gate (and its intro animation) until the loading screen is done.
+  const loaded = useSyncExternalStore(subscribeLoaded, readLoaded, () => false);
 
   const open = !alreadyEntered && !dismissed;
   const step = pickedBefore || pickedNow ? 2 : 1;
@@ -93,7 +97,7 @@ export default function EntryGate() {
 
   return (
     <AnimatePresence>
-      {open && (
+      {open && loaded && (
         <motion.div
           key="entry-gate"
           role="dialog"

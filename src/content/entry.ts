@@ -8,6 +8,9 @@ export const ENTRY_STEP_KEY = "yez-entry-step";
 // Brand line: deliberately never translated.
 export const ENTRY_TAGLINE = "Ownership, Designed.";
 
+// Loading screen line: also deliberately never translated.
+export const PRELOADER_LINE = "Not your traditional real estate experience";
+
 // TODO(client): link "Privacy Policy" / "Terms of Use" to real pages once the
 // client provides them; today the checkbox only records the acceptance.
 export const ENTRY_I18N: Localized<{

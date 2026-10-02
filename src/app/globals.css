@@ -9,6 +9,10 @@ html[data-entered] .entry-gate {
   display: none;
 }
 
+html[data-loaded] .preloader {
+  display: none;
+}
+
 body {
   background-color: #1a120b;
   color: #f4f0e8;

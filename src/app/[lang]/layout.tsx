@@ -13,7 +13,10 @@ import { SourceProvider } from "@/components/SourceContext";
 import { SITE } from "@/content/site";
 import { SITE_META, SITE_URL } from "@/content/meta";
 import EntryGate from "@/components/EntryGate";
+import MusicPlayer from "@/components/MusicPlayer";
+import Preloader from "@/components/Preloader";
 import { ENTRY_KEY } from "@/content/entry";
+import { LOADED_KEY } from "@/lib/preloader";
 import { LocaleProvider } from "@/i18n/LocaleProvider";
 import { LOCALES, hasLocale, type Locale } from "@/i18n/config";
 import "../globals.css";
@@ -70,7 +73,8 @@ const buildJsonLd = (lang: Locale) => ({
 
 // Runs before first paint: visitors who already passed the entry screen get
 // data-entered on <html>, which globals.css uses to hide the gate (no flash).
-const ENTRY_SCRIPT = `try{if(localStorage.getItem("${ENTRY_KEY}")==="1")document.documentElement.dataset.entered="1"}catch(e){}`;
+// Same for data-loaded (loading screen already shown this session).
+const ENTRY_SCRIPT = `try{if(localStorage.getItem("${ENTRY_KEY}")==="1")document.documentElement.dataset.entered="1"}catch(e){}try{if(sessionStorage.getItem("${LOADED_KEY}")==="1")document.documentElement.dataset.loaded="1"}catch(e){}`;
 
 export default async function RootLayout({ children, params }: LayoutProps<"/[lang]">) {
   const { lang } = await params;
@@ -99,6 +103,8 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
                 <CustomCursor />
               </SmoothScroll>
               <EntryGate />
+              <Preloader />
+              <MusicPlayer />
             </SourceProvider>
           </PageTransitionOverlay>
         </LocaleProvider>
