@@ -235,7 +235,7 @@ export default function HumanTech() {
       tl.to(center, { scale: 1, duration: 0.5, ease: "back.out(3)" }, T3);
       tl.call(() => fx()?.resolve(), [], T3);
       tl.to(outlines, { strokeWidth: 2.5, duration: 0.4, yoyo: true, repeat: 1 }, T3);
-      say("Human + Technology", T3 + 0.5);
+      say(TECH_VS_YEZ.statusDone, T3 + 0.5);
 
       // Idle: data pulses running along the circuit once it's built.
       const pulseTl = gsap.timeline({ paused: true });

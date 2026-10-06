@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { MUSIC_EVENT, SOUND_EVENT, getSoundPref } from "@/lib/soundPref";
+import { readLoaded } from "@/lib/preloader";
+import { MUSIC_EVENT, getSoundPref } from "@/lib/soundPref";
 
 const SRC = "/audio/music.mp3";
 const VOLUME = 0.45;
@@ -56,8 +57,8 @@ function stop() {
  * Background music, driven by the sound choice on the entry screen.
  * The file is long, so it is streamed (preload="none" until play) instead of
  * downloaded up front: playback starts as soon as the first chunk arrives.
- * "Enter" dispatches SOUND_EVENT inside a real click, which is what lets the
- * browser allow playback. Returning visitors who opted in resume on their
+ * The loading screen dispatches MUSIC_EVENT when it ends (the "Enter" click
+ * earlier already gave the page user activation). Returning visitors who opted in resume on their
  * first interaction, since browsers block autoplay before one.
  */
 export default function MusicPlayer() {
@@ -66,7 +67,6 @@ export default function MusicPlayer() {
       if ((e as CustomEvent<boolean>).detail) start();
       else stop();
     };
-    window.addEventListener(SOUND_EVENT, onChoice);
     window.addEventListener(MUSIC_EVENT, onChoice);
 
     // Returning visitor who opted in: try to autoplay right away. Browsers
@@ -81,7 +81,7 @@ export default function MusicPlayer() {
     const playing = () => {
       unarm();
     };
-    if (getSoundPref()) {
+    if (getSoundPref() && readLoaded()) {
       wanted = true;
       const el = getAudio();
       if (!el.paused) {
@@ -102,7 +102,6 @@ export default function MusicPlayer() {
     document.addEventListener("visibilitychange", onVisibility);
 
     return () => {
-      window.removeEventListener(SOUND_EVENT, onChoice);
       window.removeEventListener(MUSIC_EVENT, onChoice);
       document.removeEventListener("visibilitychange", onVisibility);
       unarm();

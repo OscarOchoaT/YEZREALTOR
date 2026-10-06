@@ -23,7 +23,7 @@ export const ENTRY_I18N: Localized<{
   en: {
     accept: "I accept the Privacy Policy and Terms of Use.",
     sound: "Enable sound",
-    soundHint: "For the interactive Human + Technology experience.",
+    soundHint: "For the interactive Human Factor experience.",
     enter: "Enter",
     needAccept: "Accept the policies to continue.",
   },

@@ -3,7 +3,9 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { PRELOADER_LINE } from "@/content/entry";
-import { markLoaded, readLoaded, subscribeLoaded } from "@/lib/preloader";
+import { ENTRY_KEY } from "@/content/entry";
+import { markLoaded, preloadClick, readLoaded, readStarted, subscribeLoaded, subscribeStarted } from "@/lib/preloader";
+import { MUSIC_EVENT, getSoundPref } from "@/lib/soundPref";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 const MIN_MS = 2600;
@@ -11,19 +13,33 @@ const MAX_MS = 6000;
 
 const WORDS = PRELOADER_LINE.split(" ");
 
+const subscribeNever = () => () => {};
+const readEntered = () => {
+  try {
+    return window.localStorage.getItem(ENTRY_KEY) === "1";
+  } catch {
+    return false;
+  }
+};
+
 /**
- * Brand loading screen, once per session. It stays up for a minimum beat (so
- * the line can be read) and until the page has finished loading, with a hard
- * cap so a slow asset can never trap the visitor. Hidden before paint for
- * repeat loads via html[data-loaded] (see the layout script + globals.css).
+ * Brand loading screen, once per session. First-time visitors see it right
+ * after the entry screen's "Enter"; returning visitors on load. It stays up for
+ * a minimum beat (so the line can be read) and until the page has finished
+ * loading, with a hard cap so a slow asset can never trap the visitor. While
+ * it runs, soft clicks play with each word; when it ends the music comes in.
+ * Hidden before paint via CSS (see the layout script + globals.css).
  */
 export default function Preloader() {
   const loaded = useSyncExternalStore(subscribeLoaded, readLoaded, () => false);
+  const entered = useSyncExternalStore(subscribeNever, readEntered, () => false);
+  const started = useSyncExternalStore(subscribeStarted, readStarted, () => false);
+  const active = entered || started;
   const [pageReady, setPageReady] = useState(false);
   const [minElapsed, setMinElapsed] = useState(false);
 
   useEffect(() => {
-    if (loaded) return;
+    if (loaded || !active) return;
     const onLoad = () => setPageReady(true);
     if (document.readyState === "complete") onLoad();
     else window.addEventListener("load", onLoad, { once: true });
@@ -37,20 +53,32 @@ export default function Preloader() {
       window.clearTimeout(min);
       window.clearTimeout(max);
     };
-  }, [loaded]);
+  }, [loaded, active]);
 
   useEffect(() => {
-    if (!loaded && pageReady && minElapsed) markLoaded();
-  }, [loaded, pageReady, minElapsed]);
+    if (loaded || !active || !pageReady || !minElapsed) return;
+    markLoaded();
+    // Music comes in once the loading screen is done.
+    if (getSoundPref()) window.dispatchEvent(new CustomEvent(MUSIC_EVENT, { detail: true }));
+  }, [loaded, active, pageReady, minElapsed]);
+
+  // Immersive click bed: one click per word, then a faster tick to the end.
+  useEffect(() => {
+    if (loaded || !active) return;
+    const ids: number[] = [];
+    WORDS.forEach((_, i) => ids.push(window.setTimeout(() => preloadClick(0.08 + i * 0.01), 200 + i * 120)));
+    ids.push(window.setTimeout(() => preloadClick(0.12), 200 + WORDS.length * 120 + 250));
+    return () => ids.forEach((id) => window.clearTimeout(id));
+  }, [loaded, active]);
 
   useEffect(() => {
-    if (loaded) return;
+    if (loaded || !active) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = previous;
     };
-  }, [loaded]);
+  }, [loaded, active]);
 
   return (
     <AnimatePresence>

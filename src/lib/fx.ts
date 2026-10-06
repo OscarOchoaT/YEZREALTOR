@@ -60,6 +60,28 @@ export class Fx {
     this.tone(1400 + Math.random() * 500, 0.04, 0.012, "square");
   }
 
+  /** Immersive UI click: a filtered noise snap over a soft low thump. */
+  click(gain = 0.09) {
+    const { ctx, master } = this;
+    if (!ctx || !master) return;
+    const t = ctx.currentTime;
+    const len = Math.floor(ctx.sampleRate * 0.05);
+    const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / len) ** 2;
+    const noise = ctx.createBufferSource();
+    noise.buffer = buf;
+    const band = ctx.createBiquadFilter();
+    band.type = "bandpass";
+    band.frequency.value = 2600;
+    band.Q.value = 1.2;
+    const ng = ctx.createGain();
+    ng.gain.value = gain;
+    noise.connect(band).connect(ng).connect(master);
+    noise.start(t);
+    this.tone(90, 0.12, gain * 0.9, "sine");
+  }
+
   /** Rising power-on sweep for the chip. */
   powerUp() {
     const { ctx, master } = this;

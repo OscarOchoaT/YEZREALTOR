@@ -9,8 +9,8 @@ import RadialAperture from "@/components/RadialAperture";
 import { ENTRY_I18N, ENTRY_KEY, ENTRY_STEP_KEY, ENTRY_TAGLINE } from "@/content/entry";
 import { useContent, useLang } from "@/i18n/LocaleProvider";
 import { LOCALES, saveLocale, switchLocalePath, type Locale } from "@/i18n/config";
-import { readLoaded, subscribeLoaded } from "@/lib/preloader";
-import { MUSIC_EVENT, SOUND_EVENT, setSoundPref } from "@/lib/soundPref";
+import { beginPreload } from "@/lib/preloader";
+import { SOUND_EVENT, setSoundPref } from "@/lib/soundPref";
 
 const NAMES: Record<Locale, string> = { en: "English", es: "Español" };
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -36,7 +36,8 @@ const readLanguagePicked = () => readFlag("session", ENTRY_STEP_KEY);
  * data-entered on <html> before paint, and globals.css hides the gate).
  * Picking a different language navigates to it straight away, which remounts
  * the page; a session flag carries the visitor straight on to step 2. "Enter"
- * is the user gesture that unlocks audio for the Human + Technology section.
+ * is the user gesture that unlocks audio: the loading screen follows with a
+ * click sound, then the music comes in.
  */
 export default function EntryGate() {
   const lang = useLang();
@@ -50,9 +51,6 @@ export default function EntryGate() {
   const [dismissed, setDismissed] = useState(false);
   const [accepted, setAccepted] = useState(false);
   const [sound, setSound] = useState(true);
-
-  // Hold the gate (and its intro animation) until the loading screen is done.
-  const loaded = useSyncExternalStore(subscribeLoaded, readLoaded, () => false);
 
   const open = !alreadyEntered && !dismissed;
   const step = pickedBefore || pickedNow ? 2 : 1;
@@ -68,13 +66,8 @@ export default function EntryGate() {
     };
   }, [open]);
 
-  const setMusic = (on: boolean) => window.dispatchEvent(new CustomEvent(MUSIC_EVENT, { detail: on }));
-
   const chooseLanguage = (l: Locale) => {
     saveLocale(l);
-    // The first click is the earliest gesture browsers accept for audio, so
-    // the music starts here (sound is on by default); step 2 can turn it off.
-    setMusic(true);
     if (l === lang) {
       setPickedNow(true);
       return;
@@ -97,12 +90,14 @@ export default function EntryGate() {
     setSoundPref(sound);
     // Dispatched synchronously inside the click, so audio may start here.
     window.dispatchEvent(new CustomEvent(SOUND_EVENT, { detail: sound }));
+    // Loading screen (with its click sound) comes next; the music follows it.
+    beginPreload(sound);
     setDismissed(true);
   };
 
   return (
     <AnimatePresence>
-      {open && loaded && (
+      {open && (
         <motion.div
           key="entry-gate"
           role="dialog"
@@ -212,7 +207,6 @@ export default function EntryGate() {
                         checked={sound}
                         onChange={(e) => {
                           setSound(e.target.checked);
-                          setMusic(e.target.checked);
                         }}
                         className="mt-0.5 h-4 w-4 shrink-0 accent-[#7A5239]"
                       />

@@ -171,7 +171,7 @@ export const TECH_VS_YEZ_I18N: Localized<{
   statusDone: string;
 }> = {
   en: {
-    heading: ["Human", "Technology"],
+    heading: ["Human Factor"],
     columns: {
       technology: {
         label: "Technology",
@@ -186,7 +186,7 @@ export const TECH_VS_YEZ_I18N: Localized<{
     ariaLabel: "A brain whose right half is a circuit: human plus technology",
     statusHuman: "Decoding human…",
     statusTech: "Building technology…",
-    statusDone: "Human + Technology",
+    statusDone: "Human Factor",
   },
   es: {
     heading: ["Factor Humano"],

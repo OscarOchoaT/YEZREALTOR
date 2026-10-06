@@ -9,6 +9,7 @@ html[data-entered] .entry-gate {
   display: none;
 }
 
+html:not([data-entered]):not([data-preloading]) .preloader,
 html[data-loaded] .preloader {
   display: none;
 }
