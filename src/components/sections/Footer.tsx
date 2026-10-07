@@ -14,7 +14,7 @@ export default function Footer({ isHome = true }: { isHome?: boolean }) {
       <div className="mx-auto flex max-w-6xl flex-col gap-12">
         <div className="flex flex-col justify-between gap-10 sm:flex-row">
           <div className="flex flex-col gap-4">
-            <Image src="/logo/logo-inverse.png" alt="Yez The Realtor" width={194} height={100} className="h-11 w-auto" />
+            <Image src="/logo/logo-inverse.png" alt="Yez The Realtor" width={194} height={100} className="h-11 w-auto self-start object-contain" />
             <p className="max-w-xs font-mono text-xs uppercase tracking-caption text-bone/70">{SITE.location}</p>
           </div>
 
