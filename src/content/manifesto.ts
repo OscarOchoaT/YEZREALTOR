@@ -31,8 +31,8 @@ export const MANIFESTO_I18N: Localized<{
       "Respaldo en las decisiones que marcan tu futuro.",
       "Una experiencia centrada en tus metas, no solo en la transacción.",
     ],
-    statement: "La próxima generación no necesita otro agente inmobiliario. Necesita una mejor forma de pensar la propiedad.",
-    closingStatement: "Esto es Homeownership estratégico.",
+    statement: "Un comprador moderno no necesita otro agente inmobiliario. Necesita una forma más clara, estructurada e inteligente de invertir en su propiedad.",
+    closingStatement: "This is Strategic Homeownership.",
     signature: "Ownership, Designed.",
   },
 };

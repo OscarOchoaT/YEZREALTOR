@@ -93,10 +93,12 @@ export default function Manifesto() {
 
         <motion.div
           {...reveal}
-          className="relative mx-auto mt-24 flex aspect-square w-full max-w-[22rem] items-center justify-center sm:max-w-[30rem]"
+          className="relative mx-auto mt-24 flex aspect-square w-full max-w-[22rem] items-center justify-center sm:max-w-[34rem]"
         >
           <RadialAperture tone="cognacSoft" className="inset-0" />
-          <p className="relative z-10 max-w-[70%] text-center font-display !font-medium text-xl tracking-subhead text-bone sm:text-3xl">
+          {/* Sized to the circle's inscribed box: the statement is long, so
+              the type stays modest and balanced, never touching the edge. */}
+          <p className="relative z-10 max-w-[68%] text-balance text-center font-display !font-medium text-base leading-snug tracking-subhead text-bone sm:text-xl md:text-2xl">
             {MANIFESTO.statement}
           </p>
         </motion.div>
