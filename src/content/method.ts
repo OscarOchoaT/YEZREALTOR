@@ -130,9 +130,9 @@ export const METHOD_DETAILS_I18N: Localized<MethodDetail[]> = {
     {
       id: "execute",
       title: "EXECUTE",
-      microlabel: "Convertimos la estrategia en acción. Sí, llegó el momento de salir a ver casas, pero ahora con criterio, claridad y una estrategia detrás. Luego ejecutamos cada etapa con precisión hasta el cierre.",
-      accentLine: "Cada paso, representado; nada se deja al azar.",
-      hud: ["Análisis de propiedades", "Estrategia de oferta", "Negociación", "Control de tiempos", "Gestión de riesgos"],
+      microlabel: "Convertimos la estrategia en acción. Sí, llegó el momento de salir a ver casas, pero ahora con criterio, claridad y una estrategia detrás. Luego ejecutamos cada movimiento con precisión hasta el cierre.",
+      accentLine: "Cada etapa, bajo control. Nada se deja al azar.",
+      hud: ["Estrategia de oferta", "Negociación", "Gestión de riesgos", "Control de tiempos", "Análisis de propiedades"],
       items: [
         "Búsqueda, visitas y análisis de propiedades",
         "Estrategia de oferta y negociación",
@@ -145,9 +145,9 @@ export const METHOD_DETAILS_I18N: Localized<MethodDetail[]> = {
     {
       id: "advance",
       title: "ADVANCE",
-      microlabel: "Cerrar es solo una parte del camino. Después viene The Arrival Experience™, donde comienza tu nuevo capítulo. la relación continúa, acompañando la evolucion de tu propiedad, tus oportunidades y tu próximo movimiento.",
-      accentLine: "La relación sigue avanzando mucho después del día del cierre.",
-      hud: ["Capital", "Red de contactos", "Posición de mercado", "Portafolio", "Futuras mudanzas"],
+      microlabel: "Cerrar es solo una parte del camino. Después viene The Arrival Experience™, donde comienza tu nuevo capítulo. La relación continúa, acompañando la evolución de tu propiedad, nuevas oportunidades y tu próximo movimiento.",
+      accentLine: "El cierre no es el final de la relación.",
+      hud: ["CAPITAL", "POSICIÓN DE MERCADO", "PORTAFOLIO", "PRÓXIMOS MOVIMIENTOS", "FUTURAS OPORTUNIDADES"],
       items: [
         "Capital y posición de mercado, revisados a medida que cambian",
         "Guía continua después de ser propietario",
@@ -171,7 +171,7 @@ export const TECH_VS_YEZ_I18N: Localized<{
   statusDone: string;
 }> = {
   en: {
-    heading: ["Human Factor"],
+    heading: ["Human Factor + Technology"],
     columns: {
       technology: {
         label: "Technology",
@@ -189,7 +189,7 @@ export const TECH_VS_YEZ_I18N: Localized<{
     statusDone: "Human Factor",
   },
   es: {
-    heading: ["Factor Humano"],
+    heading: ["Factor Humano + Tecnologia"],
     columns: {
       technology: {
         label: "Tecnología",
