@@ -118,7 +118,7 @@ export const METHOD_DETAILS_I18N: Localized<MethodDetail[]> = {
     {
       id: "design",
       title: "DESIGN",
-      microlabel: "Convertimos lo que aprendimos en tu Estrategia de Propiedad Personalizada, definiendo tu presupuesto, escenarios, prioridades, estilo de vida y próximos pasos.",
+      microlabel: "Convertimos claridad en dirección. Diseñamos la estrategia alineando tu presupuesto, prioridades, estilo de vida y próximos pasos.",
       accentLine: "Una estrategia construida en torno a tu vida, nunca una búsqueda genérica.",
       hud: ["Alineación de presupuesto", "Planeación de escenarios", "Estrategia de búsqueda", "Ajuste al estilo de vida"],
       items: [
@@ -130,7 +130,7 @@ export const METHOD_DETAILS_I18N: Localized<MethodDetail[]> = {
     {
       id: "execute",
       title: "EXECUTE",
-      microlabel: "Desde el análisis de propiedades y la preparación de ofertas hasta las inspecciones, la negociación, la coordinación del financiamiento y el cierre, gestionamos el proceso con intención.",
+      microlabel: "Convertimos la estrategia en acción. Sí, llegó el momento de salir a ver casas, pero ahora con criterio, claridad y una estrategia detrás. Luego ejecutamos cada etapa con precisión hasta el cierre.",
       accentLine: "Cada paso, representado; nada se deja al azar.",
       hud: ["Análisis de propiedades", "Estrategia de oferta", "Negociación", "Control de tiempos", "Gestión de riesgos"],
       items: [
@@ -145,7 +145,7 @@ export const METHOD_DETAILS_I18N: Localized<MethodDetail[]> = {
     {
       id: "advance",
       title: "ADVANCE",
-      microlabel: "La propiedad no termina en el cierre. Continuamos el plan en torno al capital, los cambios del mercado, futuras mudanzas, oportunidades de inversión y el siguiente capítulo de tu estrategia inmobiliaria.",
+      microlabel: "Cerrar es solo una parte del camino. Después viene The Arrival Experience™, el momento en que comienza tu nuevo capítulo. Y la relación continúa, acompañando tu propiedad, tus oportunidades y tu próximo movimiento.",
       accentLine: "La relación sigue avanzando mucho después del día del cierre.",
       hud: ["Capital", "Red de contactos", "Posición de mercado", "Portafolio", "Futuras mudanzas"],
       items: [

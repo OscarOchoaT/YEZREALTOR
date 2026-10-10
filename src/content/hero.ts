@@ -21,10 +21,10 @@ export const HERO_COPY_I18N: Localized<{
     ctaSecondary: "Explore The Method",
   },
   es: {
-    headline: "Tu hogar propio, diseñado con propósito.",
-    subheadline: "Propiedad de vivienda estratégica para la próxima generación de profesionales.",
+    headline: "Una forma distinta de vivir el homeownership.",
+    subheadline: "Homeownership estratégico: una forma más consciente de construir tu futuro.",
     supporting:
-      "Ayudo a profesionales a convertir la compra o venta de una vivienda en una decisión intencional, construida en torno a su situación financiera, su estilo de vida, su carrera y la vida que están construyendo.",
+      "Transformo una decisión inmobiliaria en una estrategia diseñada alrededor de tus finanzas, tu carrera, tu estilo de vida y la vida que estás construyendo.",
     ctaPrimary: "Diseña mi próximo paso",
     ctaSecondary: "Explora el método",
   },

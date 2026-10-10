@@ -24,12 +24,12 @@ export const MANIFESTO_I18N: Localized<{
   },
   es: {
     eyebrow: "",
-    title: "Una mejor forma de abordar la propiedad.",
+    title: "La forma más inteligente y estratégica de comprar tu propiedad.",
     highlight: "propiedad",
     body: [
-      "Tecnología que hace las decisiones más claras.",
-      "Guía humana cuando hay mucho en juego.",
-      "Una experiencia diseñada en torno a hacia dónde vas, no solo a lo que compras.",
+      "Tecnología pensada para darle claridad a tu proceso.",
+      "Respaldo en las decisiones que marcan tu futuro.",
+      "Una experiencia centrada en tus metas, no solo en la transacción.",
     ],
     statement: "La próxima generación no necesita otro agente inmobiliario. Necesita una mejor forma de pensar la propiedad.",
     closingStatement: "Esto es la Propiedad de Vivienda Estratégica.",
