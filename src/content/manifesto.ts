@@ -10,7 +10,7 @@ export const MANIFESTO_I18N: Localized<{
   signature: string;
 }> = {
   en: {
-    eyebrow: "Manifesto",
+    eyebrow: "",
     title: "A better way to approach ownership.",
     highlight: "ownership",
     body: [
@@ -23,7 +23,7 @@ export const MANIFESTO_I18N: Localized<{
     signature: "Ownership, Designed.",
   },
   es: {
-    eyebrow: "Manifiesto",
+    eyebrow: "",
     title: "Una mejor forma de abordar la propiedad.",
     highlight: "propiedad",
     body: [
