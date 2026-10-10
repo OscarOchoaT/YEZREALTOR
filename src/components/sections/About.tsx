@@ -48,25 +48,27 @@ export default function About() {
   return (
     <section id="about" ref={sectionRef} className="relative bg-espresso px-6 py-24 sm:py-32">
       <DotGridBackground />
-      <div className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
-        <div ref={photoRef}>
+      <div className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:items-stretch lg:gap-20">
+        {/* On desktop the photo stretches to the full height of the copy
+            column, so its bottom edge lines up with the text and the tag
+            line below; on mobile it keeps its 4/5 ratio. */}
+        <div ref={photoRef} className="relative aspect-[4/5] overflow-hidden rounded-2xl lg:aspect-auto">
           <Image
             src={ABOUT.photo}
             alt={ABOUT.photoAlt}
-            width={1400}
-            height={2100}
+            fill
             sizes="(min-width: 1024px) 560px, 100vw"
-            className="aspect-[4/5] w-full rounded-2xl object-cover object-[50%_60%]"
+            className="object-cover object-[50%_60%]"
           />
         </div>
 
-        <div ref={copyRef} className="flex flex-col gap-6 lg:translate-y-4">
+        <div ref={copyRef} className="flex flex-col justify-center gap-6">
           <Eyebrow index="02" label={ABOUT.eyebrow} align="left" />
           <h2 className="sr-only">{ABOUT.eyebrow}</h2>
 
           <div className="flex flex-col gap-4">
             {ABOUT.paragraphs.map((p) => (
-              <p key={p} className="font-body text-lg font-light leading-relaxed text-bone/90">
+              <p key={p} className="text-left font-body text-lg font-light leading-relaxed text-bone/90">
                 {p}
               </p>
             ))}
