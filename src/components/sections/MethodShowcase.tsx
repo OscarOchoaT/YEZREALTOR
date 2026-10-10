@@ -18,6 +18,8 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 // pin bug (see Hero.tsx's own notes on that).
 const DESKTOP_QUERY = "(min-width: 1024px) and (prefers-reduced-motion: no-preference)";
 
+const MOBILE_QUERY = "(max-width: 1023px) and (prefers-reduced-motion: no-preference)";
+
 const HOLD = 0.16;
 const TRANS = 0.09;
 
@@ -33,6 +35,7 @@ export default function MethodShowcase() {
   const METHOD_DETAILS = useContent(METHOD_DETAILS_I18N);
   const ui = useContent(UI_I18N);
   const sectionRef = useRef<HTMLElement>(null);
+  const stackRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
   const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const hudRefs = useRef<(PhaseHudHandle | null)[]>([]);
@@ -101,6 +104,30 @@ export default function MethodShowcase() {
         const onResize = () => ScrollTrigger.refresh();
         window.addEventListener("resize", onResize);
         return () => window.removeEventListener("resize", onResize);
+      });
+
+      // Mobile: each stacked phase is a full-screen block; scroll settles on
+      // one phase at a time (JS snap — native CSS scroll-snap doesn't work
+      // with ScrollTrigger.normalizeScroll, which SmoothScroll enables here).
+      mm.add({ isMobile: MOBILE_QUERY }, (context) => {
+        const { isMobile } = context.conditions as { isMobile: boolean };
+        const stackEl = stackRef.current;
+        if (!isMobile || !stackEl) return;
+        const count = stackEl.children.length;
+        if (count < 2) return;
+
+        ScrollTrigger.create({
+          trigger: stackEl,
+          start: "top top",
+          end: "bottom bottom",
+          snap: {
+            snapTo: 1 / (count - 1),
+            directional: true,
+            duration: { min: 0.25, max: 0.6 },
+            delay: 0.05,
+            ease: "power2.inOut",
+          },
+        });
       });
 
       return () => mm.revert();
@@ -194,11 +221,11 @@ export default function MethodShowcase() {
           each phase is a full-width block in normal document flow; PhaseHud
           still animates itself in via its own default scroll trigger. */}
       <div className="block lg:motion-safe:hidden">
-        <div className="mx-auto flex max-w-xl flex-col gap-16 px-6 py-20 sm:py-28">
+        <div ref={stackRef} className="mx-auto flex max-w-xl flex-col">
           {METHOD_DETAILS.map((phase, i) => (
+            <div key={phase.id} className="flex min-h-svh items-center px-6 py-6">
             <div
-              key={phase.id}
-              className={`relative flex flex-col items-center gap-5 overflow-hidden rounded-3xl border border-bone/10 px-6 py-14 text-center ${PHASE_TONE[phase.id]}`}
+              className={`relative flex w-full flex-col items-center gap-5 overflow-hidden rounded-3xl border border-bone/10 px-6 py-14 text-center ${PHASE_TONE[phase.id]}`}
             >
               <RadialAperture className="left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2" />
               <span className="relative z-10 flex items-center gap-2 font-mono text-sm uppercase tracking-caption text-bone sm:text-base">
@@ -213,6 +240,7 @@ export default function MethodShowcase() {
               <div className="relative z-10 mt-2 w-full">
                 <PhaseHud heading={`${phase.title} · ${ui.focus}`} metrics={phase.hud} />
               </div>
+            </div>
             </div>
           ))}
         </div>
