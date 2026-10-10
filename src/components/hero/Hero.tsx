@@ -203,7 +203,9 @@ function PhaseStage({
           <p className="max-w-xl font-body text-base font-light tracking-subhead text-bone sm:max-w-none sm:whitespace-nowrap sm:text-[clamp(0.8rem,2.1vw,1.125rem)] xl:text-lg">
             {HERO_COPY.subheadline}
           </p>
-          <p className="max-w-md font-body text-sm font-light text-bone/70">{HERO_COPY.supporting}</p>
+          <p className="max-w-md text-balance font-body text-sm font-light text-bone/70 sm:max-w-2xl">
+            {HERO_COPY.supporting}
+          </p>
           <CTAs />
         </div>
       </div>
