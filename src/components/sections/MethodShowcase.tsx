@@ -63,8 +63,21 @@ export default function MethodShowcase() {
             scrub: 1,
             pin: stickyEl,
             anticipatePin: 1,
+            // Scroll "locks" onto one phase at a time: whenever the user
+            // stops (or flicks past), it settles on the nearest phase in
+            // the direction of travel instead of leaving two phases
+            // half-crossfaded. Labels below mark each phase fully visible.
+            snap: {
+              snapTo: "labels",
+              directional: true,
+              duration: { min: 0.35, max: 0.9 },
+              delay: 0.08,
+              ease: "power2.inOut",
+            },
           },
         });
+
+        tl.addLabel("phase0", 0);
 
         // First phase is already on screen at progress 0 — just fire its HUD.
         tl.call(() => hudRefs.current[0]?.play(), [], 0.03);
@@ -77,8 +90,13 @@ export default function MethodShowcase() {
           tl.to(dotRefs.current[i - 1], { opacity: 0.35, scale: 1, duration: TRANS }, start);
           tl.to(dotRefs.current[i], { opacity: 1, scale: 1.4, duration: TRANS }, start);
           tl.call(() => hudRefs.current[i]?.play(), [], start + TRANS * 0.4);
+          tl.addLabel(`phase${i}`, start + TRANS);
           cursor = start + TRANS + HOLD;
         }
+        // Final label at the very end so the last phase can be scrolled
+        // past (pin release) instead of snapping back into it.
+        tl.addLabel("end", cursor);
+        tl.set({}, {}, cursor);
 
         const onResize = () => ScrollTrigger.refresh();
         window.addEventListener("resize", onResize);
