@@ -186,14 +186,21 @@ function PhaseStage({
         ref={headlineRef}
         className="invisible pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-4 px-6 text-center will-change-transform"
       >
-        <div className="pointer-events-auto flex max-w-xl flex-col items-center gap-4">
+        <div className="pointer-events-auto flex w-full max-w-4xl flex-col items-center gap-4">
           <span className="font-mono text-sm uppercase tracking-caption text-stone sm:text-base">
             {BRAND_METHOD}
           </span>
-          <p aria-hidden="true" className="font-display text-3xl tracking-headline text-bone xl:text-4xl">
+          {/* Headline and subheadline each hold to a single line: font size
+              scales with viewport width so the full sentence fits. On phones
+              the subheadline is too long for one readable line, so it wraps
+              there and goes single-line from `sm` up. */}
+          <p
+            aria-hidden="true"
+            className="whitespace-nowrap font-display text-[clamp(1rem,4.4vw,1.875rem)] tracking-headline text-bone xl:text-4xl"
+          >
             {HERO_COPY.headline}
           </p>
-          <p className="font-body font-light text-base text-bone tracking-subhead xl:text-lg">
+          <p className="max-w-xl font-body text-base font-light tracking-subhead text-bone sm:max-w-none sm:whitespace-nowrap sm:text-[clamp(0.8rem,2.1vw,1.125rem)] xl:text-lg">
             {HERO_COPY.subheadline}
           </p>
           <p className="max-w-md font-body text-sm font-light text-bone/70">{HERO_COPY.supporting}</p>

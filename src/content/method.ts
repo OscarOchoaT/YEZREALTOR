@@ -145,7 +145,7 @@ export const METHOD_DETAILS_I18N: Localized<MethodDetail[]> = {
     {
       id: "advance",
       title: "ADVANCE",
-      microlabel: "Cerrar es solo una parte del camino. Después viene The Arrival Experience™, el momento en que comienza tu nuevo capítulo. Y la relación continúa, acompañando tu propiedad, tus oportunidades y tu próximo movimiento.",
+      microlabel: "Cerrar es solo una parte del camino. Después viene The Arrival Experience™, donde comienza tu nuevo capítulo. la relación continúa, acompañando la evolucion de tu propiedad, tus oportunidades y tu próximo movimiento.",
       accentLine: "La relación sigue avanzando mucho después del día del cierre.",
       hud: ["Capital", "Red de contactos", "Posición de mercado", "Portafolio", "Futuras mudanzas"],
       items: [

@@ -32,7 +32,7 @@ export const MANIFESTO_I18N: Localized<{
       "Una experiencia centrada en tus metas, no solo en la transacción.",
     ],
     statement: "La próxima generación no necesita otro agente inmobiliario. Necesita una mejor forma de pensar la propiedad.",
-    closingStatement: "Esto es la Propiedad de Vivienda Estratégica.",
+    closingStatement: "Esto es Homeownership estratégico.",
     signature: "Ownership, Designed.",
   },
 };

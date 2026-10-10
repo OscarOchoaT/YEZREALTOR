@@ -46,11 +46,11 @@ export const SITE_META: Localized<{
       "bienes raíces en español Texas",
       "estrategia de propiedad de vivienda Texas",
     ],
-    ogTitle: "Yez The Realtor | Tu hogar propio, diseñado con propósito.",
+    ogTitle: "Yez The Realtor | Una forma distinta de vivir el homeownership.",
     ogDescription:
-      "Propiedad de vivienda estratégica para la próxima generación de profesionales. Realtor bilingüe y estratega de propiedad con sede en Austin, Texas.",
+      "Homeownership estratégico: una forma más consciente de construir tu futuro. Realtor bilingüe y estratega de propiedad con sede en Austin, Texas.",
     twitterDescription:
-      "Propiedad de vivienda estratégica para la próxima generación de profesionales. Realtor bilingüe con sede en Austin, Texas.",
+      "Homeownership estratégico: una forma más consciente de construir tu futuro. Realtor bilingüe con sede en Austin, Texas.",
     ogLocale: "es_US",
     schemaDescription: "Asesora inmobiliaria bilingüe y estratega de propiedad de vivienda con licencia en Austin, Texas.",
   },
