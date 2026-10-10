@@ -75,10 +75,14 @@ function buildPhaseSequence(
   );
 
   tl.to(introRef, { autoAlpha: 0, scale: 1.08, duration: EXIT, ease: "power1.in" }, HEADLINE_HOLD);
+  // Labels mark each beat fully on screen — the scroll snap settles on these
+  // so the intro, each phase and the headline are always shown one at a time.
+  tl.addLabel("intro", 0);
 
   for (let i = 0; i < PHASE_COUNT; i++) {
     const start = PHASES_START + i * BLOCK;
     const holdEnd = start + ENTER + HOLD;
+    tl.addLabel(`phase${i}`, start + ENTER + HOLD / 2);
 
     tl.to(wordRefs[i], { autoAlpha: 1, scale: 1, duration: ENTER, ease: "power2.out" }, start);
     tl.to(labelRefs[i], { autoAlpha: 1, duration: ENTER * 0.6 }, start + ENTER * 0.5);
@@ -88,7 +92,18 @@ function buildPhaseSequence(
 
   const finalStart = PHASES_START + (PHASE_COUNT - 1) * BLOCK + ENTER + HOLD + EXIT;
   tl.to(headlineRef, { autoAlpha: 1, y: 0, ease: "power2.out", duration: 0.12 }, finalStart + GAP);
+  tl.addLabel("headline", finalStart + GAP + 0.12);
 }
+
+// Scroll "locks" onto one beat at a time: when the user stops (or flicks
+// past), it settles on the nearest beat in the direction of travel.
+const HERO_SNAP = {
+  snapTo: "labels",
+  directional: true,
+  duration: { min: 0.3, max: 0.8 },
+  delay: 0.08,
+  ease: "power2.inOut",
+} as const;
 
 const CTA_CLASS =
   "inline-flex min-w-[15rem] items-center justify-center border px-8 py-4 font-mono text-xs uppercase tracking-caption transition-colors";
@@ -252,6 +267,7 @@ export default function Hero() {
             scrub: 1,
             pin: stickyEl,
             anticipatePin: 1,
+            snap: HERO_SNAP,
             // Feeds the WebGL backdrop's camera dolly — reads this same
             // trigger's own progress rather than creating a second
             // ScrollTrigger on this section.
@@ -263,13 +279,12 @@ export default function Hero() {
       }
 
       /**
-       * Mobile: NO pin. A single scrubbed timeline tied to the stage's own
-       * scroll position (trigger = the stage itself, "top top" -> "bottom
-       * top"), so the section scrolls natively — nothing stays glued to the
-       * viewport. This sidesteps the classic mobile ScrollTrigger pin bug
-       * (address bar show/hide changes the visual viewport height mid-scroll,
-       * which desyncs a pinned spacer's height). Same phase-by-phase timing
-       * as desktop (buildPhaseSequence) — only the trigger differs.
+       * Mobile: pinned, like desktop. Unpinned, the phases animated while the
+       * stage scrolled up out of view, so they were gone before they could be
+       * read. The classic mobile pin bug (address bar show/hide desyncing the
+       * spacer) is handled by ScrollTrigger.normalizeScroll, which
+       * SmoothScroll enables on mobile. Same phase-by-phase timing and snap
+       * as desktop (buildPhaseSequence) — only the scrub smoothing differs.
        */
       function setupMobile() {
         const stageEl = mobileStageRef.current;
@@ -283,8 +298,11 @@ export default function Hero() {
           scrollTrigger: {
             trigger: stageEl,
             start: "top top",
-            end: "bottom top",
-            scrub: 1.4,
+            end: "+=260%",
+            scrub: 1,
+            pin: true,
+            anticipatePin: 1,
+            snap: HERO_SNAP,
             onUpdate: (self) => mobileHeroCanvasRef.current?.setProgress(self.progress),
           },
         });
