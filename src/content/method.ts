@@ -186,24 +186,24 @@ export const TECH_VS_YEZ_I18N: Localized<{
     ariaLabel: "A brain whose right half is a circuit: human plus technology",
     statusHuman: "Decoding human…",
     statusTech: "Building technology…",
-    statusDone: "Human Factor",
+    statusDone: "",
   },
   es: {
-    heading: ["Factor Humano + Tecnologia"],
+    heading: ["Factor Humano + Factor Tecnologico"],
     columns: {
       technology: {
-        label: "Tecnología",
-        items: ["Organiza la información", "Compara escenarios", "Simplifica decisiones complejas", "Visualiza los números", "Mantiene el proceso en marcha"],
+        label: "Factor tecnológico",
+        items: ["Estructura la información", "Compara escenarios", "Simplifica decisiones complejas", "Visualiza los números", "Mantiene la operación en movimiento"],
       },
       yez: {
-        label: "Humano",
-        items: ["Escucha e interpreta", "Aconseja", "Negocia y protege", "Representa", "Entiende el contexto"],
+        label: "Factor humano",
+        items: ["Escucha e interpreta", "Aconseja con estrategia", "Te representa", "Negocia y protege tus intereses", "Entiende tu contexto real"],
       },
     },
     closingLine: "Alta tecnología donde simplifica. Profundamente humano donde importa.",
     ariaLabel: "Un cerebro cuya mitad derecha es un circuito: humano más tecnología",
     statusHuman: "Descifrando lo humano…",
     statusTech: "Construyendo tecnología…",
-    statusDone: "Factor Humano",
+    statusDone: "",
   },
 };

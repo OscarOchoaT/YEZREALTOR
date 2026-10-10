@@ -311,7 +311,7 @@ export default function HumanTech() {
         )}
       </h2>
 
-      <div className="mt-12 grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_minmax(0,28rem)_1fr] lg:gap-8">
+      <div className="mt-12 grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_minmax(0,28rem)_1fr] xl:grid-cols-[1fr_minmax(0,24rem)_1fr] lg:gap-8">
         {/* Human */}
         <div className="order-2 flex flex-col items-center gap-4 text-center lg:order-none lg:items-end lg:text-right">
           <h3
@@ -329,7 +329,7 @@ export default function HumanTech() {
                 ref={(el) => {
                   humanItemRefs.current[i] = el;
                 }}
-                className="font-mono text-xs uppercase tracking-caption text-bone sm:text-[13px]"
+                className="font-mono text-xs uppercase tracking-caption text-bone sm:text-[13px] xl:whitespace-nowrap"
               >
                 {item}
               </li>
@@ -434,7 +434,7 @@ export default function HumanTech() {
             ref={(el) => {
               headRefs.current[1] = el;
             }}
-            className="font-mono text-sm uppercase tracking-caption text-bone"
+            className="font-mono text-sm uppercase tracking-caption text-stone"
           >
             {technology.label}
           </h3>
@@ -445,7 +445,7 @@ export default function HumanTech() {
                 ref={(el) => {
                   techItemRefs.current[i] = el;
                 }}
-                className="font-mono text-xs uppercase tracking-caption text-bone sm:text-[13px]"
+                className="font-mono text-xs uppercase tracking-caption text-bone sm:text-[13px] xl:whitespace-nowrap"
               >
                 {item}
               </li>
