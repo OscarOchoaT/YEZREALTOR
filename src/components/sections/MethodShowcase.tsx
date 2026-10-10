@@ -158,7 +158,7 @@ export default function MethodShowcase() {
                 className="pointer-events-none absolute inset-0"
                 style={{ background: "radial-gradient(closest-side, rgba(26,18,11,0.72), rgba(26,18,11,0.5) 55%, transparent 90%)" }}
               />
-              <div className="relative z-10 mx-auto flex max-h-full max-w-2xl flex-col items-center gap-3 overflow-hidden text-center sm:gap-4">
+              <div className="relative z-10 mx-auto flex max-h-full max-w-4xl flex-col items-start gap-3 overflow-hidden text-left sm:gap-4">
                 <span className="flex items-center gap-2 font-mono text-sm uppercase tracking-caption text-bone sm:text-base">
                   <span
                     aria-hidden="true"
@@ -169,10 +169,10 @@ export default function MethodShowcase() {
                 <h2 className="font-display text-5xl leading-[0.9] tracking-headline text-bone drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)] sm:text-6xl lg:text-7xl">
                   {phase.title}
                 </h2>
-                <p className="max-w-lg font-body text-xl font-medium tracking-subhead text-glow drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] sm:text-2xl">
+                <p className="whitespace-nowrap font-body text-xl font-medium tracking-subhead text-glow drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
                   {phase.accentLine}
                 </p>
-                <p className="max-w-md font-body text-base font-normal text-bone sm:text-lg">{phase.microlabel}</p>
+                <p className="max-w-3xl font-body text-base font-normal text-bone sm:text-lg">{phase.microlabel}</p>
                 <div className="mt-2 w-full max-w-md">
                   <PhaseHud
                     ref={(el) => {
@@ -225,7 +225,7 @@ export default function MethodShowcase() {
           {METHOD_DETAILS.map((phase, i) => (
             <div key={phase.id} className="flex min-h-svh items-center px-6 py-6">
             <div
-              className={`relative flex w-full flex-col items-center gap-5 overflow-hidden rounded-3xl border border-bone/10 px-6 py-14 text-center ${PHASE_TONE[phase.id]}`}
+              className={`relative flex w-full flex-col items-start gap-5 overflow-hidden rounded-3xl border border-bone/10 px-6 py-14 text-left ${PHASE_TONE[phase.id]}`}
             >
               <RadialAperture className="left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2" />
               <span className="relative z-10 flex items-center gap-2 font-mono text-sm uppercase tracking-caption text-bone sm:text-base">

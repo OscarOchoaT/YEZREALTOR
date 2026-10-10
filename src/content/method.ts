@@ -119,8 +119,8 @@ export const METHOD_DETAILS_I18N: Localized<MethodDetail[]> = {
       id: "design",
       title: "DESIGN",
       microlabel: "Convertimos claridad en dirección. Diseñamos la estrategia alineando tu presupuesto, prioridades, estilo de vida y próximos pasos.",
-      accentLine: "Una estrategia construida en torno a tu vida, nunca una búsqueda genérica.",
-      hud: ["Alineación de presupuesto", "Planeación de escenarios", "Estrategia de búsqueda", "Ajuste al estilo de vida"],
+      accentLine: "Una estrategia diseñada alrededor de tu vida, no una búsqueda genérica.",
+      hud: ["Presupuesto alineado", "Escenarios", "Estrategia de búsqueda", "Estilo de vida"],
       items: [
         "Qué buscamos, y por qué",
         "Cómo evaluamos las oportunidades frente a tus metas",
