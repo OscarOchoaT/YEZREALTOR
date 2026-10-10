@@ -8,7 +8,7 @@ export const ABOUT_I18N: Localized<{
   photoAlt: string;
 }> = {
   en: {
-    eyebrow: "Who Is Yez",
+    eyebrow: "THE MIND BEHIND THE METHOD",
     paragraphs: [
       "Before real estate, there was engineering. The instinct to break a complex problem into its real parts, understand how everything connects, and build something that works. That instinct never left. It simply found a new application: homeownership.",
       "Yez has been connected to the real estate industry since 2014 and became a licensed Texas Realtor in 2024. Through those years, one thing became increasingly clear: the hardest part of buying a home is rarely finding the house. It’s understanding the decision behind it.",
@@ -26,7 +26,7 @@ export const ABOUT_I18N: Localized<{
     photoAlt: "Yez, Austin Realtor, seated in a black leather chair",
   },
   es: {
-    eyebrow: "Quién es Yez",
+    eyebrow: "CONOCE A YEZ",
     paragraphs: [
       "Antes de los bienes raíces, hubo ingeniería. El instinto de descomponer un problema complejo en sus partes reales, entender cómo todo se conecta y construir algo que funcione. Ese instinto nunca se fue. Simplemente encontró una nueva aplicación: la propiedad de vivienda.",
       "Yez está conectada con la industria de bienes raíces desde 2014 y se convirtió en Realtor con licencia en Texas en 2024. A lo largo de esos años, una cosa se hizo cada vez más clara: lo más difícil de comprar una casa rara vez es encontrarla. Es entender la decisión que hay detrás.",

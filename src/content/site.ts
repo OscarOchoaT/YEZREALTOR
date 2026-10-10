@@ -35,13 +35,13 @@ export const NAV_LINKS_I18N: Localized<NavLink[]> = {
   en: [
     { label: "The Method", href: "#method" },
     { label: "Services", href: "#services" },
-    { label: "Who Is Yez", href: "#about" },
+    { label: "Meet Yez", href: "#about" },
     { label: "Contact", href: "#contact" },
   ],
   es: [
     { label: "El Método", href: "#method" },
     { label: "Servicios", href: "#services" },
-    { label: "Quién es Yez", href: "#about" },
+    { label: "Conoce a Yez", href: "#about" },
     { label: "Contacto", href: "#contact" },
   ],
 };
