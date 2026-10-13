@@ -72,9 +72,9 @@ export default function Services() {
       <DotGridBackground />
       <div className="relative mx-auto max-w-6xl">
         <div className="mb-4 text-center">
-          <Eyebrow index="04" label={SERVICES.eyebrow} />
+          <Eyebrow index="02" label={SERVICES.eyebrow} />
         </div>
-        <h2 className="mx-auto max-w-xl text-center font-display text-3xl tracking-headline text-bone sm:text-4xl">
+        <h2 className="mx-auto max-w-4xl text-center font-display text-3xl tracking-headline text-bone sm:whitespace-nowrap sm:text-4xl">
           {SERVICES.headline}
         </h2>
 

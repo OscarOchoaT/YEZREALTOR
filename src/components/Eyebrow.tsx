@@ -10,7 +10,7 @@ export default function Eyebrow({
   label,
   align = "center",
 }: {
-  index: string;
+  index?: string;
   label: string;
   align?: "center" | "left";
 }) {
@@ -20,10 +20,14 @@ export default function Eyebrow({
         align === "center" ? "justify-center" : ""
       }`}
     >
-      <span className="text-stone">{index}</span>
-      <span className="text-bone/25" aria-hidden="true">
-        /
-      </span>
+      {index && (
+        <>
+          <span className="text-stone">{index}</span>
+          <span className="text-bone/25" aria-hidden="true">
+            /
+          </span>
+        </>
+      )}
       <span className="text-cognac">{label}</span>
     </span>
   );

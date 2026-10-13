@@ -6,13 +6,10 @@ import { useSource } from "@/components/SourceContext";
 import Eyebrow from "@/components/Eyebrow";
 import InteractiveDotGrid from "@/components/InteractiveDotGrid";
 import { CONTACT_I18N } from "@/content/credibility";
-import { SITE, WHATSAPP_MESSAGE } from "@/content/site";
-import { useContent, useLang } from "@/i18n/LocaleProvider";
-import { trackEvent } from "@/lib/analytics";
+import { useContent } from "@/i18n/LocaleProvider";
 
 export default function Contact() {
   const { source } = useSource();
-  const lang = useLang();
   const CONTACT = useContent(CONTACT_I18N);
 
   return (
@@ -26,7 +23,7 @@ export default function Contact() {
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="mb-14 flex flex-col items-center gap-3 text-center"
         >
-          <Eyebrow index="07" label={CONTACT.eyebrow} />
+          <Eyebrow index="05" label={CONTACT.eyebrow} />
           <p className="font-display !font-medium text-2xl tracking-subhead text-bone/50 sm:text-3xl">{CONTACT.line1}</p>
           <p className="font-display text-3xl tracking-headline text-bone sm:text-4xl">{CONTACT.line2}</p>
         </motion.div>
@@ -52,16 +49,6 @@ export default function Contact() {
             className="inline-flex items-center justify-center border border-glow bg-glow px-8 py-4 font-mono text-xs uppercase tracking-caption text-espresso transition-colors hover:border-bone hover:bg-bone"
           >
             {CONTACT.ctaFinal}
-          </a>
-          <p className="mt-2 font-body text-sm font-light text-bone/70">{CONTACT.whatsappPrompt}</p>
-          <a
-            href={`https://wa.me/${SITE.whatsappNumber}?text=${encodeURIComponent(WHATSAPP_MESSAGE[lang])}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => trackEvent("whatsapp_click")}
-            className="font-mono text-xs uppercase tracking-caption text-bone underline decoration-cognac decoration-1 underline-offset-4 hover:text-cognac"
-          >
-            {CONTACT.whatsappCta} <span aria-hidden="true">→</span>
           </a>
         </div>
       </div>

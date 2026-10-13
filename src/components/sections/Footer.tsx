@@ -14,7 +14,6 @@ export default function Footer({ isHome = true }: { isHome?: boolean }) {
       <div className="mx-auto flex max-w-6xl flex-col gap-12">
         <div className="flex flex-col justify-between gap-10 sm:flex-row">
           <div className="flex flex-col gap-4">
-            <Image src="/logo/logo-inverse.png" alt="Yez The Realtor" width={194} height={100} className="h-11 w-auto self-start object-contain" />
             <p className="max-w-xs font-mono text-xs uppercase tracking-caption text-bone/70">{SITE.location}</p>
           </div>
 
@@ -35,7 +34,7 @@ export default function Footer({ isHome = true }: { isHome?: boolean }) {
               {SITE.email}
             </a>
             <a href={`https://wa.me/${SITE.whatsappNumber}`} target="_blank" rel="noopener noreferrer" className="hover:text-bone">
-              WhatsApp · {SITE.phone}
+              {SITE.phone}
             </a>
           </div>
 
@@ -52,7 +51,25 @@ export default function Footer({ isHome = true }: { isHome?: boolean }) {
           </div>
         </div>
 
-        <div className="flex flex-col items-center gap-2 border-t border-bone/10 pt-8 text-center">
+        <nav
+          aria-label={FOOTER.legalLabel}
+          className="flex flex-wrap justify-center gap-x-8 gap-y-3 border-t border-bone/10 pt-8"
+        >
+          {FOOTER.legal.map((doc) => (
+            <a
+              key={doc.href}
+              href={doc.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-[11px] uppercase tracking-caption text-bone/70 underline decoration-cognac decoration-1 underline-offset-4 hover:text-bone"
+            >
+              {doc.label}
+            </a>
+          ))}
+        </nav>
+
+        <div className="flex flex-col items-center gap-2 text-center">
+          <Image src="/logo/logo-inverse.png" alt="Yez The Realtor" width={194} height={100} className="mb-2 h-14 w-auto object-contain" />
           <span className="font-display !font-medium text-lg tracking-subhead text-bone">{FOOTER.tagline}</span>
           <span className="font-mono text-[10px] uppercase tracking-caption text-bone/50">
             © {new Date().getFullYear()} {SITE.name}

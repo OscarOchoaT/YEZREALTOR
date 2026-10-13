@@ -54,7 +54,7 @@ export default function Manifesto() {
   return (
     <section className="relative overflow-hidden bg-espresso px-6 py-28 text-bone sm:py-36">
       <div className="relative mx-auto max-w-6xl">
-        <Eyebrow index="01" label={MANIFESTO.eyebrow} align="left" />
+        <Eyebrow label={MANIFESTO.eyebrow} align="left" />
 
         <h2
           ref={titleRef}

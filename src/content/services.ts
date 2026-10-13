@@ -43,8 +43,8 @@ export const SERVICES_I18N: Localized<{ eyebrow: string; headline: string; cards
     ],
   },
   es: {
-    eyebrow: "Estrategia",
-    headline: "Tu próximo paso merece una estrategia.",
+    eyebrow: "Enfoque",
+    headline: "No todos los movimientos se diseñan igual.",
     cards: [
       {
         id: "buy",
@@ -58,16 +58,16 @@ export const SERVICES_I18N: Localized<{ eyebrow: string; headline: string; cards
         id: "sell",
         label: "Vender",
         headline: "Vende con intención.",
-        description: "Posiciona tu propiedad y tu próximo paso en torno al resultado que realmente quieres crear.",
+        description: "Posiciona tu propiedad y tu próximo movimiento alrededor del resultado que realmente quieres crear.",
         cta: "Explorar venta",
         featured: false,
       },
       {
         id: "relocate",
-        label: "Mudanza",
-        headline: "¿Te mudas a Texas?",
-        description: "Una mudanza no se trata solo de encontrar una casa. Se trata de entender dónde funciona mejor tu vida.",
-        cta: "Planear mi mudanza",
+        label: "Relocation",
+        headline: "¿Te mueves a Texas?",
+        description: "Moverte no es solo encontrar una casa. Es entender dónde encaja mejor tu vida.",
+        cta: "Explorar relocation",
         featured: false,
       },
     ],

@@ -63,7 +63,7 @@ export default function About() {
         </div>
 
         <div ref={copyRef} className="flex flex-col justify-center gap-6">
-          <Eyebrow index="02" label={ABOUT.eyebrow} align="left" />
+          <Eyebrow index="01" label={ABOUT.eyebrow} align="left" />
           <h2 className="sr-only">{ABOUT.eyebrow}</h2>
 
           <div className="flex flex-col gap-4">

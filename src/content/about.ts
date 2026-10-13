@@ -40,7 +40,7 @@ export const ABOUT_I18N: Localized<{
       "Ingeniera de formación",
       "Emprendedora por naturaleza",
       "Inmigrante por historia",
-      "Piloto por pasion",
+      "Piloto por pasión",
       "Realtor por propósito",
     ],
     photo: "/images/yez-about.jpg",

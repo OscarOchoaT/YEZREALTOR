@@ -189,7 +189,7 @@ export const TECH_VS_YEZ_I18N: Localized<{
     statusDone: "",
   },
   es: {
-    heading: ["Factor Humano + Factor Tecnologico"],
+    heading: ["Factor Humano + Factor Tecnológico"],
     columns: {
       technology: {
         label: "Factor tecnológico",
@@ -200,7 +200,7 @@ export const TECH_VS_YEZ_I18N: Localized<{
         items: ["Escucha e interpreta", "Aconseja con estrategia", "Te representa", "Negocia y protege tus intereses", "Entiende tu contexto real"],
       },
     },
-    closingLine: "Alta tecnología donde simplifica. Profundamente humano donde importa.",
+    closingLine: "Tecnología Para Simplificar Procesos. Criterio Humano Para Dar Dirección.",
     ariaLabel: "Un cerebro cuya mitad derecha es un circuito: humano más tecnología",
     statusHuman: "Descifrando lo humano…",
     statusTech: "Construyendo tecnología…",

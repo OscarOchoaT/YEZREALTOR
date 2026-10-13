@@ -4,7 +4,6 @@ import { Analytics } from "@vercel/analytics/next";
 import { hankenGrotesk, jetBrainsMono, coolvetica } from "../fonts";
 import SmoothScroll from "@/components/SmoothScroll";
 import Header from "@/components/Header";
-import WhatsAppButton from "@/components/WhatsAppButton";
 import CustomCursor from "@/components/CustomCursor";
 import CursorGlow from "@/components/CursorGlow";
 import PageTransitionOverlay from "@/components/PageTransitionOverlay";
@@ -99,7 +98,6 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
               <SmoothScroll>
                 <Header />
                 {children}
-                <WhatsAppButton />
                 <CustomCursor />
               </SmoothScroll>
               <EntryGate />

@@ -19,15 +19,15 @@ export const DIFFERENTIATOR_I18N: Localized<{
     ],
   },
   es: {
-    eyebrow: "Por qué Yez",
+    eyebrow: "¿Por qué Yez?",
     lineOld: "La inmobiliaria tradicional te ayuda a completar una transacción.",
-    lineNew: "Mentalidad de ingeniería + tecnología + guía humana + conocimiento del mercado de Austin.",
+    lineNew: "Mentalidad de ingeniería, tecnología, criterio humano y conocimiento profundo del mercado de Austin.",
     points: [
-      "Decisiones de propiedad construidas en torno a tu situación financiera",
-      "Representación personalizada, no una fila de transacciones",
-      "Tecnología creada para tomar decisiones más claras",
-      "Bilingüe y culturalmente consciente",
-      "Conocimiento profundo de Austin y el centro de Texas",
+      "Decisiones inmobiliarias alineadas con tu realidad financiera.",
+      "Representación personal, no un proceso en serie.",
+      "Tecnología que simplifica la información y mejora cada decisión.",
+      "Bilingüe, con contexto cultural y una forma de trabajar cercana.",
+      "Conocimiento real y profundo del mercado de Austin, Texas.",
     ],
   },
 };

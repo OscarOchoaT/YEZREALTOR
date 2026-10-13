@@ -19,10 +19,10 @@ export const CREDIBILITY_I18N: Localized<{
   es: {
     eyebrow: "Lo que dicen los clientes",
     headline: "Lo que dicen los clientes",
-    subline: "Experiencias reales. Mudanzas reales. Nuevos capítulos reales.",
-    facts: ["Realtor con licencia en Texas", "Activa desde 2024", "Conectada con bienes raíces desde 2014"],
-    googleReviews: "Reseñas en Google",
-    realtorReviews: "Reseñas en Realtor.com",
+    subline: "Experiencias reales. Nuevos capítulos reales.",
+    facts: [],
+    googleReviews: "Google Reviews",
+    realtorReviews: "Realtor.com Reviews",
   },
 };
 
@@ -63,7 +63,23 @@ export const CONTACT_I18N: Localized<{
   },
 };
 
-export const FOOTER_I18N: Localized<{ tagline: string }> = {
-  en: { tagline: "Ownership, Designed." },
-  es: { tagline: "Ownership, Designed." },
+export const FOOTER_I18N: Localized<{ tagline: string; legalLabel: string; legal: { label: string; href: string }[] }> = {
+  en: {
+    tagline: "Ownership, Designed.",
+    legalLabel: "Legal documents",
+    legal: [
+      { label: "Information About Brokerage Services", href: "/legal/information-about-brokerage-services.pdf" },
+      { label: "Consumer Protection Notice", href: "/legal/consumer-protection-notice.pdf" },
+      { label: "TREC Information", href: "/legal/trec-information.pdf" },
+    ],
+  },
+  es: {
+    tagline: "Ownership, Designed.",
+    legalLabel: "Documentos legales",
+    legal: [
+      { label: "Información sobre servicios de corretaje", href: "/legal/information-about-brokerage-services.pdf" },
+      { label: "Aviso de protección al consumidor", href: "/legal/consumer-protection-notice.pdf" },
+      { label: "Información de TREC", href: "/legal/trec-information.pdf" },
+    ],
+  },
 };
