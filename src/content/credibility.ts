@@ -77,9 +77,9 @@ export const FOOTER_I18N: Localized<{ tagline: string; legalLabel: string; legal
     tagline: "Ownership, Designed.",
     legalLabel: "Documentos legales",
     legal: [
-      { label: "Información sobre servicios de corretaje", href: "/legal/information-about-brokerage-services.pdf" },
-      { label: "Aviso de protección al consumidor", href: "/legal/consumer-protection-notice.pdf" },
-      { label: "Información de TREC", href: "/legal/trec-information.pdf" },
+      { label: "Information About Brokerage Services", href: "/legal/information-about-brokerage-services.pdf" },
+      { label: "Consumer Protection Notice", href: "/legal/consumer-protection-notice.pdf" },
+      { label: "TREC Information", href: "/legal/trec-information.pdf" },
     ],
   },
 };
