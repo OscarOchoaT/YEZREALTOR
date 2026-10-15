@@ -307,7 +307,7 @@ export default function Hero() {
           scrollTrigger: {
             trigger: stageEl,
             start: "top top",
-            end: "+=260%",
+            end: "+=200%",
             scrub: 1,
             pin: true,
             anticipatePin: 1,
