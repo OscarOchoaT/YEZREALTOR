@@ -22,7 +22,7 @@ export const SERVICES_I18N: Localized<{ eyebrow: string; headline: string; cards
         headline: "Buy with clarity.",
         description: "Understand the numbers, the market, and the decision before choosing the property.",
         cta: "Explore Buying",
-        featured: true,
+        featured: false,
       },
       {
         id: "sell",
@@ -30,7 +30,7 @@ export const SERVICES_I18N: Localized<{ eyebrow: string; headline: string; cards
         headline: "Sell with intention.",
         description: "Position your property and your next move around the outcome you’re actually trying to create.",
         cta: "Explore Selling",
-        featured: false,
+        featured: true,
       },
       {
         id: "relocate",
@@ -52,7 +52,7 @@ export const SERVICES_I18N: Localized<{ eyebrow: string; headline: string; cards
         headline: "Compra con claridad.",
         description: "Entiende los números, el mercado y la decisión antes de elegir la propiedad.",
         cta: "Explorar compra",
-        featured: true,
+        featured: false,
       },
       {
         id: "sell",
@@ -60,7 +60,7 @@ export const SERVICES_I18N: Localized<{ eyebrow: string; headline: string; cards
         headline: "Vende con intención.",
         description: "Posiciona tu propiedad y tu próximo movimiento alrededor del resultado que realmente quieres crear.",
         cta: "Explorar venta",
-        featured: false,
+        featured: true,
       },
       {
         id: "relocate",

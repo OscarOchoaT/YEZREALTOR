@@ -2,16 +2,17 @@
 
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { PRELOADER_LINE } from "@/content/entry";
+import Image from "next/image";
+import RadialAperture from "@/components/RadialAperture";
+import { PRELOADER_I18N } from "@/content/entry";
 import { ENTRY_KEY } from "@/content/entry";
+import { useContent, useLang } from "@/i18n/LocaleProvider";
 import { markLoaded, preloadClick, readLoaded, readStarted, subscribeLoaded, subscribeStarted } from "@/lib/preloader";
 import { MUSIC_EVENT, getSoundPref } from "@/lib/soundPref";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 const MIN_MS = 2600;
 const MAX_MS = 6000;
-
-const WORDS = PRELOADER_LINE.split(" ");
 
 const subscribeNever = () => () => {};
 const readEntered = () => {
@@ -31,6 +32,9 @@ const readEntered = () => {
  * Hidden before paint via CSS (see the layout script + globals.css).
  */
 export default function Preloader() {
+  const { line, accent } = useContent(PRELOADER_I18N);
+  const lang = useLang();
+  const words = line.split(" ");
   const loaded = useSyncExternalStore(subscribeLoaded, readLoaded, () => false);
   const entered = useSyncExternalStore(subscribeNever, readEntered, () => false);
   const started = useSyncExternalStore(subscribeStarted, readStarted, () => false);
@@ -66,10 +70,11 @@ export default function Preloader() {
   useEffect(() => {
     if (loaded || !active) return;
     const ids: number[] = [];
-    WORDS.forEach((_, i) => ids.push(window.setTimeout(() => preloadClick(0.08 + i * 0.01), 200 + i * 120)));
-    ids.push(window.setTimeout(() => preloadClick(0.12), 200 + WORDS.length * 120 + 250));
+    const words = line.split(" ");
+    words.forEach((_, i) => ids.push(window.setTimeout(() => preloadClick(0.08 + i * 0.01), 200 + i * 120)));
+    ids.push(window.setTimeout(() => preloadClick(0.12), 200 + words.length * 120 + 250));
     return () => ids.forEach((id) => window.clearTimeout(id));
-  }, [loaded, active]);
+  }, [loaded, active, line]);
 
   useEffect(() => {
     if (loaded || !active) return;
@@ -86,26 +91,46 @@ export default function Preloader() {
         <motion.div
           key="preloader"
           role="status"
-          aria-label={PRELOADER_LINE}
+          aria-label={line}
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.7, ease: "easeInOut" } }}
           className="preloader fixed inset-0 z-[120] flex flex-col items-center justify-center gap-8 bg-espresso px-6 text-center"
         >
-          <p
-            lang="en"
+          <motion.div
             aria-hidden="true"
-            className="max-w-3xl font-display text-3xl leading-tight text-bone sm:text-5xl"
+            initial={{ opacity: 0, scale: 0.6 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 2.2, ease: EASE }}
+            className="pointer-events-none absolute inset-0 overflow-hidden"
           >
-            {WORDS.map((w, i) => (
+            <RadialAperture
+              tone="cognac"
+              className="left-1/2 top-1/2 h-[140vw] w-[140vw] max-h-[900px] max-w-[900px] -translate-x-1/2 -translate-y-1/2"
+            />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 1.2, filter: "blur(14px)" }}
+            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+            transition={{ duration: 1.4, ease: EASE }}
+            className="relative"
+          >
+            <Image src="/logo/logo-inverse.png" alt="" width={194} height={100} priority className="h-14 w-auto sm:h-16" />
+          </motion.div>
+          <p
+            lang={lang}
+            aria-hidden="true"
+            className="relative max-w-3xl font-display text-3xl leading-tight text-bone sm:text-5xl"
+          >
+            {words.map((w, i) => (
               <span key={i} className="inline-block overflow-hidden align-bottom">
                 <motion.span
-                  className={`inline-block ${w.toLowerCase() === "traditional" ? "text-glow" : ""}`}
-                  initial={{ y: "110%", opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.9, delay: 0.2 + i * 0.12, ease: EASE }}
+                  className={`inline-block ${w.toLowerCase() === accent ? "text-glow" : ""}`}
+                  initial={{ y: "110%", opacity: 0, filter: "blur(8px)" }}
+                  animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                  transition={{ duration: 0.9, delay: 0.5 + i * 0.12, ease: EASE }}
                 >
                   {w}
-                  {i < WORDS.length - 1 ? " " : ""}
+                  {i < words.length - 1 ? " " : ""}
                 </motion.span>
               </span>
             ))}

@@ -15,6 +15,7 @@ html[data-loaded] .preloader {
 }
 
 body {
+  overflow-x: clip;
   background-color: #1a120b;
   color: #f4f0e8;
 }

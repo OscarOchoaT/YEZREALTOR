@@ -9,8 +9,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Below this width we treat the device as mobile: Lenis's rAF-driven virtual
 // scroll fights ScrollTrigger's pin/scrub recalculation on mobile browsers,
-// especially when the address bar shows/hides mid-scroll. Native scroll +
-// ScrollTrigger.normalizeScroll is the combination GSAP recommends there.
+// especially when the address bar shows/hides mid-scroll. Plain native scroll
+// (with ScrollTrigger ignoring the address-bar resize) is used there.
 // Keep in sync with Tailwind's `lg` breakpoint used throughout the site.
 const MOBILE_BREAKPOINT = 1024;
 
@@ -39,13 +39,10 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
 
     if (isMobile) {
-      ScrollTrigger.normalizeScroll(true);
-      const onResize = () => ScrollTrigger.refresh();
-      window.addEventListener("resize", onResize);
-      return () => {
-        window.removeEventListener("resize", onResize);
-        ScrollTrigger.normalizeScroll(false);
-      };
+      // Native scroll only. normalizeScroll hijacks touch events, which broke
+      // scrolling over the Typeform iframe and made fling/momentum feel stuck.
+      ScrollTrigger.config({ ignoreMobileResize: true });
+      return;
     }
 
     const lenis = new Lenis({

@@ -24,7 +24,9 @@ export default function Contact() {
           className="mb-14 flex flex-col items-center gap-3 text-center"
         >
           <Eyebrow index="05" label={CONTACT.eyebrow} />
-          <p className="font-display !font-medium text-2xl tracking-subhead text-bone/50 sm:text-3xl">{CONTACT.line1}</p>
+          {CONTACT.line1 && (
+            <p className="font-display !font-medium text-2xl tracking-subhead text-bone/50 sm:text-3xl">{CONTACT.line1}</p>
+          )}
           <p className="font-display text-3xl tracking-headline text-bone sm:text-4xl">{CONTACT.line2}</p>
         </motion.div>
 
@@ -43,7 +45,9 @@ export default function Contact() {
           <h2 className="text-center font-display text-3xl tracking-headline text-bone sm:text-4xl">
             {CONTACT.headline}
           </h2>
-          <p className="max-w-lg text-center font-body text-base font-light text-bone/75">{CONTACT.supporting}</p>
+          {CONTACT.supporting && (
+            <p className="max-w-lg text-center font-body text-base font-light text-bone/75">{CONTACT.supporting}</p>
+          )}
           <a
             href="#contact-form"
             className="inline-flex items-center justify-center border border-glow bg-glow px-8 py-4 font-mono text-xs uppercase tracking-caption text-espresso transition-colors hover:border-bone hover:bg-bone"

@@ -291,9 +291,9 @@ export default function Hero() {
        * Mobile: pinned, like desktop. Unpinned, the phases animated while the
        * stage scrolled up out of view, so they were gone before they could be
        * read. The classic mobile pin bug (address bar show/hide desyncing the
-       * spacer) is handled by ScrollTrigger.normalizeScroll, which
-       * SmoothScroll enables on mobile. Same phase-by-phase timing and snap
-       * as desktop (buildPhaseSequence) — only the scrub smoothing differs.
+       * spacer) is handled by ScrollTrigger's ignoreMobileResize (see
+       * SmoothScroll). Same phase-by-phase timing as desktop
+       * (buildPhaseSequence), without snap.
        */
       function setupMobile() {
         const stageEl = mobileStageRef.current;
@@ -311,7 +311,8 @@ export default function Hero() {
             scrub: 1,
             pin: true,
             anticipatePin: 1,
-            snap: HERO_SNAP,
+            // No snap on touch: it fights native momentum and made the page
+            // feel stuck while scrolling.
             onUpdate: (self) => mobileHeroCanvasRef.current?.setProgress(self.progress),
           },
         });

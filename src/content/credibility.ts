@@ -51,11 +51,10 @@ export const CONTACT_I18N: Localized<{
   },
   es: {
     eyebrow: "Hablemos",
-    line1: "La transacción termina.",
-    line2: "La relación sigue avanzando.",
+    line1: "",
+    line2: "A un paso de diseñar tu estrategia.",
     headline: "¿Listo para diseñar tu próximo paso?",
-    supporting:
-      "Ya sea que estés comprando, vendiendo, mudándote o simplemente tratando de entender qué es posible, empieza con claridad.",
+    supporting: "",
     ctaFinal: "Diseña mi próximo paso",
     whatsappPrompt: "¿Prefieres hablar directamente?",
     whatsappCta: "Escribe a Yez por WhatsApp",

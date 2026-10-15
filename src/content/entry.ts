@@ -8,8 +8,11 @@ export const ENTRY_STEP_KEY = "yez-entry-step";
 // Brand line: deliberately never translated.
 export const ENTRY_TAGLINE = "Ownership, Designed.";
 
-// Loading screen line: also deliberately never translated.
-export const PRELOADER_LINE = "Not your traditional real estate experience";
+// Loading screen line, with the word that gets the accent colour.
+export const PRELOADER_I18N: Localized<{ line: string; accent: string }> = {
+  en: { line: "Not your traditional real estate experience", accent: "traditional" },
+  es: { line: "No es tu experiencia inmobiliaria tradicional", accent: "tradicional" },
+};
 
 // TODO(client): link "Privacy Policy" / "Terms of Use" to real pages once the
 // client provides them; today the checkbox only records the acceptance.

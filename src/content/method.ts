@@ -200,7 +200,7 @@ export const TECH_VS_YEZ_I18N: Localized<{
         items: ["Escucha e interpreta", "Aconseja con estrategia", "Te representa", "Negocia y protege tus intereses", "Entiende tu contexto real"],
       },
     },
-    closingLine: "Tecnología Para Simplificar Procesos. Criterio Humano Para Dar Dirección.",
+    closingLine: "Tecnología para simplificar procesos. Criterio humano para dar dirección.",
     ariaLabel: "Un cerebro cuya mitad derecha es un circuito: humano más tecnología",
     statusHuman: "Descifrando lo humano…",
     statusTech: "Construyendo tecnología…",

@@ -33,7 +33,7 @@ export default function Header() {
         scrolled ? "bg-espresso py-3 shadow-sm shadow-black/20" : "bg-transparent py-6"
       }`}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 sm:px-6">
         <TransitionLink
           href={isHome ? "#hero" : "/"}
           className="flex items-center gap-2"
@@ -47,7 +47,7 @@ export default function Header() {
             alt="Yez The Realtor"
             width={194}
             height={100}
-            className={`w-auto transition-all duration-300 ${scrolled ? "h-10" : "h-14 sm:h-16"}`}
+            className={`w-auto transition-all duration-300 ${scrolled ? "h-9 sm:h-10" : "h-12 sm:h-16"}`}
             priority
           />
         </TransitionLink>
@@ -64,12 +64,12 @@ export default function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-3 sm:gap-5">
+        <div className="flex items-center gap-2 sm:gap-5">
         <LanguageSwitcher />
         <Magnetic strength={0.3}>
           <TransitionLink
             href={isHome ? "#contact" : "/#contact"}
-            className="inline-flex items-center justify-center border border-cognac bg-cognac px-5 py-2.5 font-mono text-xs uppercase tracking-caption text-bone transition-colors hover:border-siena hover:bg-siena"
+            className="inline-flex items-center justify-center border border-cognac bg-cognac px-3 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-bone transition-colors hover:border-siena sm:px-5 sm:py-2.5 sm:text-xs sm:tracking-caption hover:bg-siena"
           >
             {HERO_COPY.ctaPrimary}
           </TransitionLink>

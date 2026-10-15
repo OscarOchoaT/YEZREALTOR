@@ -71,7 +71,7 @@ export default function Differentiator() {
       }
 
       gsap.set(headRef.current, { autoAlpha: 0, y: 24 });
-      gsap.set(cards, { autoAlpha: 0, y: 32, scale: 0.97 });
+      gsap.set(cards, { autoAlpha: 0, y: 28 });
 
       gsap.to(headRef.current, {
         autoAlpha: 1,
@@ -84,62 +84,46 @@ export default function Differentiator() {
         scrollTrigger: { trigger: gridRef.current, start: "top 88%", end: "top 40%", scrub: 1 },
       });
       cards.forEach((card, i) => {
-        tl.to(card, { autoAlpha: 1, y: 0, scale: 1, ease: "power2.out", duration: 0.5 }, i * 0.12);
+        tl.to(card, { autoAlpha: 1, y: 0, ease: "power2.out", duration: 0.5 }, i * 0.12);
       });
     },
     { scope: sectionRef }
   );
 
   return (
-    <section ref={sectionRef} className="bg-stone/25 px-6 py-24 sm:py-32">
-      <div className="mx-auto max-w-6xl">
-        <div ref={headRef} className="mx-auto flex max-w-4xl flex-col items-center gap-5 text-center">
-          <Eyebrow index="03" label={DIFFERENTIATOR.eyebrow} />
+    <section ref={sectionRef} className="relative overflow-hidden bg-stone/25 px-6 py-24 sm:py-32">
+      <div className="mx-auto grid max-w-6xl gap-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
+        <div ref={headRef} className="flex flex-col gap-6 text-left lg:sticky lg:top-32 lg:self-start">
+          <Eyebrow index="03" label={DIFFERENTIATOR.eyebrow} align="left" />
           <p className="font-display !font-medium text-lg tracking-subhead text-bone/40 line-through decoration-bone/30 sm:text-xl">
             {DIFFERENTIATOR.lineOld}
           </p>
+          <span aria-hidden="true" className="block h-px w-16 bg-cognac" />
           <h2 className="text-balance font-display text-3xl tracking-headline text-bone sm:text-4xl lg:text-5xl">
             {DIFFERENTIATOR.lineNew}
           </h2>
         </div>
 
-        <ul
-          ref={gridRef}
-          className="mt-14 grid grid-cols-1 gap-4 sm:mt-20 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2"
-        >
-          {DIFFERENTIATOR.points.map((point, i) => {
-            const featured = i === 0;
-            return (
-              <li
-                key={point}
-                ref={(el) => {
-                  cardRefs.current[i] = el;
-                }}
-                className={`group relative flex min-h-56 flex-col justify-between gap-10 overflow-hidden rounded-2xl p-7 transition-transform duration-300 hover:-translate-y-1 sm:p-8 ${
-                  featured
-                    ? "bg-cocoaBark sm:col-span-2 lg:col-span-1 lg:row-span-2 lg:p-10"
-                    : "border border-bone/10 bg-bone/[0.04] hover:border-cognac/50"
-                }`}
-              >
-                <span
-                  className="pointer-events-none absolute -right-2 -top-6 select-none font-display text-[8rem] leading-none text-bone/[0.05]"
-                  aria-hidden="true"
-                >
-                  {i + 1}
-                </span>
-                <span className="relative text-cognac transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
-                  {ICONS[i]}
-                </span>
-                <p
-                  className={`relative font-display tracking-subhead text-bone ${
-                    featured ? "text-2xl sm:text-3xl lg:text-4xl lg:leading-[1.1]" : "text-xl sm:text-2xl"
-                  }`}
-                >
-                  {point}
-                </p>
-              </li>
-            );
-          })}
+        <ul ref={gridRef} className="flex flex-col border-t border-bone/15">
+          {DIFFERENTIATOR.points.map((point, i) => (
+            <li
+              key={point}
+              ref={(el) => {
+                cardRefs.current[i] = el;
+              }}
+              className="group relative flex items-center gap-5 border-b border-bone/15 py-6 transition-colors duration-300 hover:border-cognac sm:gap-8 sm:py-8"
+            >
+              <span className="w-8 shrink-0 font-mono text-xs tracking-caption text-cognac sm:w-10">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <p className="flex-1 font-display text-xl tracking-subhead text-bone transition-transform duration-300 group-hover:translate-x-1 sm:text-2xl">
+                {point}
+              </p>
+              <span className="shrink-0 text-cognac transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3 [&_svg]:h-8 [&_svg]:w-8 sm:[&_svg]:h-10 sm:[&_svg]:w-10">
+                {ICONS[i]}
+              </span>
+            </li>
+          ))}
         </ul>
       </div>
     </section>
