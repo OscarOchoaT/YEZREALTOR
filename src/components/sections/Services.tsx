@@ -114,25 +114,15 @@ export default function Services() {
               }}
               onMouseEnter={() => setHovered(card.id)}
               onMouseLeave={() => setHovered(null)}
-              className={`group flex flex-col justify-between gap-10 rounded-2xl p-8 transition-transform hover:-translate-y-1 ${
-                card.featured
-                  ? "bg-cocoaBark text-bone sm:py-10"
-                  : "border border-bone/10 bg-bone/[0.04] text-bone"
-              }`}
+              className="group flex flex-col justify-between gap-10 rounded-2xl border border-bone/10 bg-bone/[0.04] p-8 text-bone transition-transform hover:-translate-y-1"
             >
               <div className="flex flex-col gap-3">
                 <span className="font-mono text-[11px] uppercase tracking-caption text-cognac">{card.label}</span>
                 <h3 className="font-display text-3xl tracking-headline">{card.headline}</h3>
-                <p className={`font-body text-sm font-light ${card.featured ? "text-bone/80" : "text-bone/70"}`}>
-                  {card.description}
-                </p>
+                <p className="font-body text-sm font-light text-bone/70">{card.description}</p>
               </div>
 
-              <span
-                className={`inline-flex items-center gap-2 font-mono text-xs uppercase tracking-caption transition-colors ${
-                  card.featured ? "text-bone group-hover:text-cognac" : "text-bone group-hover:text-cognac"
-                }`}
-              >
+              <span className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-caption text-bone transition-colors group-hover:text-cognac">
                 {card.cta} <span aria-hidden="true">→</span>
               </span>
             </a>
