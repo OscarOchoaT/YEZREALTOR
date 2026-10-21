@@ -94,6 +94,7 @@ export default function Preloader() {
           exit={{ opacity: 0, transition: { duration: 0.7, ease: "easeInOut" } }}
           className="preloader fixed inset-0 z-[120] flex flex-col items-center justify-center gap-10 bg-espresso px-6 text-center"
         >
+          {active && (<>
           <p
             lang={lang}
             aria-hidden="true"
@@ -121,6 +122,7 @@ export default function Preloader() {
               transition={{ duration: MIN_MS / 1000, ease: "easeInOut" }}
             />
           </span>
+          </>)}
         </motion.div>
       )}
     </AnimatePresence>
