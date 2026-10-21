@@ -14,6 +14,8 @@ import { SITE_META, SITE_URL } from "@/content/meta";
 import EntryGate from "@/components/EntryGate";
 import MusicPlayer from "@/components/MusicPlayer";
 import Preloader from "@/components/Preloader";
+import ComingSoon from "@/components/ComingSoon";
+import { COMING_SOON } from "@/content/comingSoon";
 import { ENTRY_KEY } from "@/content/entry";
 import { LOADED_KEY } from "@/lib/preloader";
 import { LocaleProvider } from "@/i18n/LocaleProvider";
@@ -92,6 +94,11 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
       <body className="min-h-full flex flex-col bg-espresso font-body font-light text-bone">
         <script dangerouslySetInnerHTML={{ __html: ENTRY_SCRIPT }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildJsonLd(lang)) }} />
+        {COMING_SOON ? (
+          <LocaleProvider lang={lang}>
+            <ComingSoon />
+          </LocaleProvider>
+        ) : (
         <LocaleProvider lang={lang}>
           <PageTransitionOverlay>
             <SourceProvider>
@@ -106,7 +113,8 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
             </SourceProvider>
           </PageTransitionOverlay>
         </LocaleProvider>
-        <CursorGlow />
+        )}
+        {!COMING_SOON && <CursorGlow />}
         <GrainOverlay />
         <Analytics />
       </body>
