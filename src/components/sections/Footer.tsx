@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import TransitionLink from "@/components/TransitionLink";
 import { SITE, NAV_LINKS_I18N } from "@/content/site";
 import { FOOTER_I18N } from "@/content/credibility";
@@ -52,7 +53,13 @@ export default function Footer({ isHome = true }: { isHome?: boolean }) {
           <span aria-hidden="true" className="hidden sm:block" />
 
           <div className="flex flex-col items-center gap-2 text-center">
-            <span aria-label="Yez The Realtor" className="mb-2 font-display text-6xl leading-none text-bone">Y</span>
+            <Image
+              src="/logo/logo-monogram-bone.png"
+              alt="Yez The Realtor"
+              width={327}
+              height={368}
+              className="mb-2 h-16 w-auto"
+            />
             <span className="font-display !font-medium text-lg tracking-subhead text-bone">{FOOTER.tagline}</span>
             <div className="flex items-center justify-center gap-3 font-mono text-[10px] uppercase tracking-caption text-bone/50 sm:flex-col sm:gap-2">
               <span>© {new Date().getFullYear()}</span>
