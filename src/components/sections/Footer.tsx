@@ -58,7 +58,7 @@ export default function Footer({ isHome = true }: { isHome?: boolean }) {
               alt="Yez The Realtor"
               width={327}
               height={368}
-              className="mb-2 h-16 w-auto"
+              className="mb-2 h-10 w-auto"
             />
             <span className="font-display !font-medium text-lg tracking-subhead text-bone">{FOOTER.tagline}</span>
             <div className="flex items-center justify-center gap-3 font-mono text-[10px] uppercase tracking-caption text-bone/50">
