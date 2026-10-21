@@ -61,9 +61,9 @@ export default function Footer({ isHome = true }: { isHome?: boolean }) {
               className="mb-2 h-16 w-auto"
             />
             <span className="font-display !font-medium text-lg tracking-subhead text-bone">{FOOTER.tagline}</span>
-            <div className="flex items-center justify-center gap-3 font-mono text-[10px] uppercase tracking-caption text-bone/50 sm:flex-col sm:gap-2">
+            <div className="flex items-center justify-center gap-3 font-mono text-[10px] uppercase tracking-caption text-bone/50">
               <span>© {new Date().getFullYear()}</span>
-              <span aria-hidden="true" className="sm:hidden">·</span>
+              <span aria-hidden="true">·</span>
               <span>Austin, Texas</span>
             </div>
             <nav aria-label={FOOTER.legalLabel} className="mt-4 flex flex-wrap justify-center gap-x-8 gap-y-3">
