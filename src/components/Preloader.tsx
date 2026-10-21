@@ -69,8 +69,8 @@ export default function Preloader() {
     if (loaded || !active) return;
     const ids: number[] = [];
     const words = line.split(" ");
-    words.forEach((_, i) => ids.push(window.setTimeout(() => preloadClick(0.08 + i * 0.01), 200 + i * 120)));
-    ids.push(window.setTimeout(() => preloadClick(0.12), 200 + words.length * 120 + 250));
+    words.forEach((_, i) => ids.push(window.setTimeout(() => preloadClick(0.08 + i * 0.01), 200 + i * 90)));
+    ids.push(window.setTimeout(() => preloadClick(0.12), 200 + words.length * 90 + 250));
     return () => ids.forEach((id) => window.clearTimeout(id));
   }, [loaded, active, line]);
 
@@ -101,16 +101,18 @@ export default function Preloader() {
             className="relative max-w-4xl font-display text-3xl uppercase leading-tight text-bone sm:text-5xl"
           >
             {words.map((w, i) => (
-              <span key={i} className="inline-block overflow-hidden align-bottom">
-                <motion.span
-                  className={`inline-block ${w.toLowerCase() === accent.toLowerCase() ? "text-glow" : ""}`}
-                  initial={{ y: "110%", opacity: 0, filter: "blur(10px)", letterSpacing: "0.35em" }}
-                  animate={{ y: 0, opacity: 1, filter: "blur(0px)", letterSpacing: "0.02em" }}
-                  transition={{ duration: 1.2, delay: 0.3 + i * 0.14, ease: EASE }}
-                >
-                  {w}
-                  {i < words.length - 1 ? " " : ""}
-                </motion.span>
+              <span key={i}>
+                <span className="inline-block overflow-hidden py-[0.12em] align-bottom">
+                  <motion.span
+                    className={`inline-block ${w.toLowerCase() === accent.toLowerCase() ? "text-glow" : ""}`}
+                    initial={{ y: "100%", opacity: 0, filter: "blur(6px)" }}
+                    animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                    transition={{ duration: 0.8, delay: 0.2 + i * 0.09, ease: EASE }}
+                  >
+                    {w}
+                  </motion.span>
+                </span>
+                {i < words.length - 1 ? " " : ""}
               </span>
             ))}
           </p>
