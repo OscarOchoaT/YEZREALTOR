@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import TransitionLink from "@/components/TransitionLink";
 import { SITE, NAV_LINKS_I18N } from "@/content/site";
 import { FOOTER_I18N } from "@/content/credibility";
@@ -50,14 +49,16 @@ export default function Footer({ isHome = true }: { isHome?: boolean }) {
         </div>
 
         <div className="grid items-end gap-8 border-t border-bone/10 pt-8 sm:grid-cols-[1fr_auto_1fr]">
-          <p className="order-last font-mono text-xs uppercase tracking-caption text-bone/70 sm:order-none">{SITE.location}</p>
+          <span aria-hidden="true" className="hidden sm:block" />
 
           <div className="flex flex-col items-center gap-2 text-center">
-            <Image src="/logo/logo-inverse.png" alt="Yez The Realtor" width={194} height={100} className="mb-2 h-14 w-auto object-contain" />
+            <span aria-label="Yez The Realtor" className="mb-2 font-display text-6xl leading-none text-bone">Y</span>
             <span className="font-display !font-medium text-lg tracking-subhead text-bone">{FOOTER.tagline}</span>
-            <span className="font-mono text-[10px] uppercase tracking-caption text-bone/50">
-              © {new Date().getFullYear()}
-            </span>
+            <div className="flex items-center justify-center gap-3 font-mono text-[10px] uppercase tracking-caption text-bone/50 sm:flex-col sm:gap-2">
+              <span>© {new Date().getFullYear()}</span>
+              <span aria-hidden="true" className="sm:hidden">·</span>
+              <span>Austin, Texas</span>
+            </div>
             <nav aria-label={FOOTER.legalLabel} className="mt-4 flex flex-wrap justify-center gap-x-8 gap-y-3">
               {FOOTER.legal.map((doc) => (
                 <a

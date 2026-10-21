@@ -2,8 +2,6 @@
 
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/image";
-import RadialAperture from "@/components/RadialAperture";
 import { PRELOADER_I18N } from "@/content/entry";
 import { ENTRY_KEY } from "@/content/entry";
 import { useContent, useLang } from "@/i18n/LocaleProvider";
@@ -94,40 +92,20 @@ export default function Preloader() {
           aria-label={line}
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.7, ease: "easeInOut" } }}
-          className="preloader fixed inset-0 z-[120] flex flex-col items-center justify-center gap-8 bg-espresso px-6 text-center"
+          className="preloader fixed inset-0 z-[120] flex flex-col items-center justify-center gap-10 bg-espresso px-6 text-center"
         >
-          <motion.div
-            aria-hidden="true"
-            initial={{ opacity: 0, scale: 0.6 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 2.2, ease: EASE }}
-            className="pointer-events-none absolute inset-0 overflow-hidden"
-          >
-            <RadialAperture
-              tone="cognac"
-              className="left-1/2 top-1/2 h-[140vw] w-[140vw] max-h-[900px] max-w-[900px] -translate-x-1/2 -translate-y-1/2"
-            />
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, scale: 1.2, filter: "blur(14px)" }}
-            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-            transition={{ duration: 1.4, ease: EASE }}
-            className="relative"
-          >
-            <Image src="/logo/logo-inverse.png" alt="" width={194} height={100} priority className="h-14 w-auto sm:h-16" />
-          </motion.div>
           <p
             lang={lang}
             aria-hidden="true"
-            className="relative max-w-3xl font-display text-3xl leading-tight text-bone sm:text-5xl"
+            className="relative max-w-4xl font-display text-3xl uppercase leading-tight text-bone sm:text-5xl"
           >
             {words.map((w, i) => (
               <span key={i} className="inline-block overflow-hidden align-bottom">
                 <motion.span
-                  className={`inline-block ${w.toLowerCase() === accent ? "text-glow" : ""}`}
-                  initial={{ y: "110%", opacity: 0, filter: "blur(8px)" }}
-                  animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-                  transition={{ duration: 0.9, delay: 0.5 + i * 0.12, ease: EASE }}
+                  className={`inline-block ${w.toLowerCase() === accent.toLowerCase() ? "text-glow" : ""}`}
+                  initial={{ y: "110%", opacity: 0, filter: "blur(10px)", letterSpacing: "0.35em" }}
+                  animate={{ y: 0, opacity: 1, filter: "blur(0px)", letterSpacing: "0.02em" }}
+                  transition={{ duration: 1.2, delay: 0.3 + i * 0.14, ease: EASE }}
                 >
                   {w}
                   {i < words.length - 1 ? " " : ""}

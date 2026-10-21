@@ -163,9 +163,9 @@ export default function Differentiator() {
                     ref={(el) => {
                       itemRefs.current[i] = el;
                     }}
-                    className="flex flex-col gap-3 self-center lg:max-w-xl"
+                    className="relative flex flex-col gap-3 self-center lg:max-w-xl"
                   >
-                    <span className="font-mono text-sm tracking-caption text-cognac">
+                    <span className="font-mono text-sm tracking-caption text-cognac lg:absolute lg:bottom-full lg:mb-3">
                       {pad(i)}
                     </span>
                     <p className="font-display text-2xl tracking-subhead text-bone sm:text-4xl">
