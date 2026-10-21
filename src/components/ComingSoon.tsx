@@ -2,9 +2,8 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { COMING_SOON_I18N } from "@/content/comingSoon";
+import { COMING_SOON_COPY } from "@/content/comingSoon";
 import { ENTRY_TAGLINE } from "@/content/entry";
-import { useContent, useLang } from "@/i18n/LocaleProvider";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -16,12 +15,11 @@ const reveal = (delay: number) => ({
 
 /** Full-screen placeholder shown instead of the whole site until launch. */
 export default function ComingSoon() {
-  const copy = useContent(COMING_SOON_I18N);
-  const lang = useLang();
+  const copy = COMING_SOON_COPY;
 
   return (
     <main
-      lang={lang}
+      lang="en"
       className="fixed inset-0 z-[200] flex flex-col items-center justify-between overflow-y-auto bg-espresso px-6 py-12 text-center text-bone sm:py-16"
     >
       <span aria-hidden="true" />
