@@ -10,7 +10,7 @@ export const ENTRY_TAGLINE = "Ownership, Designed.";
 
 // Loading screen line, with the word that gets the accent colour.
 export const PRELOADER_I18N: Localized<{ line: string; accent: string }> = {
-  en: { line: "You are about to enter a different way of living real estate", accent: "different" },
+  en: { line: "Not your traditional real estate experience", accent: "traditional" },
   es: { line: "Estás a punto de entrar a una forma distinta de vivir el real estate", accent: "distinta" },
 };
 
