@@ -12,6 +12,9 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 const MIN_MS = 2600;
 const MAX_MS = 6000;
 
+// Accent words that get struck through ("traditional") instead of underlined.
+const STRIKE = new Set(["traditional", "tradicional"]);
+
 const subscribeNever = () => () => {};
 const readEntered = () => {
   try {
@@ -95,27 +98,69 @@ export default function Preloader() {
           className="preloader fixed inset-0 z-[120] flex flex-col items-center justify-center gap-10 bg-espresso px-6 text-center"
         >
           {active && (<>
-          <p
+          <motion.span
+            aria-hidden="true"
+            className="pointer-events-none absolute left-1/2 top-1/2 h-[60vmin] w-[90vmin] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(ellipse_at_center,rgb(255_255_255/0.09),transparent_70%)] blur-2xl"
+            initial={{ opacity: 0, scale: 0.7 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.8, ease: EASE }}
+          />
+          <motion.p
             lang={lang}
             aria-hidden="true"
             className="relative max-w-4xl font-display text-3xl uppercase leading-tight text-bone sm:text-5xl"
+            initial={{ letterSpacing: "0.12em" }}
+            animate={{ letterSpacing: "0em" }}
+            transition={{ duration: 2.2, ease: EASE }}
           >
-            {words.map((w, i) => (
-              <span key={i}>
-                <span className="inline-block overflow-hidden py-[0.12em] align-bottom">
-                  <motion.span
-                    className={`inline-block ${w.toLowerCase() === accent.toLowerCase() ? "text-glow" : ""}`}
-                    initial={{ y: "100%", opacity: 0, filter: "blur(6px)" }}
-                    animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-                    transition={{ duration: 0.8, delay: 0.2 + i * 0.09, ease: EASE }}
-                  >
-                    {w}
-                  </motion.span>
+            {words.map((w, i) => {
+              const isAccent = w.toLowerCase() === accent.toLowerCase();
+              const wordDelay = 0.2 + i * 0.09;
+              const chars = Array.from(w);
+              const revealed = wordDelay + chars.length * 0.025 + 0.7;
+              return (
+                <span key={i}>
+                  <span className="relative inline-block overflow-hidden whitespace-nowrap py-[0.12em] align-bottom">
+                    {chars.map((c, j) => (
+                      <motion.span
+                        key={j}
+                        className={`inline-block ${isAccent ? "text-glow" : ""}`}
+                        initial={{ y: "110%", opacity: 0, rotate: 6, filter: "blur(6px)" }}
+                        animate={{
+                          y: 0,
+                          opacity: isAccent && STRIKE.has(w.toLowerCase()) ? [0, 1, 1, 0.35] : 1,
+                          rotate: 0,
+                          filter: "blur(0px)",
+                        }}
+                        transition={{
+                          duration: 0.8,
+                          delay: wordDelay + j * 0.025,
+                          ease: EASE,
+                          opacity: isAccent && STRIKE.has(w.toLowerCase())
+                            ? { duration: 2.2, delay: wordDelay + j * 0.025, times: [0, 0.25, 0.65, 1] }
+                            : undefined,
+                        }}
+                      >
+                        {c}
+                      </motion.span>
+                    ))}
+                    {isAccent && (
+                      <motion.span
+                        aria-hidden="true"
+                        className={`absolute left-0 right-0 block origin-left bg-cognac ${
+                          STRIKE.has(w.toLowerCase()) ? "top-1/2 h-[3px]" : "bottom-[0.05em] h-[2px]"
+                        }`}
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: 0.7, delay: revealed, ease: EASE }}
+                      />
+                    )}
+                  </span>
+                  {i < words.length - 1 ? " " : ""}
                 </span>
-                {i < words.length - 1 ? " " : ""}
-              </span>
-            ))}
-          </p>
+              );
+            })}
+          </motion.p>
           <span aria-hidden="true" className="relative block h-px w-40 overflow-hidden bg-bone/15">
             <motion.span
               className="absolute inset-y-0 left-0 block bg-cognac"

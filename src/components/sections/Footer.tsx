@@ -13,19 +13,19 @@ export default function Footer({ isHome = true }: { isHome?: boolean }) {
     <footer className="bg-cocoaBark px-6 py-12 text-bone sm:py-16">
       <div className="mx-auto flex max-w-6xl flex-col gap-10 sm:gap-12">
         <div className="flex flex-col justify-between gap-8 sm:flex-row sm:gap-10">
-          <nav className="grid grid-cols-2 gap-x-6 gap-y-1 border-b border-bone/10 pb-8 text-center sm:flex sm:flex-wrap sm:gap-x-8 sm:gap-y-3 sm:border-0 sm:pb-0 sm:text-left">
+          <nav className="flex flex-wrap items-start gap-x-4 gap-y-2 border-b border-bone/10 pb-8 sm:gap-x-6 sm:border-0 sm:pb-0">
             {NAV_LINKS.map((link) => (
               <TransitionLink
                 key={link.href}
                 href={isHome ? link.href : `/${link.href}`}
-                className="py-2.5 font-mono text-xs uppercase tracking-caption text-bone/80 hover:text-bone sm:py-0"
+                className="whitespace-nowrap py-1.5 font-mono text-[10px] uppercase tracking-[0.1em] text-bone/80 hover:text-bone sm:py-0 sm:text-[11px] sm:tracking-caption"
               >
                 {link.label}
               </TransitionLink>
             ))}
           </nav>
 
-          <div className="flex flex-col items-center gap-1 border-b border-bone/10 pb-8 text-center font-mono text-xs uppercase tracking-caption text-bone/70 sm:items-start sm:gap-2 sm:border-0 sm:pb-0 sm:text-left">
+          <div className="flex flex-col items-start gap-1 border-b border-bone/10 pb-8 text-left font-mono text-[10px] uppercase tracking-caption text-bone/70 sm:gap-2 sm:border-0 sm:pb-0 sm:text-[11px]">
             <a href={SITE.instagramUrl} target="_blank" rel="noopener noreferrer" className="py-1.5 hover:text-bone sm:py-0">
               Instagram {SITE.instagramHandle}
             </a>

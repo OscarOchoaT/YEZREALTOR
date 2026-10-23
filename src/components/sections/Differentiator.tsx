@@ -38,6 +38,9 @@ export default function Differentiator() {
       gsap.set(items, { autoAlpha: 0, x: 40, filter: "blur(12px)" });
       gsap.set(items[0], { autoAlpha: 1, x: 0, filter: "blur(0px)" });
 
+      // On touch, snapping fights the finger's momentum and makes the pin judder.
+      const touch = window.matchMedia("(pointer: coarse)").matches;
+
       const n = items.length;
       const HOLD = 1;
       const TRANS = 1;
@@ -54,10 +57,11 @@ export default function Differentiator() {
           // Settle on one point at a time instead of leaving two half-crossfaded.
           snap: {
             snapTo: "labels",
-            directional: true,
+            directional: !touch,
             duration: { min: 0.3, max: 0.8 },
-            delay: 0.08,
+            delay: touch ? 0.2 : 0.08,
             ease: "power2.inOut",
+            inertia: !touch,
           },
           onUpdate: (self) => {
             const t = self.progress * tl.duration();
@@ -100,7 +104,7 @@ export default function Differentiator() {
     <section ref={sectionRef} className="relative bg-black/30">
       <div
         ref={stickyRef}
-        className={`relative flex items-center overflow-hidden px-6 ${reduced ? "py-24" : "h-screen"}`}
+        className={`relative flex items-center overflow-hidden px-6 ${reduced ? "py-24" : "h-svh"}`}
       >
         {/* grid lines */}
         <div
@@ -163,7 +167,7 @@ export default function Differentiator() {
                     ref={(el) => {
                       itemRefs.current[i] = el;
                     }}
-                    className="relative flex flex-col gap-3 self-center lg:max-w-xl"
+                    className="relative flex flex-col gap-3 self-start lg:max-w-xl lg:self-center"
                   >
                     <span className="font-mono text-sm tracking-caption text-cognac lg:absolute lg:bottom-full lg:mb-3">
                       {pad(i)}
