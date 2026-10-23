@@ -1,7 +1,7 @@
 // While true, the layout renders only the coming-soon screen: nothing else of
 // the site (header, sections, entry gate, music) is mounted or reachable.
 // Set to false on launch day.
-export const COMING_SOON = true;
+export const COMING_SOON = false;
 
 // Hidden door: visiting /visualizar sets this cookie (see proxy.ts) and the
 // layout then renders the full site for that browser even while COMING_SOON.
