@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { PREVIEW_COOKIE, PREVIEW_PATH } from "@/content/comingSoon";
 import { DEFAULT_LOCALE, LOCALE_COOKIE, LOCALES, hasLocale, type Locale } from "@/i18n/config";
 
 /** Cookie (the visitor's explicit choice) first, then Accept-Language, then the default. */
@@ -19,6 +20,17 @@ function getLocale(request: NextRequest): Locale {
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // /visualizar or /en/visualizar: unlock the full site for this browser session.
+  const [, first] = pathname.split("/");
+  const unlocalized = hasLocale(first) ? pathname.slice(first.length + 1) : pathname;
+  if (unlocalized === PREVIEW_PATH) {
+    const lang = hasLocale(first) ? first : getLocale(request);
+    const res = NextResponse.redirect(new URL(`/${lang}`, request.url));
+    res.cookies.set(PREVIEW_COOKIE, "1", { path: "/", httpOnly: true, sameSite: "lax" });
+    return res;
+  }
+
   if (LOCALES.some((l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`))) return;
 
   request.nextUrl.pathname = `/${getLocale(request)}${pathname === "/" ? "" : pathname}`;

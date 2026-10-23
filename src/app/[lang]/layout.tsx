@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { cookies } from "next/headers";
 import { Analytics } from "@vercel/analytics/next";
 import { hankenGrotesk, jetBrainsMono, coolvetica } from "../fonts";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -15,7 +16,7 @@ import EntryGate from "@/components/EntryGate";
 import MusicPlayer from "@/components/MusicPlayer";
 import Preloader from "@/components/Preloader";
 import ComingSoon from "@/components/ComingSoon";
-import { COMING_SOON } from "@/content/comingSoon";
+import { COMING_SOON, PREVIEW_COOKIE } from "@/content/comingSoon";
 import { ENTRY_KEY } from "@/content/entry";
 import { LOADED_KEY } from "@/lib/preloader";
 import { LocaleProvider } from "@/i18n/LocaleProvider";
@@ -80,6 +81,7 @@ const ENTRY_SCRIPT = `try{if(localStorage.getItem("${ENTRY_KEY}")==="1")document
 export default async function RootLayout({ children, params }: LayoutProps<"/[lang]">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
+  const showComingSoon = COMING_SOON && !(await cookies()).has(PREVIEW_COOKIE);
 
   return (
     <html
@@ -94,7 +96,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
       <body className="min-h-full flex flex-col bg-espresso font-body font-light text-bone">
         <script dangerouslySetInnerHTML={{ __html: ENTRY_SCRIPT }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildJsonLd(lang)) }} />
-        {COMING_SOON ? (
+        {showComingSoon ? (
           <LocaleProvider lang={lang}>
             <ComingSoon />
           </LocaleProvider>
@@ -114,7 +116,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
           </PageTransitionOverlay>
         </LocaleProvider>
         )}
-        {!COMING_SOON && <CursorGlow />}
+        {!showComingSoon && <CursorGlow />}
         <GrainOverlay />
         <Analytics />
       </body>
